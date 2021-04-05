@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PIMToolCodeBase.Services
+namespace PIMToolCodeBase.Repositories
 {
-    public interface IEmployeeService
+    public interface IProjectRepository: IRepository<Project>
     {
-        IEnumerable<Employee> Get();
+        IEnumerable<Project> GetInclude();
     }
 }

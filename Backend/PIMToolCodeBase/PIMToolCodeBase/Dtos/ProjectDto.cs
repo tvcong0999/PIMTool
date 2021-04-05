@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PIMToolCodeBase.Domain.Entities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace PIMToolCodeBase.Dtos
 {
@@ -40,13 +43,17 @@ namespace PIMToolCodeBase.Dtos
             set;
         }
 
-        public DateTime FinishDate
+        public DateTime? FinishDate
         {
             get;
             set;
         }
         public int Version
         {
+            get;
+            set;
+        }
+        public ICollection<EmployeeDto> Employees{
             get;
             set;
         }
