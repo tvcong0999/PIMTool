@@ -21,5 +21,10 @@ namespace PIMToolCodeBase.Services.Imp
         {
             return _employeeRepository.Get(); ;
         }
+
+        public Employee Get(int id)
+        {
+            return _employeeRepository.Get(id);
+        }
     }
 }

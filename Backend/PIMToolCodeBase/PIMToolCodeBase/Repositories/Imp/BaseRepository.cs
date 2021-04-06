@@ -50,5 +50,10 @@ namespace PIMToolCodeBase.Repositories.Imp
         {
             _pimContext.SaveChanges();
         }
+
+        public void UnChanged(T entity)
+        {
+            _pimContext.Entry(entity).State = EntityState.Unchanged;
+        }
     }
 }

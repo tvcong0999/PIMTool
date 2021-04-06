@@ -12,6 +12,7 @@ namespace PIMToolCodeBase.Repositories.Imp
     {
         public EmployeeRepository(PimContext pimContext) : base(pimContext)
         {
+      
         }
     }
 }

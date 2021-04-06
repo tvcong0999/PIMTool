@@ -22,10 +22,12 @@ namespace PIMToolCodeBase.Configurations
             // Services register
             builder.RegisterType<SampleService>().As<ISampleService>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectService>().As<IProjectService>().InstancePerLifetimeScope();
+            builder.RegisterType<EmployeeService>().As<IEmployeeService>().InstancePerLifetimeScope();
 
             // Repositories register
             builder.RegisterType<SampleRepository>().As<ISampleRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>().InstancePerLifetimeScope();
 
             // Context
             builder.RegisterType<PimContext>().AsSelf().InstancePerLifetimeScope();

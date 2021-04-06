@@ -11,15 +11,30 @@ namespace PIMToolCodeBase.Services.Imp
     public class ProjectService: BaseService, IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        public ProjectService(IProjectRepository projectRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        public ProjectService(IProjectRepository projectRepository, IEmployeeRepository employeeRepository)
         {
             _projectRepository = projectRepository;
+            _employeeRepository = employeeRepository;
         }
 
         public Project Create(Project project)
         {
             var projects = _projectRepository.Add(project);
-            _projectRepository.SaveChange();
+            foreach (var pro in projects)
+            {
+                foreach (var em in pro.Employees)
+                {
+                    var employee = _employeeRepository.Get(em.Id);
+                    if (employee != null)
+                    {
+                        _employeeRepository.UnChanged(em);
+                    }
+
+                }
+
+            }
+                _projectRepository.SaveChange();
             return projects.FirstOrDefault();
         }
 

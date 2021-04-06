@@ -10,5 +10,6 @@ namespace PIMToolCodeBase.Services
     public interface IEmployeeService
     {
         IEnumerable<Employee> Get();
+        Employee Get(int id);
     }
 }
