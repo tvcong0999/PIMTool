@@ -10,6 +10,7 @@ namespace PIMToolCodeBase.Services
     public interface IProjectService
     {
         IEnumerable<Project> Get();
+        IEnumerable<Project> GetHaveCondition(string input, Enum status, int page);
         Project Create(Project project);
 
     }

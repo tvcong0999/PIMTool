@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper.QueryableExtensions;
 
 namespace PIMToolCodeBase.Controllers
 {
@@ -23,9 +24,16 @@ namespace PIMToolCodeBase.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ProjectDto> Get()
+        public IEnumerable<ProjectDto> GetAll()
         {
-             return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.Get());
+            return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.Get());
+        }
+
+        [HttpGet]
+
+        public IEnumerable<ProjectDto> GetHaveCondition(string input, Enum status, int page)
+        {
+            return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.GetHaveCondition(input, status, page));
         }
 
         [HttpPost]

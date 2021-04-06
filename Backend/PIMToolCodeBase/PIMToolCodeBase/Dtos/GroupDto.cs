@@ -8,15 +8,5 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
-        public int GroupLeaderID
-        {
-            get;
-            set;
-        }
-        public int Version
-        {
-            get;
-            set;
-        }
     }
 }

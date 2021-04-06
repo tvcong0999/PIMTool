@@ -41,7 +41,7 @@ namespace PIMToolCodeBase.Repositories
         ///     Save context to database
         /// </summary>
         void SaveChange();
-        void UnChanged(T entity);
+        void UnChange(T entity);
 
     }
 }

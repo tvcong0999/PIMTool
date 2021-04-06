@@ -15,6 +15,22 @@ namespace PIMToolCodeBase.Repositories.Imp
         {
         }
 
+        public void Attach(Project project)
+        {
+            Set.Attach(project);
+        }
+
+        public IEnumerable<Project> GetHaveCondition(string input, Enum status, int page)
+        {
+
+            return Set.Where(p => (String.IsNullOrEmpty(input)
+            || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
+            && (String.IsNullOrEmpty(status.ToString()) || p.Status == status.ToString()))
+                .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
+           
+
+        }
+
         public IEnumerable<Project> GetInclude()
         {
             return Set.Include(e=>e.Employees).ToList();
