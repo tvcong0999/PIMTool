@@ -39,9 +39,14 @@ namespace PIMToolCodeBase.Controllers
         [HttpPost]
         public void Create(ProjectCreateDto projectCreateDto)
         {
+            
             Project project = _mapper.Map<ProjectCreateDto, Project>(projectCreateDto);
+            //foreach (int id in projectCreateDto.EmployeeIds)
+            //{
+            //    project.ProjectEmployees.ToList().Add(new ProjectEmployee { EmployeeId = id });
+            //}
 
-           // project.ProjectEmployees = new List<ProjectEmployee> { new ProjectEmployee { EmployeeId = projectCreateDto.EmployeeIds.FirstOrDefault().EmployeeId } };
+            // project.ProjectEmployees = new List<ProjectEmployee> { new ProjectEmployee { EmployeeId = projectCreateDto.EmployeeIds.FirstOrDefault().EmployeeId } };
             _projectService.Create(project);
         }
         [HttpDelete]

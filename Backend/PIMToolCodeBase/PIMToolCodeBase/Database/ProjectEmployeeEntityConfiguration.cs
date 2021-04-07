@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Database
 {
-    public class ProjectEmployeeEntityConfiguration : BaseEntityConfiguration<ProjectEmployee>
+    public class ProjectEmployeeEntityConfiguration : EntityTypeConfiguration<ProjectEmployee>
     {
         public ProjectEmployeeEntityConfiguration()
         {
+            this.HasKey(p => new { p.EmployeeId, p.ProjectId});
             this.ToTablePerConcreteTable();
         }
     }

@@ -45,7 +45,7 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
-        public IEnumerable<int> EmployeeIds
+        public int[] EmployeeIds
         { 
             get;
             set;

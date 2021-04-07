@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Repositories
 {
-    public interface IProjectEmployeeRepository: IRepository<ProjectEmployee>
-    {
-    }
+    //public interface IProjectEmployeeRepository: IRepository<ProjectEmployee>
+    //{
+    //}
 }

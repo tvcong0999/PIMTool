@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Domain.Entities
 {
-    public class ProjectEmployee:BaseEntity
+    public class ProjectEmployee
     {
         public int ProjectId
         {
