@@ -56,11 +56,5 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public enum EnumSts { NEW, PLA, INP, FIN }
-        public EnumSts EnumStatus
-        {
-            get;
-            set;
-        }
     }
 }

@@ -20,27 +20,12 @@ namespace PIMToolCodeBase.Services.Imp
 
         public Project Create(Project project)
         {
-            var projects = _projectRepository.Add(project);
-            //foreach (var pro in projects)
-            //{
-            //    //_projectRepository.Attach(pro);
-            //    foreach (var em in pro.Employees)
-            //    {
-            //        Employee employee = _employeeRepository.Get(em.Id);
-            //        if (employee != null)
-            //        {
-            //            _employeeRepository.UnChange(em);
-                        
-            //        }
 
-            //    }
 
-            //}
-
-                _projectRepository.Attach(project);
-   
-
-           
+            //Employee employee = _employeeRepository.Get(1);
+            //project.Employees = (ICollection<Employee>)employee;
+            project.Employees = null;
+            _projectRepository.Add(project);
             _projectRepository.SaveChange();
             return project;
         }
@@ -50,9 +35,14 @@ namespace PIMToolCodeBase.Services.Imp
             return _projectRepository.GetInclude();
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, Enum status, int page)
+        public IEnumerable<Project> GetHaveCondition(string input, int status, int page)
         {
-            return _projectRepository.GetHaveCondition(input, status, page);
+            string stt = "";
+            if (status >= 0)
+            {
+                stt = ((EnumStatus)status).ToString();
+            }    
+            return _projectRepository.GetHaveCondition(input, stt, page);
         }
     }
 }

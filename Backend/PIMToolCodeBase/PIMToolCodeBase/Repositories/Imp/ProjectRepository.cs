@@ -20,12 +20,12 @@ namespace PIMToolCodeBase.Repositories.Imp
             Set.Attach(project);
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, Enum status, int page)
+        public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
         {
 
             return Set.Where(p => (String.IsNullOrEmpty(input)
             || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
-            && (String.IsNullOrEmpty(status.ToString()) || p.Status == status.ToString()))
+            && (String.IsNullOrEmpty(status) || p.Status == status))
                 .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
            
 

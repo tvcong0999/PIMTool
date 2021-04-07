@@ -31,7 +31,7 @@ namespace PIMToolCodeBase.Controllers
 
         [HttpGet]
 
-        public IEnumerable<ProjectDto> GetHaveCondition(string input, Enum status, int page)
+        public IEnumerable<ProjectDto> GetHaveCondition(string input, int status, int page)
         {
             return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.GetHaveCondition(input, status, page));
         }

@@ -119,6 +119,7 @@
     <Compile Include="Database\PimContext.cs" />
     <Compile Include="Database\ProjectEntityConfiguration.cs" />
     <Compile Include="Domain\Entities\Employee.cs" />
+    <Compile Include="Domain\Entities\EnumStatus.cs" />
     <Compile Include="Domain\Entities\Group.cs" />
     <Compile Include="Domain\Entities\Project.cs" />
     <Compile Include="Domain\Objects\Filter.cs" />
