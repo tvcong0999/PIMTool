@@ -14,23 +14,16 @@ namespace PIMToolCodeBase.Database
         {
             this.ToTablePerConcreteTable();
 
-            this.Property(p => p.GroupID).IsRequired();
+            this.Property(p => p.GroupId).IsRequired();
             this.HasIndex(p => p.ProjectNumber).IsUnique();
             this.Property(p => p.ProjectNumber).IsRequired();
             this.Property(p => p.Name).IsRequired().HasMaxLength(50);
             this.Property(p => p.Customer).IsRequired().HasMaxLength(50);
-            this.Property(p => p.Status).IsRequired().HasMaxLength(3);
+            this.Property(p => p.Status).IsRequired();
             this.Property(p => p.StartDate).IsRequired();
             this.Property(p => p.Version).IsRequired();
 
-            this.HasMany(e => e.Employees)
-                .WithMany(p => p.Projects)
-                .Map(m =>
-                {
-                    m.ToTable("ProjectEmployee");
-                    m.MapLeftKey("ProjectID");
-                    m.MapRightKey("EmployeeID");
-                });
+            this.HasMany(p => p.ProjectEmployees).WithRequired(pe => pe.Project).HasForeignKey(pe => pe.ProjectId);
         }
     }
 }

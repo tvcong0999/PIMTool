@@ -48,6 +48,7 @@ namespace PIMToolCodeBase.Database
             modelBuilder.Configurations.Add(new GroupEntityConfiguration());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new ProjectEntityConfiguration());
+            modelBuilder.Configurations.Add(new ProjectEmployeeEntityConfiguration());
 
         }
     }

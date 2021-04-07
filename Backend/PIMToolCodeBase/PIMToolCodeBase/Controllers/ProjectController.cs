@@ -31,15 +31,23 @@ namespace PIMToolCodeBase.Controllers
 
         [HttpGet]
 
-        public IEnumerable<ProjectDto> GetHaveCondition(string input, int status, int page)
+        public IEnumerable<ProjectDto> GetHaveCondition(string input, Status status, int page)
         {
             return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.GetHaveCondition(input, status, page));
         }
 
         [HttpPost]
-        public ProjectDto Post(ProjectDto projectDto)
+        public void Create(ProjectCreateDto projectCreateDto)
         {
-            return _mapper.Map<Project, ProjectDto>(_projectService.Create(_mapper.Map<ProjectDto, Project>(projectDto)));
+            Project project = _mapper.Map<ProjectCreateDto, Project>(projectCreateDto);
+
+           // project.ProjectEmployees = new List<ProjectEmployee> { new ProjectEmployee { EmployeeId = projectCreateDto.EmployeeIds.FirstOrDefault().EmployeeId } };
+            _projectService.Create(project);
+        }
+        [HttpDelete]
+        public void DeleteProject(params int[] id)
+        {
+            _projectService.DeleteProject(id);
         }
     }
 }

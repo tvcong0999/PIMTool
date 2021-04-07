@@ -1,12 +1,19 @@
 ﻿using PIMToolCodeBase.Domain.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Dtos
 {
-    public class ProjectDto
+    public class ProjectCreateDto
     {
+        public int GroupId
+        {
+            get;
+            set;
+        }
         public int ProjectNumber
         {
             get;
@@ -29,6 +36,17 @@ namespace PIMToolCodeBase.Dtos
         }
         public DateTime StartDate
         {
+            get;
+            set;
+        }
+
+        public DateTime? FinishDate
+        {
+            get;
+            set;
+        }
+        public IEnumerable<int> EmployeeIds
+        { 
             get;
             set;
         }

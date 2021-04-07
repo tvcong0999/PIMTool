@@ -38,7 +38,7 @@ namespace PIMToolCodeBase.Repositories.Imp
         public void Delete( params int[] ids)
         {
             var test = Set.Where(x => ids.Contains(x.Id)).ToList();
-            Set.Remove(Set.Where(x => ids.Contains(x.Id)).First()) ;
+            Set.RemoveRange(Set.Where(x => ids.Contains(x.Id))) ;
         }
 
         public void Delete(params T[] entities)

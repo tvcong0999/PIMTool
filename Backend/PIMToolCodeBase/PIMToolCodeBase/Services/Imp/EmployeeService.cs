@@ -17,9 +17,10 @@ namespace PIMToolCodeBase.Services.Imp
             _employeeRepository = employeeRepository;
         }
 
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Employee> Get(string input)
         {
-            return _employeeRepository.Get(); ;
+            return _employeeRepository.Get().Where(p => p.Visa.Contains(input) || p.FirstName.Contains(input)
+                                                    || p.LastName.Contains(input)).ToList();
         }
 
         public Employee Get(int id)

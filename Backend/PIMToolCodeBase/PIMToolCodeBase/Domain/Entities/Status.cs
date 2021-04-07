@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Domain.Entities
 {
-    public enum EnumStatus
+    public enum Status
     {
         NEW, PLA, INP, FIN
     }

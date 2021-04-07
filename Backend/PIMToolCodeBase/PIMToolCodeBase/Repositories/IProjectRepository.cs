@@ -11,6 +11,6 @@ namespace PIMToolCodeBase.Repositories
     {
         IEnumerable<Project> GetInclude();
         void Attach(Project project);
-        IEnumerable<Project> GetHaveCondition(string input, string status, int page);
+       // IEnumerable<Project> GetHaveCondition(string input, string status, int page);
     }
 }

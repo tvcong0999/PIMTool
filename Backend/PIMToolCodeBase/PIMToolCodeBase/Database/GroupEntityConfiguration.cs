@@ -16,14 +16,12 @@ namespace PIMToolCodeBase.Database
 
             this.Property(g => g.Version).IsRequired();
 
-            this.HasKey(g => g.GroupLeaderId);
-
             this.HasRequired(e => e.GroupLeader)
               .WithOptional(g => g.Group);
 
             this.HasMany(p => p.Projects)
               .WithRequired(g => g.Group)
-              .HasForeignKey(g => g.GroupID)
+              .HasForeignKey(g => g.GroupId)
               .WillCascadeOnDelete(true);
         }
     }

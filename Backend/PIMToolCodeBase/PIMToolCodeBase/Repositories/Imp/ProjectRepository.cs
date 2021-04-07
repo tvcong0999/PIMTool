@@ -20,20 +20,20 @@ namespace PIMToolCodeBase.Repositories.Imp
             Set.Attach(project);
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
-        {
-
-            return Set.Where(p => (String.IsNullOrEmpty(input)
-            || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
-            && (String.IsNullOrEmpty(status) || p.Status == status))
-                .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
+        //public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
+        //{
+           
+        //    return Set.Where(p => (String.IsNullOrEmpty(input)
+        //    || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
+        //    && (String.IsNullOrEmpty(status) || p.Status == status))
+        //        .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
            
 
-        }
+        //}
 
         public IEnumerable<Project> GetInclude()
         {
-            return Set.Include(e=>e.Employees).ToList();
+            return Set.Include(e=>e.ProjectEmployees).ToList();
         }
 
     }

@@ -18,31 +18,29 @@ namespace PIMToolCodeBase.Services.Imp
             _employeeRepository = employeeRepository;
         }
 
-        public Project Create(Project project)
-        {
-
-
-            //Employee employee = _employeeRepository.Get(1);
-            //project.Employees = (ICollection<Employee>)employee;
-            project.Employees = null;
-            _projectRepository.Add(project);
+        public void Create(Project project)
+        { 
+            var projects = _projectRepository.Add(project);
             _projectRepository.SaveChange();
-            return project;
+        }
+
+        public void DeleteProject(params int[] id)
+        {
+            _projectRepository.Delete(id);
+            _projectRepository.SaveChange();
         }
 
         public IEnumerable<Project> Get()
         {
-            return _projectRepository.GetInclude();
+            return _projectRepository.Get();
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, int status, int page)
+        public IEnumerable<Project> GetHaveCondition(string input, Status status, int page)
         {
-            string stt = "";
-            if (status >= 0)
-            {
-                stt = ((EnumStatus)status).ToString();
-            }    
-            return _projectRepository.GetHaveCondition(input, stt, page);
+            return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
+            || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
+            && (String.IsNullOrEmpty(status.ToString()) || p.Status == status))
+                .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
         }
     }
 }

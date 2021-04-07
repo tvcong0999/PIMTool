@@ -5,7 +5,7 @@ namespace PIMToolCodeBase.Domain.Entities
 {
     public class Project : BaseEntity
     {
-        public int GroupID
+        public int GroupId
         {
             get;
             set;
@@ -25,7 +25,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public string Status
+        public Status Status
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public ICollection<Employee> Employees
+        public ICollection<ProjectEmployee> ProjectEmployees
         {
             get;
             set;
