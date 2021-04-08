@@ -54,7 +54,7 @@ namespace PIMToolCodeBase.Services.Imp
         public IEnumerable<Project> GetHaveCondition(string input, Status status, int page)
         {
             return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
-            || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
+            || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower()) || p.Customer.ToLower().Contains(input.ToLower()))
             && (String.IsNullOrEmpty(status.ToString()) || p.Status == status))
                 .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
         }
