@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace PIMToolCodeBase.Repositories
 {
-    //public interface IProjectEmployeeRepository: IRepository<ProjectEmployee>
-    //{
-    //}
+    public interface IProjectEmployeeRepository
+    { 
+        IEnumerable<ProjectEmployee> Add(ICollection<ProjectEmployee> entities);
+        void Delete(params int[] ids);
+        void Delete(ICollection<ProjectEmployee> entities);
+        void SaveChange();
+    }
 }

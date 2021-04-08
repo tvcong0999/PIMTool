@@ -130,11 +130,12 @@
     <Compile Include="Dtos\ProjectCreateDto.cs" />
     <Compile Include="Dtos\ProjectDto.cs" />
     <Compile Include="Dtos\ProjectEmployeeDto.cs" />
-    <Compile Include="Dtos\ProjectUpdateDTO.cs" />
+    <Compile Include="Dtos\ProjectUpdateDto.cs" />
     <Compile Include="Dtos\SampleDto.cs" />
     <Compile Include="Domain\Entities\BaseEntity.cs" />
     <Compile Include="Domain\Entities\Sample.cs" />
     <Compile Include="Extensions\ModelBuilderExtensions.cs" />
+    <Compile Include="HandleExceptions\ProjectNumberAlreadyExistsException.cs" />
     <Compile Include="MappingProfiles\EmployeeMappingProfiles.cs" />
     <Compile Include="MappingProfiles\GroupMappingProfiles.cs" />
     <Compile Include="MappingProfiles\ProjectMappingProfiles.cs" />
@@ -146,11 +147,22 @@
     <Compile Include="Repositories\Imp\BaseRepository.cs" />
     <Compile Include="Repositories\Imp\EmployeeRepository.cs" />
     <Compile Include="Repositories\Imp\GroupRepository.cs" />
+    <Compile Include="Repositories\Imp\ProjectEmployeeRepository.cs" />
     <Compile Include="Repositories\Imp\ProjectRepository.cs" />
     <Compile Include="Repositories\Imp\SampleRepository.cs" />
     <Compile Include="Repositories\IProjectEmployeeRepository.cs" />
     <Compile Include="Repositories\IProjectRepository.cs" />
     <Compile Include="Repositories\ISampleRepository.cs" />
+    <Compile Include="Resources\Language.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Language.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Language.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Language.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\IEmployeeService.cs" />
     <Compile Include="Services\IGroupService.cs" />
     <Compile Include="Services\Imp\BaseService.cs" />
@@ -175,6 +187,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Language.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Language.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Language.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Language.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -10,7 +10,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public int Version
+        public byte[] TimeSpamp
         {
             get;
             set;

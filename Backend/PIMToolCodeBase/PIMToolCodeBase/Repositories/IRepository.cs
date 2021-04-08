@@ -43,5 +43,7 @@ namespace PIMToolCodeBase.Repositories
         void SaveChange();
         void UnChange(T entity);
 
+        void SetModified(T entity);
+
     }
 }

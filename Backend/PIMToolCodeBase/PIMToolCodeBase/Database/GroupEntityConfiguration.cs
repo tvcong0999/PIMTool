@@ -14,15 +14,15 @@ namespace PIMToolCodeBase.Database
         {
             this.ToTablePerConcreteTable();
 
-            this.Property(g => g.Version).IsRequired();
+            this.Property(g => g.TimeSpamp).IsRowVersion();
 
-            this.HasRequired(e => e.GroupLeader)
-              .WithOptional(g => g.Group);
+            this.HasRequired(e => e.GroupLeader);
+
 
             this.HasMany(p => p.Projects)
               .WithRequired(g => g.Group)
               .HasForeignKey(g => g.GroupId)
-              .WillCascadeOnDelete(true);
+              .WillCascadeOnDelete(false);
         }
     }
 }

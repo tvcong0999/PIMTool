@@ -1,7 +1,9 @@
 ﻿using PIMToolCodeBase.Domain.Entities;
+using PIMToolCodeBase.HandleExceptions;
 using PIMToolCodeBase.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,23 +13,37 @@ namespace PIMToolCodeBase.Services.Imp
     public class ProjectService: BaseService, IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public ProjectService(IProjectRepository projectRepository, IEmployeeRepository employeeRepository)
+        private readonly IProjectEmployeeRepository _projectEmployeeRepository;
+        public ProjectService(IProjectRepository projectRepository, IProjectEmployeeRepository projectEmployeeRepository)
         {
             _projectRepository = projectRepository;
-            _employeeRepository = employeeRepository;
+            _projectEmployeeRepository = projectEmployeeRepository;
         }
 
         public void Create(Project project)
-        { 
-            var projects = _projectRepository.Add(project);
-            _projectRepository.SaveChange();
+        {
+            try
+            {
+                var projects = _projectRepository.Add(project);
+                _projectRepository.SaveChange();
+            }
+            catch(Exception e)
+            {
+                 throw new ProjectNumberAlreadyExistsException("Project number is already exists in database.", e);
+            }
+            
         }
 
-        public void DeleteProject(params int[] id)
+        public void DeleteProject(params int[] ids)
         {
-            _projectRepository.Delete(id);
+            var project = _projectRepository.GetByIds(ids);
+            _projectEmployeeRepository.Delete(ids);
+            _projectRepository.Delete(ids);
             _projectRepository.SaveChange();
+             if(project.Count() == 0)
+                throw new Exception("Project is not exists in database.");
+
+           
         }
 
         public IEnumerable<Project> Get()
@@ -42,5 +58,37 @@ namespace PIMToolCodeBase.Services.Imp
             && (String.IsNullOrEmpty(status.ToString()) || p.Status == status))
                 .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
         }
+
+        public void UpdateProject(Project project)
+        {
+
+                var projectUpdate = _projectRepository.GetInclude(project.Id);
+
+                if (projectUpdate == null)
+                    throw new ArgumentException();
+
+                projectUpdate.GroupId = project.GroupId;
+                projectUpdate.ProjectNumber = project.ProjectNumber;
+                projectUpdate.Name = project.Name;
+                projectUpdate.Customer = project.Customer;
+                projectUpdate.Status = project.Status;
+                projectUpdate.StartDate = project.StartDate;
+                projectUpdate.FinishDate = project.FinishDate;
+
+                _projectEmployeeRepository.Delete(projectUpdate.ProjectEmployees);
+
+                _projectEmployeeRepository.SaveChange();
+
+                foreach (var pro in project.ProjectEmployees)
+                {
+                    pro.ProjectId = project.Id;
+                }
+
+                _projectEmployeeRepository.Add(project.ProjectEmployees);
+
+                _projectRepository.SaveChange();
+    
+        }
+              
     }
 }

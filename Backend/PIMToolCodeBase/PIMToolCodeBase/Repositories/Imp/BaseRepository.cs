@@ -44,6 +44,7 @@ namespace PIMToolCodeBase.Repositories.Imp
         public void Delete(params T[] entities)
         {
             Set.RemoveRange(entities);
+            
         }
 
         public void SaveChange()
@@ -56,6 +57,10 @@ namespace PIMToolCodeBase.Repositories.Imp
             //Set.Attach(entity);
             _pimContext.Entry(entity).State = EntityState.Unchanged;
 
+        }
+        public void SetModified(T entity)
+        {
+            _pimContext.Entry(entity).State = EntityState.Modified;
         }
     }
 }

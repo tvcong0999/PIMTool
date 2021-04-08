@@ -20,21 +20,27 @@ namespace PIMToolCodeBase.Repositories.Imp
             Set.Attach(project);
         }
 
+        public IEnumerable<Project> GetByIds(params int[] ids)
+        {
+            return Set.Where(x => ids.Contains(x.Id)).ToList();
+        }
+
         //public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
         //{
-           
+
         //    return Set.Where(p => (String.IsNullOrEmpty(input)
         //    || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
         //    && (String.IsNullOrEmpty(status) || p.Status == status))
         //        .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
-           
+
 
         //}
 
-        public IEnumerable<Project> GetInclude()
+        public Project GetInclude(int id)
         {
-            return Set.Include(e=>e.ProjectEmployees).ToList();
+            return Set.Where(p=>p.Id==id).Include(e=>e.ProjectEmployees).FirstOrDefault();
         }
 
+    
     }
 }

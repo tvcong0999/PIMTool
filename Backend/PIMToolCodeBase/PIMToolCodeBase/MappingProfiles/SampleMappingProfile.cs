@@ -17,7 +17,8 @@ namespace PIMToolCodeBase.MappingProfiles
 
             CreateMap<Project, ProjectCreateDto>().ReverseMap();
 
-            //CreateMap<Project, ProjectCreateDto>().ForMember(d => d.EmployeeIds, opts => opts.MapFrom(s => s.ProjectEmployees
+            //CreateMap<Project, ProjectCreateDto>().ForMember(d => d.EmployeeIds,
+            //opts => opts.MapFrom(s => s.ProjectEmployees
             //    .Select(pe => pe.EmployeeId).ToList())).ReverseMap();
 
             //CreateMap<ProjectCreateDto, Project>().ForMember(d => d.ProjectEmployees, opts =>
@@ -27,7 +28,9 @@ namespace PIMToolCodeBase.MappingProfiles
 
             //})).ReverseMap();
 
-            CreateMap<ProjectCreateDto, Project>().AfterMap((s, d) => { foreach (int id in s.EmployeeIds) {
+            CreateMap<ProjectCreateDto, Project>().AfterMap((s, d) => {
+                d.ProjectEmployees = new List<ProjectEmployee>();
+                foreach (int id in s.EmployeeIds) {
                     d.ProjectEmployees.Add(new ProjectEmployee { EmployeeId = id });
                 } });
             CreateMap<Employee, EmployeeDto>()
@@ -35,6 +38,14 @@ namespace PIMToolCodeBase.MappingProfiles
             CreateMap<Group, GroupDto>().ReverseMap();
 
             CreateMap<ProjectEmployee, ProjectEmployeeDto>().ReverseMap();
+
+            CreateMap<ProjectUpdateDto, Project>().AfterMap((s, d) => {
+                d.ProjectEmployees = new List<ProjectEmployee>();
+                foreach (int id in s.EmployeeIds)
+                {
+                    d.ProjectEmployees.Add(new ProjectEmployee { EmployeeId = id });
+                }
+            });
         }
     }
 }

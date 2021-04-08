@@ -13,5 +13,6 @@ namespace PIMToolCodeBase.Services
         IEnumerable<Project> GetHaveCondition(string input, Status status, int page);
         void Create(Project project);
         void DeleteProject(params int[] id);
+        void UpdateProject(Project project);
     }
 }

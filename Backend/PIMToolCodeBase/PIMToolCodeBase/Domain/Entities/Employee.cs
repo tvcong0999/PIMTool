@@ -25,12 +25,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public int Version
-        {
-            get;
-            set;
-        }
-        public virtual Group Group
+        public byte[] TimeSpamp
         {
             get;
             set;
