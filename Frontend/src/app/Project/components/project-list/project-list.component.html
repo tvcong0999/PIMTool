@@ -1,1 +1,24 @@
-<pim-grid></pim-grid>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Number</th>
+        <th scope="col">Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let project of listProject; let i = index ">
+        <th scope="row"></th>
+        <td>{{project.ProjectNumber}}</td>
+        <td>{{project.Name}}</td>
+        <td>{{project.Status}}</td>
+        <td>{{project.Customer}}</td>
+        <td>{{project.StartDate}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>

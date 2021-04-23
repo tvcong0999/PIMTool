@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/project" routerLinkActive="active">Project</a>
+          <a class="nav-link" routerLink="/project/list" routerLinkActive="active">Project</a>
         </li>
         <li class="nav-item">
           <a class="nav-link">About</a>
@@ -19,14 +19,40 @@
     </div>
   </div>
 </nav>
-<div id="titleContent">
+<div id="titleContent" class="d-flex">
     <a routerLink="/">
       <img src="assets/img/logo.png"/>
     </a>  
+    <h3 class="ml-3"><b>Project Information Management</b></h3>
     <br />  
 </div>
-<div class="container body-content">
-  <router-outlet></router-outlet>
+<div class="body-content">
+  <div class="row mr-0">
+    <div class="col-2 mt-5">
+      <ul class="nav flex-column ml-5">
+        <li class="nav-item">
+          <a class="text-secondary nav-link active" href="#">New</a>
+        </li>
+        <li class="nav-item">
+          <a class="text-secondary nav-link" href="#">Project</a>
+        </li>
+        <li class="nav-item">
+          <a class="text-secondary nav-link" href="#">Customer</a>
+        </li>
+        <li class="nav-item">
+          <a class="text-secondary nav-link" href="#">Supplier</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-8">
+      <div class="container">
+        <h4 class="">{{nameChoose}}</h4>
+        <hr>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
   <hr />
   <footer>
     <p>&copy; 2020</p>
