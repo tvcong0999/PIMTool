@@ -11,6 +11,7 @@ import { Status } from '../../models/project.model';
 export class ProjectCreateComponent implements OnInit {
   projectForm: FormGroup;
   statusEnum = Status;
+  listGroup = [1,2,3,4]
 
   constructor() { }
 
@@ -22,9 +23,9 @@ export class ProjectCreateComponent implements OnInit {
     let projectNumber = '';
     let projectName = '';
     let customer = '';
-    let group = '';
-    let member = [];
-    let status = '';
+    let group = 1;
+    let member = '';
+    let status = 'NEW';
     let startDate = '';
     let endDate = '';
 
@@ -33,9 +34,9 @@ export class ProjectCreateComponent implements OnInit {
       projectNumber: new FormControl(projectNumber, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
       projectName: new FormControl(projectName, Validators.required),
       customer: new FormControl(customer, Validators.required),
-      group: new FormControl(group, Validators.required),
+      group: new FormControl(group),
       member: new FormControl(member, Validators.required),
-      status: new FormControl(status, Validators.required),
+      status: new FormControl(status),
       startDate: new FormControl(startDate, Validators.required),
       endDate: new FormControl(endDate),
 
@@ -43,6 +44,6 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   onSubmit(){
-
+    console.log(this.projectForm);
   }
 }

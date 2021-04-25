@@ -10,13 +10,14 @@ import { ProjectServices } from '../../services/index'
     //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
+    nameChoose = "Projects List";
     listProject: Project[] = [];
     subscription: Subscription;
     constructor(private projectServices: ProjectServices) {
         this.projectServices.getAllProject().subscribe();
-     }
+    }
 
-    ngOnInit() {     
+    ngOnInit() {
         this.subscription = this.projectServices.projectChanged.subscribe((data) => {
             this.listProject = data;
             console.log(this.listProject);
@@ -24,7 +25,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         this.listProject = this.projectServices.getAll();
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 }

@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "PIMTool"
+    }
+  },
+  "defaultProject": "PIMTool",
+  "cli": {
+    "analytics": "42af6f22-c0a8-44ba-9905-8fa775e75e38"
+  }
 }
