@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Status } from '../../models/project.model';
+import { EmployeeServices } from '../../../Employee/services/employee.service'
+import { EmployeeDto } from 'src/app/swagger/models/employee-dto';
 
 @Component({
   selector: 'app-project-create',
@@ -11,12 +13,22 @@ import { Status } from '../../models/project.model';
 export class ProjectCreateComponent implements OnInit {
   projectForm: FormGroup;
   statusEnum = Status;
-  listGroup = [1,2,3,4]
+  listGroup = [1, 2, 3, 4];
+  listEmployee: EmployeeDto[];
 
-  constructor() { }
+  constructor(private employeeServices: EmployeeServices) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.getEmployee("CTV");
+  }
+
+  private getEmployee(value) {
+    // get employee by name or visa
+    this.employeeServices.getAllEmployee(value).subscribe(data => {
+      this.listEmployee = data;
+      console.log(data);
+    })
   }
 
   private initForm() {
@@ -43,7 +55,7 @@ export class ProjectCreateComponent implements OnInit {
     })
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.projectForm);
   }
 }

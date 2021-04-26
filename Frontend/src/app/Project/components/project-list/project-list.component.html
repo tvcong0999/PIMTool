@@ -1,24 +1,24 @@
-<table class="table">
-    <thead class="thead-dark">
+<table class="table table-bordered">
+    <thead>
       <tr>
-        <th scope="col"></th>
-        <th scope="col">Number</th>
-        <th scope="col">Name</th>
-        <th scope="col">Status</th>
-        <th scope="col">Customer</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">Delete</th>
+        <th scope="col" style="width: 1%;"></th>
+        <th scope="col" style="width: 10%;">Number</th>
+        <th scope="col" style="width: 30%;">Name</th>
+        <th scope="col" style="width: 10%;">Status</th>
+        <th scope="col" style="width: 20%;">Customer</th>
+        <th scope="col" style="width: 10%;">Start Date</th>
+        <th scope="col" style="width: 5%;">Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor = "let project of listProject; let i = index ">
-        <th scope="row"></th>
+      <tr *ngFor = "let project of listProject; let i = index  ">
+        <td><input type="checkbox" style="cursor:pointer"></td>
         <td>{{project.ProjectNumber}}</td>
         <td>{{project.Name}}</td>
-        <td>{{project.Status}}</td>
+        <td>{{project.Status  | converEnum}}</td>
         <td>{{project.Customer}}</td>
-        <td>{{project.StartDate}}</td>
-        <td></td>
+        <td>{{project.StartDate | date: 'shortDate'}}</td>
+        <td class="text-center"><i class="fa fa-trash-o text-danger" aria-hidden="true" style="font-size:larger; cursor: pointer;"></i></td>
       </tr>
     </tbody>
   </table>

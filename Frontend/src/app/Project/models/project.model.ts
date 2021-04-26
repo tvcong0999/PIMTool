@@ -15,5 +15,8 @@ export class Project {
     }
 }
 export enum Status {
-    NEW, PLA, INP, FIN
+    NEW,
+    PLA,
+    INP,
+    FIN
 }

@@ -11,6 +11,9 @@ import { ShellComponent } from './Shell/components';
 import { ShellModule } from './Shell/shell.module';
 import { ApiConfiguration } from './swagger/api-configuration';
 import { EnvironmentApiConfiguration } from './api-config';
+import { EmployeeComponent } from './Employee/components/employee/employee.component';
+
+// import { TagInputModule } from 'ngx-chips';
 
 export function HttpLoaderFactory(http: HttpClient, loc: Location) {
   return new TranslateHttpLoader(http, loc.prepareExternalUrl('/assets/i18n/'), '.json');
@@ -18,7 +21,7 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
 
 @NgModule({
   declarations: [
-  ],
+  EmployeeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

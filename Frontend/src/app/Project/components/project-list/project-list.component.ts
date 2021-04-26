@@ -1,31 +1,31 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Project } from '../../models/project.model'
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Project, Status } from '../../models/project.model'
 import { ProjectServices } from '../../services/index'
+
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'pim-project-list',
     styleUrls: ['./project-list.component.scss'],
     templateUrl: './project-list.component.html',
-    //changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectListComponent implements OnInit, OnDestroy {
+export class ProjectListComponent implements OnInit {
+    status: Status;
     nameChoose = "Projects List";
     listProject: Project[] = [];
-    subscription: Subscription;
-    constructor(private projectServices: ProjectServices) {
-        this.projectServices.getAllProject().subscribe();
+
+    projectForm: FormGroup
+    constructor(private projectServices: ProjectServices, private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit() {
-        this.subscription = this.projectServices.projectChanged.subscribe((data) => {
+        // get all project
+        this.projectServices.getAllProject().subscribe(data => {
             this.listProject = data;
-            console.log(this.listProject);
-        });
-        this.listProject = this.projectServices.getAll();
-    }
+            console.log(data);
+            this.cdr.markForCheck();
+        })
 
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
     }
 }
