@@ -17,7 +17,6 @@ export class ProjectListComponent implements OnInit {
     nameChoose = "Projects List";
     listProject: Project[] = [];
     checkBoxDelete = 0;
-    isChecked = false;
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
@@ -37,9 +36,8 @@ export class ProjectListComponent implements OnInit {
         })
     }
 
-    checkValue() {
-        console.log(this.isChecked);
-        if (!this.isChecked)
+    checkValue($event) {
+        if ($event.target.checked)
             this.checkBoxDelete++;
         else
             this.checkBoxDelete--;
@@ -51,7 +49,7 @@ export class ProjectListComponent implements OnInit {
     }
 
     onSubmit(searchForm) {
-        searchForm.value.status == "" ? null : searchForm.value.status;
+        searchForm.value.status = searchForm.value.status == "" ? "EMPTY" : searchForm.value.status;
         this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
             this.listProject = data;
             this.cdr.markForCheck();

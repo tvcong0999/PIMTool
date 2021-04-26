@@ -30,7 +30,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let project of listProject; let i = index  ">
-      <td><input type="checkbox" style="cursor:pointer" (change)="checkValue()"></td>
+      <td><input type="checkbox" style="cursor:pointer" (change)="checkValue($event)"></td>
       <td>{{project.ProjectNumber}}</td>
       <td>{{project.Name}}</td>
       <td>{{project.Status | converEnum}}</td>

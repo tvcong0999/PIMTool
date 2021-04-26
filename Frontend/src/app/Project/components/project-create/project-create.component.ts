@@ -4,8 +4,10 @@ import { Status } from '../../models/project.model';
 import { EmployeeServices } from '../../../Employee/services/employee.service'
 import { GroupDto } from 'src/app/swagger/models/group-dto';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { GroupServices } from 'src/app/Groups/services/group.service';
+import { EmployeeDto } from 'src/app/swagger/models';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
@@ -22,7 +24,7 @@ export class ProjectCreateComponent implements OnInit {
     this.initForm();
     this.getEmployee("CTV");
     this.getGroups();
-   
+
   }
 
   private getEmployee(value) {
@@ -33,8 +35,8 @@ export class ProjectCreateComponent implements OnInit {
     // })
   }
 
-  private getGroups(){
-    this.groupServices.getAllGroup().subscribe(data=>{
+  private getGroups() {
+    this.groupServices.getAllGroup().subscribe(data => {
       this.listGroup = data;
       this.cdr.markForCheck();
     })
@@ -45,7 +47,7 @@ export class ProjectCreateComponent implements OnInit {
     let projectName = '';
     let customer = '';
     let group = [1];
-    let members: string[] = [];
+    let members: EmployeeDto[] = [];
     let status = 'NEW';
     let startDate = '';
     let endDate = '';
@@ -64,21 +66,28 @@ export class ProjectCreateComponent implements OnInit {
     })
   }
 
-//   public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
-//     return of([
-//         'item1', 'item2', 'item3'
-//     ]);
-// };
+  //   public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
+  //     return of([
+  //         'item1', 'item2', 'item3'
+  //     ]);
+  // };
 
   onSubmit() {
     console.log(this.projectForm);
   }
 
-  testChange(){
+  testChange() {
     console.log(this.projectForm.get('member').value)
     this.getEmployee(this.projectForm.get('member').value);
   }
-  public requestAutocompleteEmployees = (text:string):Observable<string[]>=>{
-    return this.employeeServices.getAllEmployee(text);
+
+  public requestAutocompleteEmployees = (text: string): Observable<string[]> => {
+    return this.employeeServices.getAllEmployee(text).pipe(map(data => {
+      let listVisa: string[] = []
+      for (let item of data) {
+        listVisa.push(item.Visa + ": " + item.LastName + " " + item.FirstName);
+      }
+      return listVisa;
+    }));
   }
 }

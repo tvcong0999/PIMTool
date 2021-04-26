@@ -216,8 +216,8 @@ module ProjectService {
    */
   export interface ProjectGetHaveConditionParams {
     status: number;
-    page: number;
-    input: string;
+    page?: number;
+    input?: string;
   }
 }
 

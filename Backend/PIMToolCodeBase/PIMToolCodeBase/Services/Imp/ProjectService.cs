@@ -55,7 +55,7 @@ namespace PIMToolCodeBase.Services.Imp
         {
             return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
             || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower()) || p.Customer.ToLower().Contains(input.ToLower()))
-            && (String.IsNullOrEmpty(status.ToString()) || p.Status == status))
+            && ((status == Status.EMPTY) || p.Status == status))
                 .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
         }
 

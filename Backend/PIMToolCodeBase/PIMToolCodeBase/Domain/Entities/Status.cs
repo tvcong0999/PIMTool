@@ -8,6 +8,6 @@ namespace PIMToolCodeBase.Domain.Entities
 {
     public enum Status
     {
-        NEW, PLA, INP, FIN
+        NEW, PLA, INP, FIN,EMPTY
     }
 }
