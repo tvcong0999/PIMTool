@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Status } from '../../models/project.model';
 import { EmployeeServices } from '../../../Employee/services/employee.service'
 import { EmployeeDto } from 'src/app/swagger/models/employee-dto';
-
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
@@ -15,7 +16,7 @@ export class ProjectCreateComponent implements OnInit {
   statusEnum = Status;
   listGroup = [1, 2, 3, 4];
   listEmployee: EmployeeDto[];
-
+  items = ['Javascript', 'Typescript'];
   constructor(private employeeServices: EmployeeServices) { }
 
   ngOnInit(): void {
@@ -54,6 +55,12 @@ export class ProjectCreateComponent implements OnInit {
 
     })
   }
+
+  public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
+    return of([
+        'item1', 'item2', 'item3'
+    ]);
+};
 
   onSubmit() {
     console.log(this.projectForm);
