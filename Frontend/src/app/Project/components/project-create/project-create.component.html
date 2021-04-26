@@ -2,8 +2,10 @@
     <div class="form-group row">
         <label for="projectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
         <div class="col-sm-10 d-flex">
-            <input type="number" name="" id="projectNumber" formControlName="projectNumber" class="form-control col-sm-3">
-            <span class="text-danger ml-5" *ngIF = "">The project number already existed Please select a different project number</span>
+            <input type="number" name="" id="projectNumber" formControlName="projectNumber"
+                class="form-control col-sm-3">
+            <span class="text-danger ml-5" *ngIF="">The project number already existed Please select a different project
+                number</span>
         </div>
     </div>
     <div class="form-group row">
@@ -22,24 +24,32 @@
         <label for="group" class="col-sm-2">Group <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <select name="" id="group" formControlName="group" class="col-sm-3">
-                <option *ngFor = "let group of listGroup" [value] = "group">{{group}}</option>
+                <option *ngFor="let group of listGroup" [value]="group.Id">{{group.Id}}</option>
             </select>
         </div>
     </div>
     <div class="form-group row">
         <label for="member" class="col-sm-2">Members <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="text" name="" id="member" formControlName="member" class="form-control">
+            <tag-input secondaryPlaceholder="Enter member" [formControlName]="'member'" name="member">
+                <tag-input-dropdown [autocompleteItems]="requestAutocompleteEmployees">
+                    <ng-template let-item="item" let-index="index">
+                        {{ item.display }}
+                    </ng-template>
+                </tag-input-dropdown>
+            </tag-input>
+            <!-- <input type="text" name="" id="member" formControlName="member" name="tags" class="form-contr"> -->
         </div>
     </div>
     <div class="form-group row">
         <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <select name="" id="status" formControlName="status" class="col-sm-3">
-                <option *ngFor="let option of statusEnum | enumToArray" [value] = "option.name">{{option.name}}</option>
+                <option *ngFor="let option of statusEnum | enumToArray" [value]="option.name">{{option.name}}</option>
             </select>
         </div>
     </div>
+
     <div class="row d-flex justify-content-between">
         <div class="col-sm-6">
             <div class="form-group row">

@@ -1,7 +1,4 @@
-- update : done
-- casecade for delete, update : done
-- handle exception
-- concurrent update
-- timespan : done
-- multilangual
+- delete by Id
+- Update by Id
+- Get member
 - 

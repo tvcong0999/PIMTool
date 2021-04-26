@@ -4,8 +4,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { GridComponent } from './components';
-import { EnumToArrayPipe,} from './pipes'
-import { NumberToString} from './pipes/numberToString.enum'
+import { EnumToArrayPipe, } from './pipes'
+import { NumberToString } from './pipes/numberToString.enum'
+
+
 
 // All exported items hear need to declare in public_api.ts
 const DECLARED_EXPORTS = [
@@ -15,7 +17,7 @@ const DECLARED_EXPORTS = [
 const ENTRY_COMPONENTS = [];
 
 const RELAYED_EXPORTS = [
-    CommonModule, TranslateModule,
+    CommonModule, TranslateModule
 ];
 
 @NgModule({

@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, NgModule, ViewChild } from '@angular/core';
 import { Project, Status } from '../../models/project.model'
 import { ProjectServices } from '../../services/index'
 
-import { FormGroup } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
     selector: 'pim-project-list',
@@ -11,21 +11,50 @@ import { FormGroup } from '@angular/forms';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectListComponent implements OnInit {
-    status: Status;
+    keysearch;
+    status;
+    statusEnum = Status;
     nameChoose = "Projects List";
     listProject: Project[] = [];
+    checkBoxDelete = 0;
+    isChecked = false;
 
+    @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
     constructor(private projectServices: ProjectServices, private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit() {
         // get all project
+        this.getAllProject();
+
+    }
+
+    private getAllProject() {
         this.projectServices.getAllProject().subscribe(data => {
             this.listProject = data;
-            console.log(data);
             this.cdr.markForCheck();
         })
+    }
 
+    checkValue() {
+        console.log(this.isChecked);
+        if (!this.isChecked)
+            this.checkBoxDelete++;
+        else
+            this.checkBoxDelete--;
+    }
+
+    resetForm() {
+        this.searchForm.reset();
+        this.getAllProject();
+    }
+
+    onSubmit(searchForm) {
+        searchForm.value.status == "" ? null : searchForm.value.status;
+        this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
+            this.listProject = data;
+            this.cdr.markForCheck();
+        })
     }
 }

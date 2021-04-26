@@ -20,6 +20,18 @@ export class ProjectServices {
                     listProject.push(new Project(pro as ProjectDto));
                 }
                 return listProject;
-            }))
+            })
+        )
+    }
+    getHaveCondition(keysearch, status, page): Observable<Array<Project>> {
+        return this.projectService.ProjectGetHaveCondition({status:status, page:page, input:keysearch}).pipe(
+            map((data) => {
+                let listProject: Project[] = [];
+                for (let pro of data) {
+                    listProject.push(new Project(pro as ProjectDto));
+                }
+                return listProject;
+            })
+        )
     }
 }

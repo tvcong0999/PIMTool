@@ -1,9 +1,33 @@
 <div id="titleContent" class="d-flex">
+  <div class="col-6 d-flex">
     <a routerLink="/">
-      <img src="assets/img/logo.png"/>
-    </a>  
-    <h3 class="ml-3"><b>Project Information Management</b></h3>
-
+      <img src="assets/img/logo.png" />
+    </a>
+    <h3 class="ml-5"><b>Project Information Management</b></h3>
+  </div>
+  <div class="col-6 d-flex justify-content-end">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto d-flex">
+          <li class="nav-item active d-flex">
+            <a class="nav-link">EN</a>
+          </li>
+          <li class="nav-item d-flex">
+            <span class="nav-link">|</span>
+          </li>
+          <li class="nav-item d-flex mr-3">
+            <a class="nav-link">FR</a>
+          </li>
+          <li class="nav-item mr-3 ml-5">
+            <a class="nav-link">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Log Out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </div>
 <hr>
 <div class="body-content">
@@ -11,16 +35,16 @@
     <div class="col-2 mt-5">
       <ul class="nav flex-column ml-5">
         <li class="nav-item">
-          <a class="text-secondary nav-link" routerLink="/project/new" routerLinkActive="bg-primary">New</a>
+          <a class=" nav-link" routerLink="/project/new" [routerLinkActive]="['bg-primary', 'text-white']">New</a>
         </li>
         <li class="nav-item">
-          <a class="text-secondary nav-link" routerLink="/project/list" routerLinkActive="bg-primary">Project</a>
+          <a class="nav-link" routerLink="/project/list" [routerLinkActive]="['bg-primary', 'text-white']">Project</a>
         </li>
         <li class="nav-item">
-          <a class="text-secondary nav-link" routerLinkActive="bg-primary">Customer</a>
+          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">Customer</a>
         </li>
         <li class="nav-item">
-          <a class="text-secondary nav-link" routerLinkActive="bg-primary">Supplier</a>
+          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">Supplier</a>
         </li>
       </ul>
     </div>
@@ -38,4 +62,3 @@
     <p>&copy; 2020</p>
   </footer>
 </div>
-

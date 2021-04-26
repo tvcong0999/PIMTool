@@ -1,24 +1,49 @@
+<div>
+  <form #searchForm="ngForm" (ngSubmit) = "onSubmit(searchForm)">
+    .<div class="form-group d-flex">
+      <div class="col-6 d-flex justify-content-between pl-0">
+        <input type="text" name="keysearch" class="col-8 form-control" placeholder="Project number, name, customer name"
+          aria-describedby="helpId" ngModel>
+        <select name="status" class="col-3 form-control" ngModel>
+          <option *ngFor="let option of statusEnum | enumToArray" [value]="option.name">{{option.name}}</option>
+        </select>
+      </div>
+      <div class="group-btn col-4 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" style="width: 150px;">Search Project</button>
+        <button type="button" class="btn btn-light ml-4" style="width: 150px;" (click) = "resetForm()">Refresh Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+<br>
 <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col" style="width: 1%;"></th>
-        <th scope="col" style="width: 10%;">Number</th>
-        <th scope="col" style="width: 30%;">Name</th>
-        <th scope="col" style="width: 10%;">Status</th>
-        <th scope="col" style="width: 20%;">Customer</th>
-        <th scope="col" style="width: 10%;">Start Date</th>
-        <th scope="col" style="width: 5%;">Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor = "let project of listProject; let i = index  ">
-        <td><input type="checkbox" style="cursor:pointer"></td>
-        <td>{{project.ProjectNumber}}</td>
-        <td>{{project.Name}}</td>
-        <td>{{project.Status  | converEnum}}</td>
-        <td>{{project.Customer}}</td>
-        <td>{{project.StartDate | date: 'shortDate'}}</td>
-        <td class="text-center"><i class="fa fa-trash-o text-danger" aria-hidden="true" style="font-size:larger; cursor: pointer;"></i></td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th scope="col" style="width: 1%;"></th>
+      <th scope="col" style="width: 10%;">Number</th>
+      <th scope="col" style="width: 30%;">Name</th>
+      <th scope="col" style="width: 10%;">Status</th>
+      <th scope="col" style="width: 20%;">Customer</th>
+      <th scope="col" style="width: 10%;">Start Date</th>
+      <th scope="col" style="width: 5%;">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let project of listProject; let i = index  ">
+      <td><input type="checkbox" style="cursor:pointer" (change)="checkValue()"></td>
+      <td>{{project.ProjectNumber}}</td>
+      <td>{{project.Name}}</td>
+      <td>{{project.Status | converEnum}}</td>
+      <td>{{project.Customer}}</td>
+      <td>{{project.StartDate | date: 'shortDate'}}</td>
+      <td class="text-center"><i class="fa fa-trash-o text-danger" aria-hidden="true"
+          style="font-size:larger; cursor: pointer;" (click)="onDeleteProject(id)"></i></td>
+    </tr>
+  </tbody>
+</table>
+<div class="col-12 d-flex justify-content-between align-items-center"
+  style="background-color: rgb(187, 220, 238); height: 40px;" *ngIf="checkBoxDelete">
+  <span> {{checkBoxDelete}} items selected</span>
+  <span class="text-danger mr-4"> delete selected items <i class="fa fa-trash-o text-danger ml-2" aria-hidden="true"
+      style="font-size:larger; cursor: pointer;"></i> </span>
+</div>

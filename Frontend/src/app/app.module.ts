@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -13,8 +14,9 @@ import { ShellModule } from './Shell/shell.module';
 import { ApiConfiguration } from './swagger/api-configuration';
 import { EnvironmentApiConfiguration } from './api-config';
 import { EmployeeComponent } from './Employee/components/employee/employee.component';
+import { GroupComponent } from './Groups/components/group/group.component';
 
-import { TagInputModule } from 'ngx-chips';
+
 
 export function HttpLoaderFactory(http: HttpClient, loc: Location) {
   return new TranslateHttpLoader(http, loc.prepareExternalUrl('/assets/i18n/'), '.json');
@@ -22,9 +24,10 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
 
 @NgModule({
   declarations: [
-  EmployeeComponent],
+  EmployeeComponent,
+  GroupComponent],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     PIMBaseModule.forRoot(),
     ShellModule,
@@ -36,8 +39,7 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
       }
     }),
     HttpClientModule,
-    TagInputModule,
-    BrowserAnimationsModule
+
   ],
   providers: [
     {
