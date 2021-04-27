@@ -29,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let project of listProject; let i = index" >
+    <tr *ngFor="let project of this.projectServices.listProject; let i = index" >
       <td><input type="checkbox" [id]="project.Id" style="cursor:pointer" (change)="checkValue($event)"></td>
       <td style="cursor: pointer;" (click) = "updateProject(project)"> <a>{{project.ProjectNumber}}</a></td>
       <td>{{project.Name}}</td>

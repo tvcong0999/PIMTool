@@ -206,6 +206,42 @@ class ProjectService extends BaseService {
       __map(_r => _r.body)
     );
   }
+
+  /**
+   * @param projectNumber undefined
+   * @return OK
+   */
+  ProjectValidateProjectNumberResponse(projectNumber: number): Observable<StrictHttpResponse<boolean>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (projectNumber != null) __params = __params.set('projectNumber', projectNumber.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/Project/ValidateProjectNumber`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return (_r as HttpResponse<any>).clone({ body: (_r as HttpResponse<any>).body === 'true' }) as StrictHttpResponse<boolean>
+      })
+    );
+  }
+  /**
+   * @param projectNumber undefined
+   * @return OK
+   */
+  ProjectValidateProjectNumber(projectNumber: number): Observable<boolean> {
+    return this.ProjectValidateProjectNumberResponse(projectNumber).pipe(
+      __map(_r => _r.body)
+    );
+  }
 }
 
 module ProjectService {

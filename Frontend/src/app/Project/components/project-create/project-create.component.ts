@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Status } from '../../models/project.model';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Project, Status } from '../../models/project.model';
 import { EmployeeServices } from '../../../Employee/services/employee.service'
 import { GroupDto } from 'src/app/swagger/models/group-dto';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { GroupServices } from 'src/app/Groups/services/group.service';
-import { EmployeeDto } from 'src/app/swagger/models';
+import { EmployeeDto, ProjectCreateDto, ProjectDto } from 'src/app/swagger/models';
 import { ProjectServices } from '../../services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
@@ -20,6 +20,10 @@ export class ProjectCreateComponent implements OnInit {
   statusEnum = Status;
   listGroup: GroupDto[] = [];
   autocompleteItems = ["Item1", "item2", "item3"];
+  projectUpdate: Project;
+  test: ProjectCreateDto;
+  editMode = false;
+  id;
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
     private projectServices: ProjectServices,
@@ -28,8 +32,13 @@ export class ProjectCreateComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.initForm();
-    this.getGroups();
+
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.editMode = params['id'] != null;
+      this.getGroups();
+      this.initForm();
+    })
 
   }
 
@@ -49,28 +58,51 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   private initForm() {
-    let id;
-    let projectNumber = '';
-    let projectName = '';
-    let customer = '';
-    let group = 1;
-    let members: Array<number> = [];
-    let status = 'NEW';
-    let startDate = '';
-    let endDate = '';
+    if (this.editMode) {
+      // this.projectServices.projectUpdate.subscribe((data) => {
+      //   this.projectUpdate = data;
+      //   console.log(this.projectUpdate);
 
-    //create new form project
-    this.projectForm = new FormGroup({
-      Id: new FormControl(id),
-      ProjectNumber: new FormControl(projectNumber, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-      Name: new FormControl(projectName, Validators.required),
-      Customer: new FormControl(customer, Validators.required),
-      GroupId: new FormControl(group),
-      EmployeeIds: new FormControl(members, Validators.required),
-      Status: new FormControl(status),
-      StartDate: new FormControl(startDate, Validators.required),
-      FinishDate: new FormControl(endDate)
-    }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+      // });
+      this.projectUpdate = this.projectServices.listProject.find(x => x.Id = this.id);
+      console.log(this.projectUpdate);
+      this.projectForm = new FormGroup({
+        Id: new FormControl(this.projectUpdate.Id),
+        ProjectNumber: new FormControl(this.projectUpdate.ProjectNumber, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
+        Name: new FormControl(this.projectUpdate.Name, Validators.required),
+        Customer: new FormControl(this.projectUpdate.Customer, Validators.required),
+        GroupId: new FormControl(this.projectUpdate.GroupId),
+        EmployeeIds: new FormControl(this.projectUpdate.EmployeeIds, Validators.required),
+        Status: new FormControl(this.projectUpdate.Status),
+        StartDate: new FormControl(this.projectUpdate.StartDate, Validators.required),
+        FinishDate: new FormControl(this.projectUpdate.FinishDate)
+      }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+      this.projectForm.controls['ProjectNumber'].disable();
+    }
+    else {
+      let id;
+      let projectNumber = '';
+      let projectName = '';
+      let customer = '';
+      let group = 1;
+      let members: Array<number> = [];
+      let status = 'NEW';
+      let startDate = '';
+      let endDate = '';
+
+      //create new form project
+      this.projectForm = new FormGroup({
+        Id: new FormControl(id),
+        ProjectNumber: new FormControl(projectNumber, {validators: [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)], asyncValidators: this.validateProNumber.bind(this)}),
+        Name: new FormControl(projectName, Validators.required),
+        Customer: new FormControl(customer, Validators.required),
+        GroupId: new FormControl(group),
+        EmployeeIds: new FormControl(members, Validators.required),
+        Status: new FormControl(status),
+        StartDate: new FormControl(startDate, Validators.required),
+        FinishDate: new FormControl(endDate)
+      }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+    }
   }
 
   //   public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
@@ -82,9 +114,11 @@ export class ProjectCreateComponent implements OnInit {
   onSubmit() {
     let listId = this.projectForm.get('EmployeeIds').value.map(m => { return m.Id });
     this.projectForm.controls['EmployeeIds'].setValue(listId);
-    this.projectServices.createProject(this.projectForm.value).subscribe();
+    this.projectServices.createProject(this.projectForm.value).subscribe(() => {
+      this.router.navigate(['/project/list']);
+    });
     this.projectForm.reset();
-    this.router.navigate(['/project/list']);
+
 
   }
 
@@ -112,5 +146,14 @@ export class ProjectCreateComponent implements OnInit {
       return null;
 
     }
+  }
+
+  //validate already exist project number
+  validateProNumber(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
+      if (data)
+        return { "projectNumberDuplicate": true };
+      return null;
+    }));
   }
 }

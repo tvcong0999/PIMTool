@@ -5,6 +5,7 @@ import { ProjectServices } from '../../services/index'
 import { FormGroup, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ProjectCreateDto } from 'src/app/swagger/models';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'pim-project-list',
@@ -17,13 +18,12 @@ export class ProjectListComponent implements OnInit {
     status;
     statusEnum = Status;
     nameChoose = "Projects List";
-    listProject: Project[] = [];
     checkBoxDelete = 0;
     checkedIds = [];
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
-    constructor(private projectServices: ProjectServices, private cdr: ChangeDetectorRef) {
+    constructor(public projectServices: ProjectServices, private cdr: ChangeDetectorRef, private router: Router) {
     }
 
     ngOnInit() {
@@ -33,7 +33,7 @@ export class ProjectListComponent implements OnInit {
 
     private getAllProject() {
         this.projectServices.getAllProject().subscribe(data => {
-            this.listProject = data;
+            this.projectServices.listProject = data;
             this.cdr.markForCheck();
         })
     }
@@ -57,12 +57,14 @@ export class ProjectListComponent implements OnInit {
 
     onSubmit(searchForm) {
         this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
-            this.listProject = data;
+            this.projectServices.listProject = data;
             this.cdr.markForCheck();
         })
     }
     updateProject(project) {
-        console.log(project);
+        this.projectServices.projectUpdate.next(project);
+        let id = project.Id;
+        this.router.navigate(['/project/edit', id]);
     }
 
     onDeleteProject(id) {

@@ -14,5 +14,6 @@ namespace PIMToolCodeBase.Services
         void Create(Project project);
         void DeleteProject(params int[] id);
         void UpdateProject(Project project);
+        bool ValidateProjectNumber(int projectNumber);
     }
 }

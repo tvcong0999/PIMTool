@@ -41,6 +41,9 @@ namespace PIMToolCodeBase.Repositories.Imp
             return Set.Where(p=>p.Id==id).Include(e=>e.ProjectEmployees).FirstOrDefault();
         }
 
-    
+        public bool ValidateProjectNumber(int projectNumber)
+        {
+            return Set.Any(p => p.ProjectNumber == projectNumber);
+        }
     }
 }

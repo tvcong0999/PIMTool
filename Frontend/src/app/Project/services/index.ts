@@ -6,11 +6,14 @@ import { map, tap } from 'rxjs/operators'
 import { ProjectDto } from 'src/app/swagger/models/project-dto';
 import { Observable, Subject } from 'rxjs';
 import { ProjectCreateDto } from 'src/app/swagger/models';
+import { ValidationErrors } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProjectServices {
+    projectUpdate = new Subject<Project>();
+    listProject: Project[] = [];
     constructor(private projectService: ProjectService) { }
 
     getAllProject(): Observable<Array<Project>> {
@@ -43,5 +46,9 @@ export class ProjectServices {
 
     createProject(project): Observable<ProjectCreateDto> {
        return this.projectService.ProjectCreate(project);
+    }
+    validateProjectNumber(proNumber: number): Observable<boolean>
+    {
+        return this.projectService.ProjectValidateProjectNumber(proNumber);
     }
 }

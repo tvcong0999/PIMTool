@@ -13,5 +13,6 @@ namespace PIMToolCodeBase.Repositories
         void Attach(Project project);
         // IEnumerable<Project> GetHaveCondition(string input, string status, int page);
         IEnumerable<Project> GetByIds(params int[] ids);
+        bool ValidateProjectNumber(int projectNumber);
     }
 }

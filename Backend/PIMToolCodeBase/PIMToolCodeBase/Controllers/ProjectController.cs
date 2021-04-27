@@ -51,5 +51,10 @@ namespace PIMToolCodeBase.Controllers
         {
             _projectService.UpdateProject(_mapper.Map<ProjectDto, Project>(projectUpdateDto));
         }
+        
+        public bool ValidateProjectNumber(int projectNumber)
+        {
+            return _projectService.ValidateProjectNumber(projectNumber);
+        }
     }
 }

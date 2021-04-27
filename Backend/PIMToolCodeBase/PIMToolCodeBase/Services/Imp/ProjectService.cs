@@ -94,6 +94,10 @@ namespace PIMToolCodeBase.Services.Imp
                 _projectRepository.SaveChange();
     
         }
-              
+
+        public bool ValidateProjectNumber(int projectNumber)
+        {
+           return _projectRepository.ValidateProjectNumber(projectNumber);
+        }
     }
 }
