@@ -12,21 +12,17 @@ namespace PIMToolCodeBase.MappingProfiles
         public SampleMappingProfile() : base(nameof(SampleMappingProfile))
         {
             CreateMap<Sample, SampleDto>().ReverseMap();
-            CreateMap<Project, ProjectDto>()
-                .ReverseMap();
+            CreateMap<ProjectDto, ProjectDto>();
+            CreateMap<Project, ProjectDto>().AfterMap((s,d)=> {
+                d.EmployeeIds = new List<int>();
+                foreach(var pe in s.ProjectEmployees)
+                {
+                    d.EmployeeIds.Add(pe.EmployeeId);
+                }
+            });
 
             CreateMap<Project, ProjectCreateDto>().ReverseMap();
 
-            //CreateMap<Project, ProjectCreateDto>().ForMember(d => d.EmployeeIds,
-            //opts => opts.MapFrom(s => s.ProjectEmployees
-            //    .Select(pe => pe.EmployeeId).ToList())).ReverseMap();
-
-            //CreateMap<ProjectCreateDto, Project>().ForMember(d => d.ProjectEmployees, opts =>
-            //opts.MapFrom(s => new ProjectEmployee[]
-            //{
-            //    new ProjectEmployee{EmployeeId = s.EmployeeIds.FirstOrDefault()}
-
-            //})).ReverseMap();
 
             CreateMap<ProjectCreateDto, Project>().AfterMap((s, d) => {
                 d.ProjectEmployees = new List<ProjectEmployee>();

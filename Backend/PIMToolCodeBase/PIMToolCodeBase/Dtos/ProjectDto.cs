@@ -7,6 +7,16 @@ namespace PIMToolCodeBase.Dtos
 {
     public class ProjectDto
     {
+        public int Id
+        {
+            get;
+            set;
+        }
+        public int GroupId
+        {
+            get;
+            set;
+        }
         public int ProjectNumber
         {
             get;
@@ -32,5 +42,17 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
+
+        public DateTime? FinishDate
+        {
+            get;
+            set;
+        }
+        public List<int> EmployeeIds
+        {
+            get;
+            set;
+        }
     }
 }
+

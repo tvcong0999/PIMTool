@@ -9,6 +9,7 @@ namespace PIMToolCodeBase.Repositories
 {
     public interface IEmployeeRepository:IRepository<Employee>
     {
+        IEnumerable<Employee> GetByIds(params int[] ids);
     }
 
 }

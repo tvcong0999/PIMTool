@@ -27,5 +27,10 @@ namespace PIMToolCodeBase.Services.Imp
         {
             return _employeeRepository.Get(id);
         }
+
+        public IEnumerable<Employee> GetByIds(params int[] ids)
+        {
+            return _employeeRepository.GetByIds(ids);
+        }
     }
 }

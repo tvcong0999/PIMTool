@@ -5,6 +5,7 @@ import { Project } from '../models/project.model';
 import { map, tap } from 'rxjs/operators'
 import { ProjectDto } from 'src/app/swagger/models/project-dto';
 import { Observable, Subject } from 'rxjs';
+import { ProjectCreateDto } from 'src/app/swagger/models';
 
 @Injectable({
     providedIn: 'root'
@@ -33,5 +34,14 @@ export class ProjectServices {
                 return listProject;
             })
         )
+    }
+
+    deleteProject(ids): Observable<null>
+    {
+        return this.projectService.ProjectDeleteProject(ids);
+    }
+
+    createProject(project): Observable<ProjectCreateDto> {
+       return this.projectService.ProjectCreate(project);
     }
 }

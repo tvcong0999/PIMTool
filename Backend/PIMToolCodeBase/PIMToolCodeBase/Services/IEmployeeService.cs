@@ -11,5 +11,6 @@ namespace PIMToolCodeBase.Services
     {
         IEnumerable<Employee> Get(string input);
         Employee Get(int id);
+        IEnumerable<Employee> GetByIds(params int[] ids);
     }
 }

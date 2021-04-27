@@ -10,6 +10,11 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
+        public string GroupName
+        {
+            get;
+            set;
+        }
         public byte[] TimeSpamp
         {
             get;

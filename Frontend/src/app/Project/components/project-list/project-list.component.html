@@ -29,15 +29,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let project of listProject; let i = index  ">
-      <td><input type="checkbox" style="cursor:pointer" (change)="checkValue($event)"></td>
-      <td>{{project.ProjectNumber}}</td>
+    <tr *ngFor="let project of listProject; let i = index" >
+      <td><input type="checkbox" [id]="project.Id" style="cursor:pointer" (change)="checkValue($event)"></td>
+      <td style="cursor: pointer;" (click) = "updateProject(project)"> <a>{{project.ProjectNumber}}</a></td>
       <td>{{project.Name}}</td>
       <td>{{project.Status | converEnum}}</td>
       <td>{{project.Customer}}</td>
       <td>{{project.StartDate | date: 'shortDate'}}</td>
       <td class="text-center"><i class="fa fa-trash-o text-danger" aria-hidden="true"
-          style="font-size:larger; cursor: pointer;" (click)="onDeleteProject(id)"></i></td>
+          style="font-size:larger; cursor: pointer;" (click)="onDeleteProject(project.Id)"></i></td>
     </tr>
   </tbody>
 </table>
@@ -45,5 +45,5 @@
   style="background-color: rgb(187, 220, 238); height: 40px;" *ngIf="checkBoxDelete">
   <span> {{checkBoxDelete}} items selected</span>
   <span class="text-danger mr-4"> delete selected items <i class="fa fa-trash-o text-danger ml-2" aria-hidden="true"
-      style="font-size:larger; cursor: pointer;"></i> </span>
+      style="font-size:larger; cursor: pointer;" (click)="onDeleteProjects()"></i> </span>
 </div>

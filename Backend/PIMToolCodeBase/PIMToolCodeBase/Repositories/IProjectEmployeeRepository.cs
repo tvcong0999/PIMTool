@@ -13,5 +13,6 @@ namespace PIMToolCodeBase.Repositories
         void Delete(params int[] ids);
         void Delete(ICollection<ProjectEmployee> entities);
         void SaveChange();
+        IEnumerable<ProjectEmployee> GetById(int id);
     }
 }

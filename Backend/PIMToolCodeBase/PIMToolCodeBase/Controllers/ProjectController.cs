@@ -31,7 +31,7 @@ namespace PIMToolCodeBase.Controllers
 
         [HttpGet]
 
-        public IEnumerable<ProjectDto> GetHaveCondition(Status status, string input = null,  int page=1)
+        public IEnumerable<ProjectDto> GetHaveCondition(Status? status, string input = null,  int page=1)
         {
             return _mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDto>>(_projectService.GetHaveCondition(input, status, page));
         }
@@ -47,9 +47,9 @@ namespace PIMToolCodeBase.Controllers
             _projectService.DeleteProject(id);
         }
         [HttpPut]
-        public void UpdateProject(ProjectUpdateDto projectCreateDto)
+        public void UpdateProject(ProjectDto projectUpdateDto)
         {
-            _projectService.UpdateProject(_mapper.Map<ProjectUpdateDto, Project>(projectCreateDto));
+            _projectService.UpdateProject(_mapper.Map<ProjectDto, Project>(projectUpdateDto));
         }
     }
 }

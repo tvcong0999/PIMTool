@@ -7,5 +7,5 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent {
-  nameChoose="Projects List";
+  nameChoose = "Projects List";
 }

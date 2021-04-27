@@ -4,6 +4,11 @@ namespace PIMToolCodeBase.Dtos
 {
     public class EmployeeDto
     {
+        public int Id
+        {
+            get;
+            set;
+        }
         public string Visa
         {
             get;

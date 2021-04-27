@@ -54,6 +54,42 @@ class EmployeeService extends BaseService {
       __map(_r => _r.body)
     );
   }
+
+  /**
+   * @param ids undefined
+   * @return OK
+   */
+  EmployeeGetByIdsResponse(ids: Array<number>): Observable<StrictHttpResponse<Array<EmployeeDto>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    (ids || []).forEach((val, index) => {if (val != null) __params = __params.append('ids', val.toString())});
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/Employee/GetByIds`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as StrictHttpResponse<Array<EmployeeDto>>;
+      })
+    );
+  }
+  /**
+   * @param ids undefined
+   * @return OK
+   */
+  EmployeeGetByIds(ids: Array<number>): Observable<Array<EmployeeDto>> {
+    return this.EmployeeGetByIdsResponse(ids).pipe(
+      __map(_r => _r.body)
+    );
+  }
 }
 
 module EmployeeService {

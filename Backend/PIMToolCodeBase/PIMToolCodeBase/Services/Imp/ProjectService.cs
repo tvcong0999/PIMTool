@@ -48,14 +48,19 @@ namespace PIMToolCodeBase.Services.Imp
 
         public IEnumerable<Project> Get()
         {
-            return _projectRepository.Get();
+            IEnumerable<Project> listProject = _projectRepository.Get();
+            foreach(var project in listProject)
+            {
+                project.ProjectEmployees = _projectEmployeeRepository.GetById(project.Id).ToList();
+            }
+            return listProject;
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, Status status, int page)
+        public IEnumerable<Project> GetHaveCondition(string input, Status? status, int page)
         {
             return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
             || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower()) || p.Customer.ToLower().Contains(input.ToLower()))
-            && ((status == Status.EMPTY) || p.Status == status))
+            && (!status.HasValue || p.Status == status))
                 .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
         }
 

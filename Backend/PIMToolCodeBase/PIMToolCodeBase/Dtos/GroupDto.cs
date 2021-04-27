@@ -8,5 +8,10 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
+        public string GroupName
+        {
+            get;
+            set;
+        }
     }
 }

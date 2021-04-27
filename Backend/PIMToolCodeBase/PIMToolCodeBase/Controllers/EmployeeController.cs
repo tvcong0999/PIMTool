@@ -25,5 +25,10 @@ namespace PIMToolCodeBase.Controllers
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(_employeeService.Get(input));
         }
 
+        public IEnumerable<EmployeeDto> GetByIds(params int[] ids)
+        {
+            return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(_employeeService.GetByIds(ids));
+        }
+
     }
 }

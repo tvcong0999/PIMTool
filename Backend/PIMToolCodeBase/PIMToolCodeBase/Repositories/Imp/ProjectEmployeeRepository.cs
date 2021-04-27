@@ -32,6 +32,12 @@ namespace PIMToolCodeBase.Repositories.Imp
             Set.RemoveRange(entities);
 
         }
+
+        public IEnumerable<ProjectEmployee> GetById(int id)
+        {
+            return Set.Where(x => x.ProjectId == id);
+        }
+
         public void SaveChange()
         {
             _pimContext.SaveChanges();

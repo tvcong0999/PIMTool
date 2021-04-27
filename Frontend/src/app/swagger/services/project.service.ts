@@ -9,7 +9,6 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { ProjectDto } from '../models/project-dto';
 import { ProjectCreateDto } from '../models/project-create-dto';
-import { ProjectUpdateDto } from '../models/project-update-dto';
 @Injectable({
   providedIn: 'root',
 })
@@ -175,13 +174,13 @@ class ProjectService extends BaseService {
   }
 
   /**
-   * @param projectCreateDto undefined
+   * @param projectUpdateDto undefined
    */
-  ProjectUpdateProjectResponse(projectCreateDto: ProjectUpdateDto): Observable<StrictHttpResponse<null>> {
+  ProjectUpdateProjectResponse(projectUpdateDto: ProjectDto): Observable<StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    __body = projectCreateDto;
+    __body = projectUpdateDto;
     let req = new HttpRequest<any>(
       'PUT',
       this.rootUrl + `/api/Project/UpdateProject`,
@@ -200,10 +199,10 @@ class ProjectService extends BaseService {
     );
   }
   /**
-   * @param projectCreateDto undefined
+   * @param projectUpdateDto undefined
    */
-  ProjectUpdateProject(projectCreateDto: ProjectUpdateDto): Observable<null> {
-    return this.ProjectUpdateProjectResponse(projectCreateDto).pipe(
+  ProjectUpdateProject(projectUpdateDto: ProjectDto): Observable<null> {
+    return this.ProjectUpdateProjectResponse(projectUpdateDto).pipe(
       __map(_r => _r.body)
     );
   }

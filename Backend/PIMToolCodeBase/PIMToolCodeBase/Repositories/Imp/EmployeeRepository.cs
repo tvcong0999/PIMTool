@@ -14,5 +14,10 @@ namespace PIMToolCodeBase.Repositories.Imp
         {
       
         }
+
+        public IEnumerable<Employee> GetByIds(params int[] ids)
+        {
+            return Set.Where(x => ids.Contains(x.Id)).ToList();
+        }
     }
 }
