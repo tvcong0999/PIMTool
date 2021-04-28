@@ -90,8 +90,8 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-
-    console.log(this.projectForm.value);
+    debugger
+    console.log(this.projectForm.get('dateLessThan'));
     let project = this.projectForm.getRawValue();
     let listId = project.Employees.map(m => { return m.Id });
     project.EmployeeIds = listId;

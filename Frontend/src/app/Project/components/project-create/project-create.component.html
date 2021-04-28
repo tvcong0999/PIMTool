@@ -17,7 +17,7 @@
                 <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.min">
                     Project number must be greater than 1.
                 </span>
-                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.maxLength">
+                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.maxlength">
                     Project number must be less than 10000.
                 </span>
             </span>
@@ -33,7 +33,7 @@
                 <span class="p-error" *ngIf="projectForm.controls['Name'].errors.required">
                     Please enter project name.
                 </span>
-                <span class="p-error" *ngIf="projectForm.controls['Name'].errors?.maxLength">
+                <span class="p-error" *ngIf="projectForm.controls['Name'].errors?.maxlength">
                     Project name must be less than 50 characters.
                 </span>
             </span>
@@ -49,7 +49,7 @@
                 <span class="p-error" *ngIf="projectForm.controls['Customer'].errors.required">
                     Please enter customer.
                 </span>
-                <span class="p-error" *ngIf="projectForm.controls['Customer'].errors?.maxLength">
+                <span class="p-error" *ngIf="projectForm.controls['Customer'].errors?.maxlength">
                     Customer must be less than 50 characters.
                 </span>
             </span>
@@ -113,8 +113,8 @@
                     <span
                         *ngIf="projectForm.controls['FinishDate'].invalid && (projectForm.controls['FinishDate'].dirty || projectForm.controls['FinishDate'].touched)"
                         class="border-danger">
-                        <span class="p-error" *ngIf="projectForm.get('dateLessThan')?.errors">
-                            End date must be greater than start date.
+                        <span class="p-error">
+                            {{projectForm.get('dateLessThan') == null? '' : 'End date must be greater than start date.'}}
                         </span>
 
                     </span>

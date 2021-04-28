@@ -87,16 +87,16 @@ namespace PIMToolCodeBase.Services.Imp
 
                 _projectEmployeeRepository.Delete(projectUpdate.ProjectEmployees);
 
-                _projectEmployeeRepository.SaveChange();
+                
 
                 foreach (var pro in project.ProjectEmployees)
                 {
-                    pro.ProjectId = project.Id;
+                    projectUpdate.ProjectEmployees.Add(pro);
                 }
 
-                _projectEmployeeRepository.Add(project.ProjectEmployees);
-
-                _projectRepository.SaveChange();
+            //_projectEmployeeRepository.Add(project.ProjectEmployees);
+            _projectEmployeeRepository.SaveChange();
+            _projectRepository.SaveChange();
     
         }
 
