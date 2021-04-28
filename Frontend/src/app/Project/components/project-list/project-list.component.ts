@@ -6,6 +6,7 @@ import { FormGroup, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ProjectCreateDto } from 'src/app/swagger/models';
 import { Router } from '@angular/router';
+import { EmployeeServices } from 'src/app/Employee/services/employee.service';
 
 @Component({
     selector: 'pim-project-list',
@@ -23,7 +24,10 @@ export class ProjectListComponent implements OnInit {
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
-    constructor(public projectServices: ProjectServices, private cdr: ChangeDetectorRef, private router: Router) {
+    constructor(public projectServices: ProjectServices,
+        private employeeServices: EmployeeServices,
+        private cdr: ChangeDetectorRef,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -62,8 +66,8 @@ export class ProjectListComponent implements OnInit {
         })
     }
     updateProject(project) {
-        this.projectServices.projectUpdate.next(project);
         let id = project.Id;
+        //this.employeeServices.getInforByIds(project.EmployeeIds);
         this.router.navigate(['/project/edit', id]);
     }
 
@@ -73,9 +77,10 @@ export class ProjectListComponent implements OnInit {
         });
 
     }
-    onDeleteProjects(){
+    onDeleteProjects() {
         this.projectServices.deleteProject(this.checkedIds).subscribe(() => {
             this.getAllProject();
         });
+        this.checkedIds = [];
     }
 }

@@ -1,53 +1,91 @@
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
     <div class="form-group row">
-        <input type="hidden" name="" id="" formControlName="Id">
-        <label for="ProjectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
-        <div class="col-sm-10 d-flex">
-            <input type="number" name="" id="ProjectNumber" formControlName="ProjectNumber"
-                class="form-control col-sm-3">
-            <span class="text-danger ml-5" *ngIF="">The project number already existed Please select a different project
-                number</span>
+        <input type="hidden" name="" id="" formControlName="id">
+        <label for="projectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
+        <div class="col-sm-10">
+            <input type="number" name="" id="projectNumber" formControlName="projectNumber"
+                class="form-control col-sm-3"
+                >
+            <span
+                *ngIf="projectForm.controls['projectNumber'].invalid && (projectForm.controls['projectNumber'].dirty || projectForm.controls['projectNumber'].touched)"
+                class="border-danger">
+                <span class="p-error" *ngIf="projectForm.controls['projectNumber'].errors.required">
+                    Please enter project number.
+                </span>
+                <span class="p-error" *ngIf="projectForm.controls['projectNumber'].errors?.projectNumberDuplicate">
+                    Project number is already exist.
+                </span>
+                <span class="p-error" *ngIf="projectForm.controls['projectNumber'].errors?.min">
+                    Project number must be greater than 1.
+                </span>
+                <span class="p-error" *ngIf="projectForm.controls['projectNumber'].errors?.maxLength">
+                    Project number must be less than 10000.
+                </span>
+            </span>
         </div>
     </div>
     <div class="form-group row">
-        <label for="Name" class="col-sm-2">Project Name <span class="text-danger">*</span></label>
+        <label for="name" class="col-sm-2">Project Name <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="text" name="" id="Name" formControlName="Name" class="form-control">
+            <input type="text" name="" id="name" formControlName="name" class="form-control">
+            <span
+                *ngIf="projectForm.controls['name'].invalid && (projectForm.controls['name'].dirty || projectForm.controls['name'].touched)"
+                class="">
+                <span class="p-error" *ngIf="projectForm.controls['name'].errors.required">
+                    Please enter project name.
+                </span>
+                <span class="p-error" *ngIf="projectForm.controls['name'].errors?.maxLength">
+                    Project name must be less than 50 characters.
+                </span>
+            </span>
         </div>
     </div>
     <div class="form-group row">
-        <label for="Customer" class="col-sm-2">Customer <span class="text-danger">*</span></label>
+        <label for="customer" class="col-sm-2">Customer <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="text" name="" id="Customer" formControlName="Customer" class="form-control">
+            <input type="text" name="" id="customer" formControlName="customer" class="form-control">
+            <span
+                *ngIf="projectForm.controls['customer'].invalid && (projectForm.controls['customer'].dirty || projectForm.controls['customer'].touched)"
+                class="">
+                <span class="p-error" *ngIf="projectForm.controls['customer'].errors.required">
+                    Please enter customer.
+                </span>
+                <span class="p-error" *ngIf="projectForm.controls['customer'].errors?.maxLength">
+                    Customer must be less than 50 characters.
+                </span>
+            </span>
         </div>
     </div>
     <div class="form-group row">
-        <label for="GroupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
+        <label for="groupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <select name="" id="GroupId" formControlName="GroupId" class="col-sm-3">
+            <select name="" id="groupId" formControlName="groupId" class="col-sm-3">
                 <option *ngFor="let group of listGroup" [value]="group.Id">{{group.GroupName}}</option>
             </select>
         </div>
     </div>
     <div class="form-group row">
-        <label for="EmployeeIds" class="col-sm-2">Members <span class="text-danger">*</span></label>
+        <label for="employeeIds" class="col-sm-2">Members <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <tag-input [placeholder]="'Enter a new member'" secondaryPlaceholder="Enter a new member"
-                [formControlName]="'EmployeeIds'" name="EmployeeIds" [onlyFromAutocomplete]="true">
-                <tag-input-dropdown [autocompleteObservable]="requestAutocompleteEmployees" displayBy = "Visa" identifyBy="Id">
-                    <ng-template let-item="item" let-index="index">
-                        {{ item.Visa }}
-                    </ng-template>
-                </tag-input-dropdown>
-            </tag-input>
-            <!-- <input type="text" name="" id="member" formControlName="member" name="tags" class="form-contr"> -->
+            <span class="p-fluid">
+                <p-autoComplete formControlName="employeeIds" [suggestions]="listEmployee"
+                    (completeMethod)="search($event)" field="Visa" [multiple]="true">
+                </p-autoComplete>
+                <span
+                    *ngIf="projectForm.controls['employeeIds'].invalid && (projectForm.controls['employeeIds'].dirty || projectForm.controls['employeeIds'].touched)"
+                    class="">
+                    <span class="p-error" *ngIf="projectForm.controls['employeeIds'].errors.required">
+                        Please enter member.
+                    </span>
+                </span>
+            </span>
         </div>
     </div>
     <div class="form-group row">
-        <label for="Status" class="col-sm-2">Status <span class="text-danger">*</span></label>
+        <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <select name="" id="Status" formControlName="Status" class="col-sm-3">
-                <option *ngFor="let option of statusEnum | enumToArray" [value]="option.name">{{option.name}}</option>
+            <select name="" id="status" formControlName="status" class="col-sm-3">
+                <option *ngFor="let option of statusEnum | enumToArray" [value]="option.index">{{option.name}}</option>
             </select>
         </div>
     </div>
@@ -55,17 +93,31 @@
     <div class="row d-flex justify-content-between">
         <div class="col-sm-6">
             <div class="form-group row">
-                <label for="StartDate" class="col-sm-4">Start Date <span class="text-danger">*</span></label>
+                <label for="startDate" class="col-sm-4">Start Date <span class="text-danger">*</span></label>
                 <div class="col-sm-6">
-                    <input type="date" name="" id="StartDate" formControlName="StartDate" class="form-control">
+                    <p-calendar showIcon = "true" formControlName="startDate"></p-calendar>
+                    <span
+                        *ngIf="projectForm.controls['startDate'].invalid && (projectForm.controls['startDate'].dirty || projectForm.controls['startDate'].touched)"
+                        class="">
+                        <span class="p-error" *ngIf="projectForm.controls['startDate'].errors.required">
+                            Please enter start date.
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="form-group row  d-flex justify-content-end">
-                <label for="FinishDate" class="col-sm-4">End Date</label>
+                <label for="finishDate" class="col-sm-4">End Date</label>
                 <div class="col-sm-6">
-                    <input type="date" name="" id="FinishDate" formControlName="FinishDate" class="form-control">
+                    <p-calendar showIcon = "true"  formControlName="finishDate"></p-calendar>
+                    <span
+                        *ngIf="projectForm.controls['finishDate'].invalid && (projectForm.controls['finishDate'].dirty || projectForm.controls['finishDate'].touched)"
+                        class="border-danger">
+                        <span class="p-error" *ngIf="projectForm.controls['finishDate'].errors?.lessThanDate">
+                            End date must be greater than start date.
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>

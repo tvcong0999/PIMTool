@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Project, Status } from '../../models/project.model';
 import { EmployeeServices } from '../../../Employee/services/employee.service'
 import { GroupDto } from 'src/app/swagger/models/group-dto';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { GroupServices } from 'src/app/Groups/services/group.service';
@@ -16,38 +16,42 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectCreateComponent implements OnInit {
-  projectForm: FormGroup;
+  controls = {
+    id: new FormControl(null),
+    projectNumber: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.min(1), Validators.pattern(/^[1-9]+[0-9]*$/)], this.validateProNumber.bind(this)),
+    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    customer: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    groupId: new FormControl(1),
+    employeeIds: new FormControl(null, Validators.required),
+    status: new FormControl(0, Validators.required),
+    startDate: new FormControl(null, Validators.required),
+    finishDate: new FormControl(null)
+  };
+
+  projectForm = new FormGroup(this.controls);
   statusEnum = Status;
   listGroup: GroupDto[] = [];
-  autocompleteItems = ["Item1", "item2", "item3"];
   projectUpdate: Project;
-  test: ProjectCreateDto;
   editMode = false;
   id;
+  listEmployee = [];
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
     private projectServices: ProjectServices,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+  }
+
 
   ngOnInit(): void {
-
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
-      this.getGroups();
-      this.initForm();
-    })
-
-  }
-
-  private getEmployee(value) {
-    // // get employee by name or visa
-    // this.employeeServices.getAllEmployee(value).subscribe(data => {
-    //   this.listEmployee = data;
-    //   console.log(data);
-    // })
+      this.projectUpdate = this.projectServices.listProject.find(x => x.Id = this.id);
+    });
+    this.getGroups();
+    this.initForm();
   }
 
   private getGroups() {
@@ -58,74 +62,68 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   private initForm() {
+    //create new form project
+    this.projectForm = new FormGroup(this.controls, { validators: this.dateLessThan('startDate', 'finishDate') })
     if (this.editMode) {
-      // this.projectServices.projectUpdate.subscribe((data) => {
-      //   this.projectUpdate = data;
-      //   console.log(this.projectUpdate);
-
-      // });
-      this.projectUpdate = this.projectServices.listProject.find(x => x.Id = this.id);
-      console.log(this.projectUpdate);
-      this.projectForm = new FormGroup({
-        Id: new FormControl(this.projectUpdate.Id),
-        ProjectNumber: new FormControl(this.projectUpdate.ProjectNumber, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-        Name: new FormControl(this.projectUpdate.Name, Validators.required),
-        Customer: new FormControl(this.projectUpdate.Customer, Validators.required),
-        GroupId: new FormControl(this.projectUpdate.GroupId),
-        EmployeeIds: new FormControl(this.projectUpdate.EmployeeIds, Validators.required),
-        Status: new FormControl(this.projectUpdate.Status),
-        StartDate: new FormControl(this.projectUpdate.StartDate, Validators.required),
-        FinishDate: new FormControl(this.projectUpdate.FinishDate)
-      }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
       this.projectForm.controls['ProjectNumber'].disable();
-    }
-    else {
-      let id;
-      let projectNumber = '';
-      let projectName = '';
-      let customer = '';
-      let group = 1;
-      let members: Array<number> = [];
-      let status = 'NEW';
-      let startDate = '';
-      let endDate = '';
+      this.employeeServices.getInforByIds(this.projectUpdate.EmployeeIds).subscribe(data => {
+        this.listEmployee = data;
+        this.projectForm.patchValue(Object.assign({}, this.projectUpdate, {
+          employeeIds: this.listEmployee,
+          startDate: new Date(this.projectUpdate.StartDate).toISOString().substring(0, 10),
+          finishDate: new Date(this.projectUpdate.FinishDate).toISOString().substring(0, 10)
+        }));
 
-      //create new form project
-      this.projectForm = new FormGroup({
-        Id: new FormControl(id),
-        ProjectNumber: new FormControl(projectNumber, {validators: [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)], asyncValidators: this.validateProNumber.bind(this)}),
-        Name: new FormControl(projectName, Validators.required),
-        Customer: new FormControl(customer, Validators.required),
-        GroupId: new FormControl(group),
-        EmployeeIds: new FormControl(members, Validators.required),
-        Status: new FormControl(status),
-        StartDate: new FormControl(startDate, Validators.required),
-        FinishDate: new FormControl(endDate)
-      }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+        // this.projectForm.patchValue({
+        //   Id: this.projectUpdate.Id,
+        //   ProjectNumber: this.projectUpdate.ProjectNumber,
+        //   Name: this.projectUpdate.Name,
+        //   Customer: this.projectUpdate.Customer,
+        //   GroupId: this.projectUpdate.GroupId,
+        //   EmployeeIds: this.listEmployee,
+        //   Status: Status[this.projectUpdate.Status],
+        //   StartDate: new Date(this.projectUpdate.StartDate).toISOString().substring(0, 10),
+        //   FinishDate: new Date(this.projectUpdate.FinishDate).toISOString().substring(0, 10)
+        // });
+        // this.projectForm = new FormGroup({
+        //   Id: new FormControl(this.projectUpdate.Id),
+        //   ProjectNumber: new FormControl(this.projectUpdate.ProjectNumber),
+        //   Name: new FormControl(this.projectUpdate.Name, [Validators.required, Validators.maxLength(50)]),
+        //   Customer: new FormControl(this.projectUpdate.Customer, [Validators.required, Validators.maxLength(50)]),
+        //   GroupId: new FormControl(this.projectUpdate.GroupId),
+        //   EmployeeIds: new FormControl(this.listEmployee, Validators.required),
+        //   Status: new FormControl(Status[this.projectUpdate.Status]),
+        //   StartDate: new FormControl(new Date(this.projectUpdate.StartDate).toISOString().substring(0, 10), Validators.required),
+        //   FinishDate: new FormControl(new Date(this.projectUpdate.FinishDate).toISOString().substring(0, 10))
+        // }, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+        this.cdr.markForCheck();
+      });
     }
+
   }
-
-  //   public requestAutocompleteItemsFake = (text: string): Observable<string[]> => {
-  //     return of([
-  //         'item1', 'item2', 'item3'
-  //     ]);
-  // };
 
   onSubmit() {
+    let project = this.projectForm.getRawValue();
     let listId = this.projectForm.get('EmployeeIds').value.map(m => { return m.Id });
     this.projectForm.controls['EmployeeIds'].setValue(listId);
-    this.projectServices.createProject(this.projectForm.value).subscribe(() => {
-      this.router.navigate(['/project/list']);
-    });
-    this.projectForm.reset();
+    if (this.editMode) {
+      this.projectServices.updateProject(project).subscribe(() => {
+        this.projectForm.reset();
+        this.router.navigate(['/project/list']);
+        console.log(this.projectForm.value);
+      });
+    }
+    else {
+      this.projectServices.createProject(project).subscribe(() => {
+        this.projectForm.reset();
+        this.router.navigate(['/project/list']);
+        console.log(this.projectForm.value);
+      });
 
+    }
 
   }
 
-  testChange() {
-    console.log(this.projectForm.get('EmployeeIds').value)
-    this.getEmployee(this.projectForm.get('EmployeeIds').value);
-  }
 
   public requestAutocompleteEmployees = (text: string): Observable<Object[]> => {
     return this.employeeServices.getAllEmployee(text).pipe(map(data => {
@@ -141,9 +139,10 @@ export class ProjectCreateComponent implements OnInit {
   //validate date
   dateLessThan(start: string, end: string): ValidatorFn {
     return (fGroup: FormGroup): { [err: string]: any } => {
-      if (fGroup.controls[start].value > fGroup.controls[end].value)
-        return { err: "Start date should be less than end date" };
-      return null;
+      if (fGroup.controls[start].value <= fGroup.controls[end].value || fGroup.controls[end].value == null) {
+        return null;
+      }
+      return { err: "lessThanDate" };
 
     }
   }
@@ -151,9 +150,18 @@ export class ProjectCreateComponent implements OnInit {
   //validate already exist project number
   validateProNumber(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
-      if (data)
+      if (data) {
         return { "projectNumberDuplicate": true };
+      }
       return null;
     }));
+  }
+
+  ///////////////////////////////////
+
+  search(event) {
+    this.employeeServices.getAllEmployee(event.query).subscribe((data) => {
+      this.listEmployee = data;
+    })
   }
 }

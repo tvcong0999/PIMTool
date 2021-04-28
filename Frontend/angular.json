@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/index.scss"
+              "src/styles/index.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": []
           },

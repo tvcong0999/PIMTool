@@ -63,9 +63,9 @@ class EmployeeService extends BaseService {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-    (ids || []).forEach((val, index) => {if (val != null) __params = __params.append('ids', val.toString())});
+    __body = ids;
     let req = new HttpRequest<any>(
-      'GET',
+      'POST',
       this.rootUrl + `/api/Employee/GetByIds`,
       __body,
       {

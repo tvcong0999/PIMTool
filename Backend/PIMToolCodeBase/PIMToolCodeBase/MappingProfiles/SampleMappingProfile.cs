@@ -35,7 +35,7 @@ namespace PIMToolCodeBase.MappingProfiles
 
             CreateMap<ProjectEmployee, ProjectEmployeeDto>().ReverseMap();
 
-            CreateMap<ProjectUpdateDto, Project>().AfterMap((s, d) => {
+            CreateMap<ProjectDto, Project>().AfterMap((s, d) => {
                 d.ProjectEmployees = new List<ProjectEmployee>();
                 foreach (int id in s.EmployeeIds)
                 {

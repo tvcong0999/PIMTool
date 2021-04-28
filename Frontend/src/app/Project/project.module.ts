@@ -5,6 +5,8 @@ import { ProjectListComponent } from './components';
 import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectCreateComponent } from './components/project-create/project-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {CalendarModule} from 'primeng/calendar';
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
@@ -20,6 +22,8 @@ import { CommonModule } from '@angular/common';
         FormsModule,
         ReactiveFormsModule,
         TagInputModule,
+        AutoCompleteModule,
+        CalendarModule
     ]
 })
 export class ProjectModule {

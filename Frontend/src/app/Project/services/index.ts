@@ -12,7 +12,6 @@ import { ValidationErrors } from '@angular/forms';
     providedIn: 'root'
 })
 export class ProjectServices {
-    projectUpdate = new Subject<Project>();
     listProject: Project[] = [];
     constructor(private projectService: ProjectService) { }
 
@@ -47,6 +46,11 @@ export class ProjectServices {
     createProject(project): Observable<ProjectCreateDto> {
        return this.projectService.ProjectCreate(project);
     }
+
+    updateProject(project): Observable<null>{
+        return this.projectService.ProjectUpdateProject(project);
+    }
+
     validateProjectNumber(proNumber: number): Observable<boolean>
     {
         return this.projectService.ProjectValidateProjectNumber(proNumber);
