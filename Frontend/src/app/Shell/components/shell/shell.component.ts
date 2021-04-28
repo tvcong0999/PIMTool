@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, AfterContentInit } from '@angular/core';
 
 @Component({
   selector: 'pim-shell',
@@ -6,6 +6,14 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShellComponent {
-  nameChoose = "Projects List";
+export class ShellComponent implements AfterContentInit {
+  nameChoose = "";
+  ngAfterContentInit(){
+
+  }
+  onActive(component){
+    component.title.subscribe(data=>{
+      this.nameChoose = data;
+    })
+  }
 }

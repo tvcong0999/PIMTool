@@ -25,6 +25,11 @@ namespace PIMToolCodeBase.Repositories.Imp
             return Set.Where(x => ids.Contains(x.Id)).ToList();
         }
 
+        public Project GetDetail(int id)
+        {
+            return Set.Include(e=>e.ProjectEmployees).FirstOrDefault(x=>x.Id==id);
+        }
+
         //public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
         //{
 

@@ -56,6 +56,11 @@ namespace PIMToolCodeBase.Services.Imp
             return listProject;
         }
 
+        public Project GetDetail(int id)
+        {
+            return _projectRepository.GetDetail(id);
+        }
+
         public IEnumerable<Project> GetHaveCondition(string input, Status? status, int page)
         {
             return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, NgModule, ViewChild, OnChanges, DoCheck } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, NgModule, ViewChild, OnChanges, DoCheck, Output, EventEmitter } from '@angular/core';
 import { Project, Status } from '../../models/project.model'
 import { ProjectServices } from '../../services/index'
 
@@ -21,6 +21,7 @@ export class ProjectListComponent implements OnInit {
     nameChoose = "Projects List";
     checkBoxDelete = 0;
     checkedIds = [];
+    @Output() title: EventEmitter<any> =  new EventEmitter()
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
@@ -33,6 +34,7 @@ export class ProjectListComponent implements OnInit {
     ngOnInit() {
         // get all project
         this.getAllProject();
+        this.title.emit("List Project");
     }
 
     private getAllProject() {
@@ -64,11 +66,6 @@ export class ProjectListComponent implements OnInit {
             this.projectServices.listProject = data;
             this.cdr.markForCheck();
         })
-    }
-    updateProject(project) {
-        let id = project.Id;
-        //this.employeeServices.getInforByIds(project.EmployeeIds);
-        this.router.navigate(['/project/edit', id]);
     }
 
     onDeleteProject(id) {

@@ -10,6 +10,8 @@ namespace PIMToolCodeBase.Repositories
     public interface IProjectRepository: IRepository<Project>
     {
         Project GetInclude(int id);
+
+        Project GetDetail(int id);
         void Attach(Project project);
         // IEnumerable<Project> GetHaveCondition(string input, string status, int page);
         IEnumerable<Project> GetByIds(params int[] ids);

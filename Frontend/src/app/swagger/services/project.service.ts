@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { ProjectDto } from '../models/project-dto';
+import { ProjectDetailDto } from '../models/project-detail-dto';
 import { ProjectCreateDto } from '../models/project-create-dto';
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,42 @@ class ProjectService extends BaseService {
    */
   ProjectGetAll(): Observable<Array<ProjectDto>> {
     return this.ProjectGetAllResponse().pipe(
+      __map(_r => _r.body)
+    );
+  }
+
+  /**
+   * @param id undefined
+   * @return OK
+   */
+  ProjectGetDetailResponse(id: number): Observable<StrictHttpResponse<ProjectDetailDto>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/Project/GetDetail/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as StrictHttpResponse<ProjectDetailDto>;
+      })
+    );
+  }
+  /**
+   * @param id undefined
+   * @return OK
+   */
+  ProjectGetDetail(id: number): Observable<ProjectDetailDto> {
+    return this.ProjectGetDetailResponse(id).pipe(
       __map(_r => _r.body)
     );
   }
@@ -176,7 +213,7 @@ class ProjectService extends BaseService {
   /**
    * @param projectUpdateDto undefined
    */
-  ProjectUpdateProjectResponse(projectUpdateDto: ProjectDto): Observable<StrictHttpResponse<null>> {
+  ProjectUpdateProjectResponse(projectUpdateDto: ProjectDetailDto): Observable<StrictHttpResponse<null>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -201,7 +238,7 @@ class ProjectService extends BaseService {
   /**
    * @param projectUpdateDto undefined
    */
-  ProjectUpdateProject(projectUpdateDto: ProjectDto): Observable<null> {
+  ProjectUpdateProject(projectUpdateDto: ProjectDetailDto): Observable<null> {
     return this.ProjectUpdateProjectResponse(projectUpdateDto).pipe(
       __map(_r => _r.body)
     );

@@ -12,12 +12,23 @@ namespace PIMToolCodeBase.MappingProfiles
         public SampleMappingProfile() : base(nameof(SampleMappingProfile))
         {
             CreateMap<Sample, SampleDto>().ReverseMap();
-            CreateMap<ProjectDto, ProjectDto>();
-            CreateMap<Project, ProjectDto>().AfterMap((s,d)=> {
+            CreateMap<Project, ProjectDto>();
+
+            CreateMap<Project, ProjectDetailDto>().AfterMap((s,d)=>
+            {
                 d.EmployeeIds = new List<int>();
-                foreach(var pe in s.ProjectEmployees)
+                foreach(var employee in s.ProjectEmployees)
                 {
-                    d.EmployeeIds.Add(pe.EmployeeId);
+                    d.EmployeeIds.Add(employee.EmployeeId);
+                }
+            });
+
+            CreateMap<ProjectDetailDto, Project>().AfterMap((s, d) =>
+            {
+                d.ProjectEmployees = new List<ProjectEmployee>();
+                foreach (int id in s.EmployeeIds)
+                {
+                    d.ProjectEmployees.Add(new ProjectEmployee { EmployeeId = id });
                 }
             });
 
@@ -35,13 +46,13 @@ namespace PIMToolCodeBase.MappingProfiles
 
             CreateMap<ProjectEmployee, ProjectEmployeeDto>().ReverseMap();
 
-            CreateMap<ProjectDto, Project>().AfterMap((s, d) => {
-                d.ProjectEmployees = new List<ProjectEmployee>();
-                foreach (int id in s.EmployeeIds)
-                {
-                    d.ProjectEmployees.Add(new ProjectEmployee { EmployeeId = id });
-                }
-            });
+            //CreateMap<ProjectDto, Project>().AfterMap((s, d) => {
+            //    d.ProjectEmployees = new List<ProjectEmployee>();
+            //    foreach (int id in s.EmployeeIds)
+            //    {
+            //        d.ProjectEmployees.Add(new ProjectEmployee { EmployeeId = id });
+            //    }
+            //});
         }
     }
 }

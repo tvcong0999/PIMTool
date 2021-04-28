@@ -52,7 +52,7 @@
       <div>
         <h4 class="">{{nameChoose}}</h4>
         <hr>
-        <router-outlet></router-outlet>
+        <router-outlet (activate) = "onActive($event)"></router-outlet>
       </div>
     </div>
   </div>

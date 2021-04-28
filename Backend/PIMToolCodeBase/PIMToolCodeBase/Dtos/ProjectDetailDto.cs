@@ -5,9 +5,14 @@ using System.Collections.Generic;
 
 namespace PIMToolCodeBase.Dtos
 {
-    public class ProjectDto
+    public class ProjectDetailDto
     {
         public int Id
+        {
+            get;
+            set;
+        }
+        public int GroupId
         {
             get;
             set;
@@ -33,6 +38,17 @@ namespace PIMToolCodeBase.Dtos
             set;
         }
         public DateTime StartDate
+        {
+            get;
+            set;
+        }
+
+        public DateTime? FinishDate
+        {
+            get;
+            set;
+        }
+        public List<int> EmployeeIds
         {
             get;
             set;

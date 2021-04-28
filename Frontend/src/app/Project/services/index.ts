@@ -26,6 +26,12 @@ export class ProjectServices {
             })
         )
     }
+
+    getDetailProject(id: number)
+    {
+        return this.projectService.ProjectGetDetail(id);
+    }
+
     getHaveCondition(keysearch, status, page): Observable<Array<Project>> {
         return this.projectService.ProjectGetHaveCondition({status:status, page:page, input:keysearch}).pipe(
             map((data) => {

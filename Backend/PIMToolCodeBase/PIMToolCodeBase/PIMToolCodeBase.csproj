@@ -128,6 +128,7 @@
     <Compile Include="Dtos\EmployeeDto.cs" />
     <Compile Include="Dtos\GroupDto.cs" />
     <Compile Include="Dtos\ProjectCreateDto.cs" />
+    <Compile Include="Dtos\ProjectDetailDto.cs" />
     <Compile Include="Dtos\ProjectDto.cs" />
     <Compile Include="Dtos\ProjectEmployeeDto.cs" />
     <Compile Include="Dtos\ProjectUpdateDto.cs" />
