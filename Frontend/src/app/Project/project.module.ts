@@ -10,9 +10,10 @@ import {CalendarModule} from 'primeng/calendar';
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
+import { ShowMessageErrorComponent } from './components/show-message-error/show-message-error.component';
 
 @NgModule({
-    declarations: [ProjectListComponent, ProjectCreateComponent],
+    declarations: [ProjectListComponent, ProjectCreateComponent, ShowMessageErrorComponent],
     providers: [],
     imports: [
         CommonModule,

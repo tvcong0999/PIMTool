@@ -21,7 +21,7 @@ export class ProjectListComponent implements OnInit {
     nameChoose = "Projects List";
     checkBoxDelete = 0;
     checkedIds = [];
-    @Output() title: EventEmitter<any> =  new EventEmitter()
+    @Output() title: EventEmitter<any> = new EventEmitter()
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
@@ -68,11 +68,20 @@ export class ProjectListComponent implements OnInit {
         })
     }
 
-    onDeleteProject(id) {
-        this.projectServices.deleteProject([id]).subscribe(() => {
-            this.getAllProject();
-        });
 
+
+    onDeleteProject(id) {
+        this.projectServices.getDetailProject(id).subscribe(data => {
+            if (data.Status == 0) {
+                this.projectServices.deleteProject([id]).subscribe(() => {
+                    this.getAllProject();
+                });
+            }
+            else {
+                console.log("shouldn't delete");
+            }
+
+        })
     }
     onDeleteProjects() {
         this.projectServices.deleteProject(this.checkedIds).subscribe(() => {

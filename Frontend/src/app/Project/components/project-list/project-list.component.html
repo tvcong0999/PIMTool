@@ -4,6 +4,7 @@
       <div class="col-6 d-flex justify-content-between pl-0">
         <input type="text" name="keysearch" class="col-8 form-control" placeholder="Project number, name, customer name"
           aria-describedby="helpId" ngModel>
+         
         <select name="status" class="col-3 form-control" ngModel>
           <option *ngFor="let option of statusEnum | enumToArray" [value]="option.name">{{option.name}}</option>
         </select>

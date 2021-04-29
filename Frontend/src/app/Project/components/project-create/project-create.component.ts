@@ -18,7 +18,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class ProjectCreateComponent implements OnInit {
   controls = {
     Id: new FormControl(null),
-    ProjectNumber: new FormControl(null, [Validators.required, Validators.maxLength(4), Validators.min(1), Validators.pattern(/^[1-9]+[0-9]*$/)], this.validateProNumber.bind(this)),
+    ProjectNumber: new FormControl(null, [Validators.required, Validators.max(10000), Validators.min(1), Validators.pattern(/^[1-9]+[0-9]*$/)], this.validateProNumber.bind(this)),
     Name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     Customer: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     GroupId: new FormControl(1),
@@ -35,7 +35,7 @@ export class ProjectCreateComponent implements OnInit {
   listGroup: GroupDto[] = [];
   projectUpdate: Project;
   editMode = false;
-  id;
+  id: number;
   listEmployee = [];
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
@@ -71,9 +71,11 @@ export class ProjectCreateComponent implements OnInit {
 
   private initForm() {
     //create new form project
-    this.projectForm = new FormGroup(this.controls, { validators: this.dateLessThan('StartDate', 'FinishDate') })
+    this.projectForm = new FormGroup(this.controls);
+    this.controls.StartDate.setErrors(this.startDateGreaterFinishDate.bind(this));
+    this.controls.FinishDate.setErrors(this.finishtDateLessStartDate.bind(this));
     if (this.editMode) {
-      this.projectForm.controls['ProjectNumber'].disable();
+      this.controls.ProjectNumber.disable();
       this.projectServices.getDetailProject(this.id).subscribe(projectDetail => {
         this.employeeServices.getInforByIds(projectDetail.EmployeeIds).subscribe(employees => {
           this.listEmployee = employees;
@@ -90,8 +92,7 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
-    console.log(this.projectForm.get('dateLessThan'));
+    //console.log(this.projectForm.get('dateLessThan'));
     let project = this.projectForm.getRawValue();
     let listId = project.Employees.map(m => { return m.Id });
     project.EmployeeIds = listId;
@@ -128,13 +129,22 @@ export class ProjectCreateComponent implements OnInit {
 
   //validate date
 
-  dateLessThan(start: string, end: string): ValidatorFn {
+  startDateGreaterFinishDate(control: AbstractControl): ValidationErrors {
     return (fGroup: FormGroup) => {
-      if (fGroup.controls[start].value <= fGroup.controls[end].value || fGroup.controls[end].value == null) {
-        return null;
+      if (control.value > fGroup.controls.FinishDate.value) {
+        this.cdr.markForCheck();
+        return { "greaterThanDate": true };
       }
-      return { "lessThanDate": true };
-
+      return null;
+    }
+  }
+  finishtDateLessStartDate(control: AbstractControl): ValidationErrors {
+    return (fGroup: FormGroup) => {
+      if (control.value < fGroup.controls.StartDate.value) {
+        this.cdr.markForCheck();
+        return { "lessThanDate": true };
+      }
+      return null;
     }
   }
 
@@ -143,6 +153,7 @@ export class ProjectCreateComponent implements OnInit {
   validateProNumber(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
       if (data) {
+        this.cdr.markForCheck();
         return { "projectNumberDuplicate": true };
       }
       return null;
@@ -154,6 +165,7 @@ export class ProjectCreateComponent implements OnInit {
   search(event) {
     this.employeeServices.getAllEmployee(event.query).subscribe((data) => {
       this.listEmployee = data;
+      this.cdr.markForCheck();
     })
   }
 }

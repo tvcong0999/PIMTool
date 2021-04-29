@@ -5,21 +5,10 @@
         <div class="col-sm-10">
             <input type="number" name="" id="projectNumber" formControlName="ProjectNumber"
                 class="form-control col-sm-3">
+
             <span
-                *ngIf="projectForm.controls['ProjectNumber'].invalid && (projectForm.controls['ProjectNumber'].dirty || projectForm.controls['ProjectNumber'].touched)"
-                class="border-danger">
-                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors.required">
-                    Please enter project number.
-                </span>
-                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.projectNumberDuplicate">
-                    Project number is already exist.
-                </span>
-                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.min">
-                    Project number must be greater than 1.
-                </span>
-                <span class="p-error" *ngIf="projectForm.controls['ProjectNumber'].errors?.maxlength">
-                    Project number must be less than 10000.
-                </span>
+                *ngIf="projectForm.controls['ProjectNumber'].invalid && (projectForm.controls['ProjectNumber'].dirty || projectForm.controls['ProjectNumber'].touched)">
+                <app-show-message-error [projectNumber] = "controls.ProjectNumber"></app-show-message-error>
             </span>
         </div>
     </div>
@@ -27,15 +16,8 @@
         <label for="name" class="col-sm-2">Project Name <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <input type="text" name="" id="name" formControlName="Name" class="form-control">
-            <span
-                *ngIf="projectForm.controls['Name'].invalid && (projectForm.controls['Name'].dirty || projectForm.controls['Name'].touched)"
-                class="">
-                <span class="p-error" *ngIf="projectForm.controls['Name'].errors.required">
-                    Please enter project name.
-                </span>
-                <span class="p-error" *ngIf="projectForm.controls['Name'].errors?.maxlength">
-                    Project name must be less than 50 characters.
-                </span>
+            <span *ngIf="projectForm.controls['Name'].invalid && (projectForm.controls['Name'].dirty || projectForm.controls['Name'].touched)">
+                <app-show-message-error [projectName] = "controls.Name"></app-show-message-error>
             </span>
         </div>
     </div>
@@ -43,15 +25,8 @@
         <label for="customer" class="col-sm-2">Customer <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <input type="text" name="" id="customer" formControlName="Customer" class="form-control">
-            <span
-                *ngIf="projectForm.controls['Customer'].invalid && (projectForm.controls['Customer'].dirty || projectForm.controls['Customer'].touched)"
-                class="">
-                <span class="p-error" *ngIf="projectForm.controls['Customer'].errors.required">
-                    Please enter customer.
-                </span>
-                <span class="p-error" *ngIf="projectForm.controls['Customer'].errors?.maxlength">
-                    Customer must be less than 50 characters.
-                </span>
+            <span *ngIf="projectForm.controls['Customer'].invalid && (projectForm.controls['Customer'].dirty || projectForm.controls['Customer'].touched)">
+                <app-show-message-error [customer] = "controls.Customer"></app-show-message-error>
             </span>
         </div>
     </div>
@@ -70,12 +45,8 @@
                 <p-autoComplete formControlName="Employees" [suggestions]="listEmployee"
                     (completeMethod)="search($event)" field="Visa" [multiple]="true">
                 </p-autoComplete>
-                <span
-                    *ngIf="projectForm.controls['Employees'].invalid && (projectForm.controls['Employees'].dirty || projectForm.controls['Employees'].touched)"
-                    class="">
-                    <span class="p-error" *ngIf="projectForm.controls['Employees'].errors.required">
-                        Please enter member.
-                    </span>
+                <span *ngIf="projectForm.controls['Employees'].invalid && (projectForm.controls['Employees'].dirty || projectForm.controls['Employees'].touched)">
+                    <app-show-message-error [member] = "controls.Employees"></app-show-message-error>
                 </span>
             </span>
         </div>
@@ -96,11 +67,8 @@
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="StartDate"></p-calendar><br>
                     <span
-                        *ngIf="projectForm.controls['StartDate'].invalid && (projectForm.controls['StartDate'].dirty || projectForm.controls['StartDate'].touched)"
-                        class="">
-                        <span class="p-error" *ngIf="projectForm.controls['StartDate'].errors.required">
-                            Please enter start date.
-                        </span>
+                        *ngIf="projectForm.controls['StartDate'].invalid && (projectForm.controls['StartDate'].dirty || projectForm.controls['StartDate'].touched)">
+                        <app-show-message-error [startDate] = "controls.StartDate"></app-show-message-error>
                     </span>
                 </div>
             </div>
@@ -111,11 +79,8 @@
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="FinishDate"></p-calendar>
                     <span
-                        *ngIf="projectForm.controls['FinishDate'].invalid && (projectForm.controls['FinishDate'].dirty || projectForm.controls['FinishDate'].touched)"
-                        class="border-danger">
-                        <span class="p-error">
-                            {{projectForm.get('dateLessThan') == null? '' : 'End date must be greater than start date.'}}
-                        </span>
+                        *ngIf="projectForm.controls['FinishDate'].invalid && (projectForm.controls['FinishDate'].dirty )">
+                        <app-show-message-error [endDate] = "controls.FinishDate"></app-show-message-error>
 
                     </span>
                 </div>
