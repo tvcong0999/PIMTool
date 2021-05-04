@@ -10,6 +10,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
 import {SliderModule} from 'primeng/slider';
+import {PaginatorModule} from 'primeng/paginator';
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
@@ -30,7 +31,8 @@ import { ShowMessageErrorComponent } from './components/show-message-error/show-
         CalendarModule,
         TableModule,
         MultiSelectModule,
-        SliderModule
+        SliderModule,
+        PaginatorModule
     ]
 })
 export class ProjectModule {

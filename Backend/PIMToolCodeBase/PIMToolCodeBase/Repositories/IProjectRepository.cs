@@ -16,5 +16,7 @@ namespace PIMToolCodeBase.Repositories
         // IEnumerable<Project> GetHaveCondition(string input, string status, int page);
         IEnumerable<Project> GetByIds(params int[] ids);
         bool ValidateProjectNumber(int projectNumber);
+
+        int CountProjects();
     }
 }

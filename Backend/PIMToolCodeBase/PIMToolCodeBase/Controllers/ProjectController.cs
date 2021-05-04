@@ -62,5 +62,10 @@ namespace PIMToolCodeBase.Controllers
         {
             return _projectService.ValidateProjectNumber(projectNumber);
         }
+
+        public int CountProjects()
+        {
+            return _projectService.CountProjects();
+        }
     }
 }

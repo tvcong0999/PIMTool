@@ -20,6 +20,11 @@ namespace PIMToolCodeBase.Repositories.Imp
             Set.Attach(project);
         }
 
+        public int CountProjects()
+        {
+            return Set.Count();
+        }
+
         public IEnumerable<Project> GetByIds(params int[] ids)
         {
             return Set.Where(x => ids.Contains(x.Id)).ToList();

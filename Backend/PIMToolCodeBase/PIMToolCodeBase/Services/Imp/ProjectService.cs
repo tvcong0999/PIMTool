@@ -20,6 +20,11 @@ namespace PIMToolCodeBase.Services.Imp
             _projectEmployeeRepository = projectEmployeeRepository;
         }
 
+        public int CountProjects()
+        {
+            return _projectRepository.CountProjects();
+        }
+
         public void Create(Project project)
         {
             try
