@@ -7,6 +7,9 @@ import { ProjectCreateComponent } from './components/project-create/project-crea
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {CalendarModule} from 'primeng/calendar';
+import {TableModule} from 'primeng/table';
+import { MultiSelectModule } from 'primeng/multiselect';
+import {SliderModule} from 'primeng/slider';
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
@@ -24,7 +27,10 @@ import { ShowMessageErrorComponent } from './components/show-message-error/show-
         ReactiveFormsModule,
         TagInputModule,
         AutoCompleteModule,
-        CalendarModule
+        CalendarModule,
+        TableModule,
+        MultiSelectModule,
+        SliderModule
     ]
 })
 export class ProjectModule {

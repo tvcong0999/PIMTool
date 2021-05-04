@@ -13,17 +13,20 @@ export class EmployeeServices {
     }
 
     getInforByIds(ids) {
-        return this.employeeService.EmployeeGetByIds(ids).pipe(map(data => {
-            let employees = [];
-            data.forEach(element => {
-                employees.push({
-                    Id: element.Id,
-                    Visa: element.Visa + ": " + element.LastName + " " + element.FirstName,
-                    display: element.Visa + ": " + element.LastName + " " + element.FirstName,
-                    value: element.Id,
-                })
-            });
-            return employees;
-        }));
+        return this.employeeService.EmployeeGetByIds(ids);
     }
+    // getInforByIds(ids) {
+    //     return this.employeeService.EmployeeGetByIds(ids).pipe(map(data => {
+    //         let employees = [];
+    //         data.forEach(element => {
+    //             employees.push({
+    //                 Id: element.Id,
+    //                 Visa: element.Visa + ": " + element.LastName + " " + element.FirstName,
+    //                 display: element.Visa + ": " + element.LastName + " " + element.FirstName,
+    //                 value: element.Id,
+    //             })
+    //         });
+    //         return employees;
+    //     }));
+    // }
 }

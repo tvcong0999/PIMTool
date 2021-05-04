@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-show-message-error',
@@ -8,12 +8,12 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShowMessageErrorComponent implements OnInit, DoCheck {
-  @Input('projectNumber') projectNumber: FormControl;
-  @Input() projectName: FormControl;
-  @Input() customer: FormControl;
-  @Input() member: FormControl;
-  @Input() startDate: FormControl;
-  @Input() endDate: FormControl;
+  @Input() projectNumber: AbstractControl;
+  @Input() projectName: AbstractControl;
+  @Input() customer: AbstractControl;
+  @Input() member: AbstractControl;
+  @Input() startDate: AbstractControl;
+  @Input() endDate: AbstractControl;
   message: string = "";
 
   constructor(private cdr: ChangeDetectorRef) { }
@@ -22,22 +22,29 @@ export class ShowMessageErrorComponent implements OnInit, DoCheck {
 
   }
   ngDoCheck() {
-    if (this.projectNumber)
+    if (this.projectNumber) {
       this.ProjectNumberError(this.projectNumber);
-    if (this.projectName)
+    }
+    if (this.projectName) {
       this.ProjectNameError(this.projectName);
-    if (this.customer)
+    }
+    if (this.customer) {
       this.CustomerError(this.customer);
-    if (this.member)
+    }
+    if (this.member) {
       this.MemberError(this.member);
-    if (this.startDate)
+    }
+    if (this.startDate) {
       this.StartDateError(this.startDate);
-    if (this.endDate)
+    }
+
+    if (this.endDate) {
       this.EndDateError(this.endDate);
+    }
     this.cdr.markForCheck();
   }
 
-  ProjectNumberError(control: FormControl) {
+  ProjectNumberError(control: AbstractControl) {
     if (control.errors.required) {
       this.message = "Please enter project number.";
     }
@@ -52,7 +59,7 @@ export class ShowMessageErrorComponent implements OnInit, DoCheck {
     }
   }
 
-  ProjectNameError(control: FormControl) {
+  ProjectNameError(control: AbstractControl) {
     if (control.errors.required) {
       this.message = "Please enter project name.";
     }
@@ -61,29 +68,33 @@ export class ShowMessageErrorComponent implements OnInit, DoCheck {
     }
   }
 
-  CustomerError(control: FormControl) {
-    this.ProjectNameError(control);
-  }
-
-  MemberError(control: FormControl) {
+  CustomerError(control: AbstractControl) {
     if (control.errors.required) {
-      this.message = "Please enter project name.";
+      this.message = "Please enter customer name.";
+    }
+    if (control.errors.maxlength) {
+      this.message = "Customer name must be less than 50 characters.";
     }
   }
 
-  StartDateError(control: FormControl) {
-    this.MemberError(control);
-    if (control.errors.greaterThanDate) {
+  MemberError(control: AbstractControl) {
+    if (control.errors.required) {
+      this.message = "Please enter member.";
+    }
+  }
+
+  StartDateError(control: AbstractControl) {
+    if (control.errors.required) {
+      this.message = "Please enter start date.";
+    }
+    if (control.hasError('greaterThanDate')) {
       this.message = "Start Date should be less than end date."
     }
   }
 
-  EndDateError(control: FormControl) {
-    debugger
+  EndDateError(control: AbstractControl) {
     if (control.hasError('lessThanDate')) {
       this.message = "End Date should be greater than start date."
     }
-
   }
-
 }

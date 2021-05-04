@@ -67,7 +67,7 @@
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="StartDate"></p-calendar><br>
                     <span
-                        *ngIf="projectForm.controls['StartDate'].invalid && (projectForm.controls['StartDate'].dirty || projectForm.controls['StartDate'].touched)">
+                        *ngIf="projectForm.controls['StartDate'].invalid  && (projectForm.controls['StartDate'].dirty || projectForm.controls['StartDate'].touched)">
                         <app-show-message-error [startDate] = "controls.StartDate"></app-show-message-error>
                     </span>
                 </div>
@@ -79,9 +79,8 @@
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="FinishDate"></p-calendar>
                     <span
-                        *ngIf="projectForm.controls['FinishDate'].invalid && (projectForm.controls['FinishDate'].dirty )">
+                        *ngIf="projectForm.controls['FinishDate'].invalid || projectForm.controls['FinishDate'].touched">
                         <app-show-message-error [endDate] = "controls.FinishDate"></app-show-message-error>
-
                     </span>
                 </div>
             </div>

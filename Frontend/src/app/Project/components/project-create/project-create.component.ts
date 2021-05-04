@@ -24,8 +24,8 @@ export class ProjectCreateComponent implements OnInit {
     GroupId: new FormControl(1),
     Employees: new FormControl(null, Validators.required),
     Status: new FormControl(0, Validators.required),
-    StartDate: new FormControl(null, Validators.required),
-    FinishDate: new FormControl(null)
+    StartDate: new FormControl(null, [Validators.required, this.startDateGreaterFinishDate]),
+    FinishDate: new FormControl(null, [this.finishtDateLessStartDate])
   };
 
   @Output() title: EventEmitter<any> = new EventEmitter()
@@ -72,8 +72,9 @@ export class ProjectCreateComponent implements OnInit {
   private initForm() {
     //create new form project
     this.projectForm = new FormGroup(this.controls);
-    this.controls.StartDate.setErrors(this.startDateGreaterFinishDate.bind(this));
-    this.controls.FinishDate.setErrors(this.finishtDateLessStartDate.bind(this));
+    // this.controls.StartDate.setErrors({ "greaterThanDate": true });
+    // this.controls.FinishDate.setErrors(this.finishtDateLessStartDate);
+
     if (this.editMode) {
       this.controls.ProjectNumber.disable();
       this.projectServices.getDetailProject(this.id).subscribe(projectDetail => {
@@ -100,14 +101,12 @@ export class ProjectCreateComponent implements OnInit {
     //this.projectForm.controls['Employees'].setValue(listId);
     if (this.editMode) {
       this.projectServices.updateProject(project).subscribe(() => {
-        this.projectForm.reset();
         this.router.navigate(['/project/list']);
         console.log(this.projectForm.value);
       });
     }
     else {
       this.projectServices.createProject(project).subscribe(() => {
-        this.projectForm.reset();
         this.router.navigate(['/project/list']);
         console.log(this.projectForm.value);
       });
@@ -129,20 +128,22 @@ export class ProjectCreateComponent implements OnInit {
 
   //validate date
 
-  startDateGreaterFinishDate(control: AbstractControl): ValidationErrors {
+  startDateGreaterFinishDate(control: AbstractControl): ValidationErrors | null {
     return (fGroup: FormGroup) => {
-      if (control.value > fGroup.controls.FinishDate.value) {
+      debugger
+      if ((fGroup.controls.FinishDate.value != null) && (control.value > fGroup.controls.FinishDate.value)) {
         this.cdr.markForCheck();
-        return { "greaterThanDate": true };
+        return { greaterThanDate: true };
       }
       return null;
     }
   }
-  finishtDateLessStartDate(control: AbstractControl): ValidationErrors {
+  finishtDateLessStartDate(control: AbstractControl): ValidationErrors | null {
     return (fGroup: FormGroup) => {
-      if (control.value < fGroup.controls.StartDate.value) {
+      debugger
+      if ((fGroup.controls.StartDate.value != null) && (control.value < fGroup.controls.StartDate.value)) {
         this.cdr.markForCheck();
-        return { "lessThanDate": true };
+        return { lessThanDate: true };
       }
       return null;
     }

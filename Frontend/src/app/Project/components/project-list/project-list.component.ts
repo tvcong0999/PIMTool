@@ -19,8 +19,10 @@ export class ProjectListComponent implements OnInit {
     status;
     statusEnum = Status;
     nameChoose = "Projects List";
-    checkBoxDelete = 0;
-    checkedIds = [];
+    listProject: Project[] = [];
+    project: Project
+    choosenProject: Project;
+    selectedProjects: Project[] = [];
     @Output() title: EventEmitter<any> = new EventEmitter()
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
@@ -39,21 +41,9 @@ export class ProjectListComponent implements OnInit {
 
     private getAllProject() {
         this.projectServices.getAllProject().subscribe(data => {
-            this.projectServices.listProject = data;
+            this.listProject = data;
             this.cdr.markForCheck();
         })
-    }
-
-    checkValue($event) {
-        let id = +$event.target.id;
-        if ($event.target.checked) {
-            this.checkedIds.push(id)
-            this.checkBoxDelete++;
-        }
-        else {
-            this.checkedIds.splice(this.checkedIds.indexOf(id), 1);
-            this.checkBoxDelete--;
-        }
     }
 
     resetForm() {
@@ -63,7 +53,7 @@ export class ProjectListComponent implements OnInit {
 
     onSubmit(searchForm) {
         this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
-            this.projectServices.listProject = data;
+            this.listProject = data;
             this.cdr.markForCheck();
         })
     }
@@ -80,13 +70,13 @@ export class ProjectListComponent implements OnInit {
             else {
                 console.log("shouldn't delete");
             }
-
         })
     }
     onDeleteProjects() {
-        this.projectServices.deleteProject(this.checkedIds).subscribe(() => {
+        let checkedIds = this.selectedProjects.map(x=>x.Id);
+        this.projectServices.deleteProject(checkedIds).subscribe(() => {
             this.getAllProject();
         });
-        this.checkedIds = [];
+        this.selectedProjects = [];
     }
 }

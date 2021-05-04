@@ -1,23 +1,71 @@
 <div>
-  <form #searchForm="ngForm" (ngSubmit) = "onSubmit(searchForm)">
+  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
     .<div class="form-group d-flex">
       <div class="col-6 d-flex justify-content-between pl-0">
         <input type="text" name="keysearch" class="col-8 form-control" placeholder="Project number, name, customer name"
           aria-describedby="helpId" ngModel>
-         
+
         <select name="status" class="col-3 form-control" ngModel>
           <option *ngFor="let option of statusEnum | enumToArray" [value]="option.name">{{option.name}}</option>
         </select>
       </div>
       <div class="group-btn col-4 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" style="width: 150px;">Search Project</button>
-        <button type="button" class="btn btn-light ml-4" style="width: 150px;" (click) = "resetForm()">Refresh Search</button>
+        <button type="button" class="btn btn-light ml-4" style="width: 150px;" (click)="resetForm()">Refresh
+          Search</button>
       </div>
     </div>
   </form>
 </div>
 <br>
-<table class="table table-bordered">
+
+<p-table #dt [value]="listProject" [rows]="5" [paginator]="true"
+  [globalFilterFields]="['ProjectNumber','Name','Status','Customer', 'StartDate']" [(selection)]="selectedProjects"
+  [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [showCurrentPageReport]="true">
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pSortableColumn="ProjectNumber">Number <p-sortIcon field="ProjectNumber"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Name">Name <p-sortIcon field="Name"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Status">Status <p-sortIcon field="Status"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Customer">Customer <p-sortIcon field="Customer"></p-sortIcon>
+      </th>
+      <th pSortableColumn="StartDate">Start Date <p-sortIcon field="StartDate"></p-sortIcon>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-project>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="project"></p-tableCheckbox>
+      </td>
+      <td><a [routerLink]="['/project/edit/', project.Id]">{{project.ProjectNumber}}</a></td>
+      <td>{{project.Name}}</td>
+      <td>{{project.Status | converEnum}}</td>
+      <td>{{project.Customer}}</td>
+      <td>{{project.StartDate | date: 'shortDate'}}</td>
+      <td>
+        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+          (click)="onDeleteProject(project.Id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      In total there are {{listProject ? listProject.length : 0 }} projects.
+    </div>
+  </ng-template>
+</p-table>
+
+<!-- <table class="table table-bordered">
   <thead>
     <tr>
       <th scope="col" style="width: 1%;"></th>
@@ -30,7 +78,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let project of this.projectServices.listProject; let i = index" >
+    <tr *ngFor="let project of this.listProject; let i = index" >
       <td><input type="checkbox" [id]="project.Id" style="cursor:pointer" (change)="checkValue($event)"></td>
       <td style="cursor: pointer;"> <a [routerLink] = "['/project/edit/', project.Id]">{{project.ProjectNumber}}</a></td>
       <td>{{project.Name}}</td>
@@ -41,10 +89,10 @@
           style="font-size:larger; cursor: pointer;" (click)="onDeleteProject(project.Id)"></i></td>
     </tr>
   </tbody>
-</table>
+</table> -->
 <div class="col-12 d-flex justify-content-between align-items-center"
-  style="background-color: rgb(187, 220, 238); height: 40px;" *ngIf="checkBoxDelete">
-  <span> {{checkBoxDelete}} items selected</span>
+  style="background-color: rgb(187, 220, 238); height: 40px;" *ngIf="selectedProjects.length != 0">
+  <span> {{selectedProjects.length}} items selected</span>
   <span class="text-danger mr-4"> delete selected items <i class="fa fa-trash-o text-danger ml-2" aria-hidden="true"
       style="font-size:larger; cursor: pointer;" (click)="onDeleteProjects()"></i> </span>
 </div>
