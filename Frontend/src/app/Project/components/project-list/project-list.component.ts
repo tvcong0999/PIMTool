@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { ProjectCreateDto } from 'src/app/swagger/models';
 import { Router } from '@angular/router';
 import { EmployeeServices } from 'src/app/Employee/services/employee.service';
+import { ngModuleJitUrl } from '@angular/compiler';
+import { multicast } from 'rxjs/operators';
 
 @Component({
     selector: 'pim-project-list',
@@ -15,14 +17,15 @@ import { EmployeeServices } from 'src/app/Employee/services/employee.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectListComponent implements OnInit {
-    keysearch;
-    status;
+    keysearch = "";
+    status = "";
     statusEnum = Status;
     nameChoose = "Projects List";
     listProject: Project[] = [];
     project: Project
     choosenProject: Project;
     selectedProjects: Project[] = [];
+    totalRecords = 6;
     @Output() title: EventEmitter<any> = new EventEmitter()
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
@@ -35,7 +38,7 @@ export class ProjectListComponent implements OnInit {
 
     ngOnInit() {
         // get all project
-        this.getAllProject();
+        //this.getAllProject();
         this.title.emit("List Project");
     }
 
@@ -52,6 +55,7 @@ export class ProjectListComponent implements OnInit {
     }
 
     onSubmit(searchForm) {
+        console.log(searchForm.value)
         this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
             this.listProject = data;
             this.cdr.markForCheck();
@@ -73,10 +77,19 @@ export class ProjectListComponent implements OnInit {
         })
     }
     onDeleteProjects() {
-        let checkedIds = this.selectedProjects.map(x=>x.Id);
+        let checkedIds = this.selectedProjects.map(x => x.Id);
         this.projectServices.deleteProject(checkedIds).subscribe(() => {
             this.getAllProject();
         });
         this.selectedProjects = [];
+    }
+
+    loadProjects(event) {
+        console.log(event);
+        let page = event.first / event.rows + 1;
+        this.projectServices.getHaveCondition(this.keysearch, this.status, page).subscribe(data => {
+            this.listProject = data;
+            this.cdr.markForCheck();
+        })
     }
 }

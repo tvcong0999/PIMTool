@@ -11,6 +11,9 @@ import {TableModule} from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
 import {SliderModule} from 'primeng/slider';
 import {PaginatorModule} from 'primeng/paginator';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {DropdownModule} from 'primeng/dropdown';
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
@@ -32,7 +35,10 @@ import { ShowMessageErrorComponent } from './components/show-message-error/show-
         TableModule,
         MultiSelectModule,
         SliderModule,
-        PaginatorModule
+        PaginatorModule,
+        InputTextModule,
+        InputNumberModule,
+        DropdownModule
     ]
 })
 export class ProjectModule {

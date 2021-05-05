@@ -13,6 +13,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
+  styleUrls: ['./project-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectCreateComponent implements OnInit {
@@ -24,8 +25,8 @@ export class ProjectCreateComponent implements OnInit {
     GroupId: new FormControl(1),
     Employees: new FormControl(null, Validators.required),
     Status: new FormControl(0, Validators.required),
-    StartDate: new FormControl(null, [Validators.required, this.startDateGreaterFinishDate]),
-    FinishDate: new FormControl(null, [this.finishtDateLessStartDate])
+    StartDate: new FormControl(null, Validators.required),
+    FinishDate: new FormControl(null)
   };
 
   @Output() title: EventEmitter<any> = new EventEmitter()
@@ -71,10 +72,7 @@ export class ProjectCreateComponent implements OnInit {
 
   private initForm() {
     //create new form project
-    this.projectForm = new FormGroup(this.controls);
-    // this.controls.StartDate.setErrors({ "greaterThanDate": true });
-    // this.controls.FinishDate.setErrors(this.finishtDateLessStartDate);
-
+    this.projectForm = new FormGroup(this.controls, {validators: this.validateDate('StartDate', 'FinishDate')});
     if (this.editMode) {
       this.controls.ProjectNumber.disable();
       this.projectServices.getDetailProject(this.id).subscribe(projectDetail => {
@@ -93,12 +91,10 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    //console.log(this.projectForm.get('dateLessThan'));
+    console.log(this.projectForm.getRawValue());
     let project = this.projectForm.getRawValue();
-    let listId = project.Employees.map(m => { return m.Id });
-    project.EmployeeIds = listId;
+    project.EmployeeIds = project.Employees.map(m => { return m.Id });
     delete project.Employees;
-    //this.projectForm.controls['Employees'].setValue(listId);
     if (this.editMode) {
       this.projectServices.updateProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
@@ -128,8 +124,8 @@ export class ProjectCreateComponent implements OnInit {
 
   //validate date
 
-  startDateGreaterFinishDate(control: AbstractControl): ValidationErrors | null {
-    return (fGroup: FormGroup) => {
+  startDateGreaterFinishDate(control: AbstractControl): ValidatorFn  {
+    return (fGroup: FormGroup): ValidationErrors | null  => {
       debugger
       if ((fGroup.controls.FinishDate.value != null) && (control.value > fGroup.controls.FinishDate.value)) {
         this.cdr.markForCheck();
@@ -138,12 +134,25 @@ export class ProjectCreateComponent implements OnInit {
       return null;
     }
   }
-  finishtDateLessStartDate(control: AbstractControl): ValidationErrors | null {
-    return (fGroup: FormGroup) => {
+  finishtDateLessStartDate(control: AbstractControl): ValidatorFn {
+    return (fGroup: FormGroup): ValidationErrors | null => {
       debugger
       if ((fGroup.controls.StartDate.value != null) && (control.value < fGroup.controls.StartDate.value)) {
         this.cdr.markForCheck();
         return { lessThanDate: true };
+      }
+      return null;
+    }
+  }
+
+  // validate date:
+  validateDate(start: string, end: string): ValidatorFn {
+    return (fGroup: FormGroup): ValidationErrors | null => {
+      if ((fGroup.controls[start].value && fGroup.controls[end].value) && fGroup.controls[start].value > fGroup.controls[end].value)
+      {
+        fGroup.controls[start].setErrors({maxDate: "Start date must be less than end date."});
+        fGroup.controls[end].setErrors({minDate: "End date must be greater than start date."});
+        return { errorDate: true };
       }
       return null;
     }
@@ -155,7 +164,7 @@ export class ProjectCreateComponent implements OnInit {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
       if (data) {
         this.cdr.markForCheck();
-        return { "projectNumberDuplicate": true };
+        return { projectNumberDuplicate: "Project number is already exist." };
       }
       return null;
     }));

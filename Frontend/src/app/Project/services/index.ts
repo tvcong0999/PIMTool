@@ -61,4 +61,8 @@ export class ProjectServices {
     {
         return this.projectService.ProjectValidateProjectNumber(proNumber);
     }
+
+    countProjects(){
+        
+    }
 }

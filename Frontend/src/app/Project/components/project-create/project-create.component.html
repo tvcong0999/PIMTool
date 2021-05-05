@@ -3,39 +3,37 @@
         <input type="hidden" name="" id="" formControlName="Id">
         <label for="projectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="number" name="" id="projectNumber" formControlName="ProjectNumber"
-                class="form-control col-sm-3">
-
+            <p-inputNumber formControlName="ProjectNumber">
+            </p-inputNumber><br>
             <span
-                *ngIf="projectForm.controls['ProjectNumber'].invalid && (projectForm.controls['ProjectNumber'].dirty || projectForm.controls['ProjectNumber'].touched)">
-                <app-show-message-error [projectNumber] = "controls.ProjectNumber"></app-show-message-error>
+                *ngIf="controls.ProjectNumber.invalid && (controls.ProjectNumber.dirty || controls.ProjectNumber.touched)">
+                <app-show-message-error [control]="controls.ProjectNumber"></app-show-message-error>
             </span>
         </div>
     </div>
     <div class="form-group row">
         <label for="name" class="col-sm-2">Project Name <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="text" name="" id="name" formControlName="Name" class="form-control">
-            <span *ngIf="projectForm.controls['Name'].invalid && (projectForm.controls['Name'].dirty || projectForm.controls['Name'].touched)">
-                <app-show-message-error [projectName] = "controls.Name"></app-show-message-error>
+            <input type="text" name="" id="name" formControlName="Name" class="form-control" pInputText />
+            <span *ngIf="controls.Name.invalid && (controls.Name.dirty || controls.Name.touched)">
+                <app-show-message-error [control]="controls.Name"></app-show-message-error>
             </span>
         </div>
     </div>
     <div class="form-group row">
         <label for="customer" class="col-sm-2">Customer <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <input type="text" name="" id="customer" formControlName="Customer" class="form-control">
-            <span *ngIf="projectForm.controls['Customer'].invalid && (projectForm.controls['Customer'].dirty || projectForm.controls['Customer'].touched)">
-                <app-show-message-error [customer] = "controls.Customer"></app-show-message-error>
+            <input type="text" name="" id="customer" formControlName="Customer" class="form-control" pInputText />
+            <span *ngIf="controls.Customer.invalid && (controls.Customer.dirty || controls.Customer.touched)">
+                <app-show-message-error [control]="controls.Customer"></app-show-message-error>
             </span>
         </div>
     </div>
     <div class="form-group row">
         <label for="groupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <select name="" id="groupId" formControlName="GroupId" class="col-sm-3">
-                <option *ngFor="let group of listGroup" [value]="group.Id">{{group.GroupName}}</option>
-            </select>
+            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName">
+            </p-dropdown>
         </div>
     </div>
     <div class="form-group row">
@@ -45,8 +43,8 @@
                 <p-autoComplete formControlName="Employees" [suggestions]="listEmployee"
                     (completeMethod)="search($event)" field="Visa" [multiple]="true">
                 </p-autoComplete>
-                <span *ngIf="projectForm.controls['Employees'].invalid && (projectForm.controls['Employees'].dirty || projectForm.controls['Employees'].touched)">
-                    <app-show-message-error [member] = "controls.Employees"></app-show-message-error>
+                <span *ngIf="controls.Employees.invalid && (controls.Employees.dirty || controls.Employees.touched)">
+                    <app-show-message-error [control]="controls.Employees"></app-show-message-error>
                 </span>
             </span>
         </div>
@@ -54,9 +52,8 @@
     <div class="form-group row">
         <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <select name="" id="status" formControlName="Status" class="col-sm-3">
-                <option *ngFor="let option of statusEnum | enumToArray" [value]="option.index">{{option.name}}</option>
-            </select>
+            <p-dropdown inputId="index" [options]="statusEnum | enumToArray" formControlName="Status"
+                optionLabel="name"></p-dropdown>
         </div>
     </div>
 
@@ -65,10 +62,10 @@
             <div class="form-group row">
                 <label for="startDate" class="col-sm-4">Start Date <span class="text-danger">*</span></label>
                 <div class="col-sm-6">
-                    <p-calendar showIcon="true" formControlName="StartDate"></p-calendar><br>
+                    <p-calendar showIcon="true" formControlName="StartDate" dateFormat="dd.mm.yy"></p-calendar><br>
                     <span
-                        *ngIf="projectForm.controls['StartDate'].invalid  && (projectForm.controls['StartDate'].dirty || projectForm.controls['StartDate'].touched)">
-                        <app-show-message-error [startDate] = "controls.StartDate"></app-show-message-error>
+                        *ngIf="controls.StartDate.invalid && controls.FinishDate.invalid  && (controls.StartDate.dirty || controls.StartDate.touched)">
+                        <app-show-message-error [control]="controls.StartDate"></app-show-message-error>
                     </span>
                 </div>
             </div>
@@ -77,10 +74,9 @@
             <div class="form-group row  d-flex justify-content-end">
                 <label for="finishDate" class="col-sm-4">End Date</label>
                 <div class="col-sm-6">
-                    <p-calendar showIcon="true" formControlName="FinishDate"></p-calendar>
-                    <span
-                        *ngIf="projectForm.controls['FinishDate'].invalid || projectForm.controls['FinishDate'].touched">
-                        <app-show-message-error [endDate] = "controls.FinishDate"></app-show-message-error>
+                    <p-calendar showIcon="true" formControlName="FinishDate" dateFormat="dd.mm.yy"></p-calendar>
+                    <span *ngIf="controls.FinishDate.invalid && controls.StartDate.invalid">
+                        <app-show-message-error [control]="controls.FinishDate"></app-show-message-error>
                     </span>
                 </div>
             </div>
