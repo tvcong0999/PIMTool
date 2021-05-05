@@ -32,7 +32,8 @@
     <div class="form-group row">
         <label for="groupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName">
+            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName" autoWidth="true"
+            [style]="{'width': '22%'}">
             </p-dropdown>
         </div>
     </div>
@@ -53,7 +54,8 @@
         <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <p-dropdown inputId="index" [options]="statusEnum | enumToArray" formControlName="Status"
-                optionLabel="name"></p-dropdown>
+                optionLabel="name" autoWidth="true"
+                [style]="{'width': '22%'}">></p-dropdown>
         </div>
     </div>
 

@@ -20,9 +20,11 @@ namespace PIMToolCodeBase.Services.Imp
             _projectEmployeeRepository = projectEmployeeRepository;
         }
 
-        public int CountProjects()
+        public int CountProjects(string input, Status? status)
         {
-            return _projectRepository.CountProjects();
+            return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
+            || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower()) || p.Customer.ToLower().Contains(input.ToLower()))
+            && (!status.HasValue || p.Status == status)).Count();
         }
 
         public void Create(Project project)

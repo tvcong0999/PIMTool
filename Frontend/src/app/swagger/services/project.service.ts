@@ -281,12 +281,20 @@ class ProjectService extends BaseService {
   }
 
   /**
+   * @param params The `ProjectService.ProjectCountProjectsParams` containing the following parameters:
+   *
+   * - `status`:
+   *
+   * - `input`:
+   *
    * @return OK
    */
-  ProjectCountProjectsResponse(): Observable<StrictHttpResponse<number>> {
+  ProjectCountProjectsResponse(params: ProjectService.ProjectCountProjectsParams): Observable<StrictHttpResponse<number>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    if (params.status != null) __params = __params.set('status', params.status.toString());
+    if (params.input != null) __params = __params.set('input', params.input.toString());
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/Project/CountProjects`,
@@ -305,10 +313,16 @@ class ProjectService extends BaseService {
     );
   }
   /**
+   * @param params The `ProjectService.ProjectCountProjectsParams` containing the following parameters:
+   *
+   * - `status`:
+   *
+   * - `input`:
+   *
    * @return OK
    */
-  ProjectCountProjects(): Observable<number> {
-    return this.ProjectCountProjectsResponse().pipe(
+  ProjectCountProjects(params: ProjectService.ProjectCountProjectsParams): Observable<number> {
+    return this.ProjectCountProjectsResponse(params).pipe(
       __map(_r => _r.body)
     );
   }
@@ -322,6 +336,14 @@ module ProjectService {
   export interface ProjectGetHaveConditionParams {
     status: number;
     page?: number;
+    input?: string;
+  }
+
+  /**
+   * Parameters for ProjectCountProjects
+   */
+  export interface ProjectCountProjectsParams {
+    status: number;
     input?: string;
   }
 }

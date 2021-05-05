@@ -25,7 +25,7 @@ export class ProjectListComponent implements OnInit {
     project: Project
     choosenProject: Project;
     selectedProjects: Project[] = [];
-    totalRecords = 6;
+    totalRecords: number = 0;
     @Output() title: EventEmitter<any> = new EventEmitter()
 
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
@@ -58,8 +58,13 @@ export class ProjectListComponent implements OnInit {
         console.log(searchForm.value)
         this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status, 1).subscribe(data => {
             this.listProject = data;
+            this.projectServices.countProjects(this.keysearch, this.status).subscribe(count => {
+                this.totalRecords = count;
+                this.cdr.markForCheck();
+            });
             this.cdr.markForCheck();
-        })
+        });
+
     }
 
 
@@ -85,11 +90,15 @@ export class ProjectListComponent implements OnInit {
     }
 
     loadProjects(event) {
-        console.log(event);
         let page = event.first / event.rows + 1;
         this.projectServices.getHaveCondition(this.keysearch, this.status, page).subscribe(data => {
             this.listProject = data;
+            this.projectServices.countProjects(this.keysearch, this.status).subscribe(count => {
+                this.totalRecords = count;
+                this.cdr.markForCheck();
+            });
             this.cdr.markForCheck();
-        })
+        });
+
     }
 }

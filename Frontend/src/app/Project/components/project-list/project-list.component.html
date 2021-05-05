@@ -60,7 +60,7 @@
   <ng-template pTemplate="summary">
     <!-- <p-paginator [rows]="5" [totalRecords]="120" [rowsPerPageOptions]="[10,20,30]"></p-paginator> -->
     <div class="p-d-flex p-ai-center p-jc-between">
-      In total there are {{listProject ? listProject.length : 0 }} projects.
+      In total there are {{ totalRecords ? totalRecords : 0 }} projects.
     </div>
   </ng-template>
 </p-table>
@@ -98,5 +98,5 @@
     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
       (click)="onDeleteProjects()"></button>
   </div>
- 
+
 </div>

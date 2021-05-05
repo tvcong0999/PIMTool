@@ -16,6 +16,6 @@ namespace PIMToolCodeBase.Services
         void DeleteProject(params int[] id);
         void UpdateProject(Project project);
         bool ValidateProjectNumber(int projectNumber);
-        int CountProjects();
+        int CountProjects(string input, Status? status);
     }
 }

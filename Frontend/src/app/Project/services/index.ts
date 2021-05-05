@@ -49,7 +49,7 @@ export class ProjectServices {
         return this.projectService.ProjectDeleteProject(ids);
     }
 
-    createProject(project): Observable<ProjectCreateDto> {
+    createProject(project): Observable<null> {
        return this.projectService.ProjectCreate(project);
     }
 
@@ -62,7 +62,7 @@ export class ProjectServices {
         return this.projectService.ProjectValidateProjectNumber(proNumber);
     }
 
-    countProjects(){
-        
+    countProjects(keysearch, status): Observable<number>{
+        return this.projectService.ProjectCountProjects({status:status, input:keysearch});
     }
 }

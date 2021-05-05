@@ -45,7 +45,7 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
-        public int[] EmployeeIds
+        public List<int> EmployeeIds
         { 
             get;
             set;
