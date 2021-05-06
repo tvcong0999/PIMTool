@@ -11,7 +11,7 @@ namespace PIMToolCodeBase.Services
     {
         IEnumerable<Project> Get();
         Project GetDetail(int id);
-        IEnumerable<Project> GetHaveCondition(string input, Status? status, int page);
+        IEnumerable<Project> GetHaveCondition(string input, Status? status, int page, string columnSort,int orderSort);
         void Create(Project project);
         void DeleteProject(params int[] id);
         void UpdateProject(Project project);

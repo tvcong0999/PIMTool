@@ -97,7 +97,11 @@ class ProjectService extends BaseService {
    *
    * - `page`:
    *
+   * - `orderSort`:
+   *
    * - `input`:
+   *
+   * - `columnSort`:
    *
    * @return OK
    */
@@ -107,7 +111,9 @@ class ProjectService extends BaseService {
     let __body: any = null;
     if (params.status != null) __params = __params.set('status', params.status.toString());
     if (params.page != null) __params = __params.set('page', params.page.toString());
+    if (params.orderSort != null) __params = __params.set('orderSort', params.orderSort.toString());
     if (params.input != null) __params = __params.set('input', params.input.toString());
+    if (params.columnSort != null) __params = __params.set('columnSort', params.columnSort.toString());
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/api/Project/GetHaveCondition`,
@@ -132,7 +138,11 @@ class ProjectService extends BaseService {
    *
    * - `page`:
    *
+   * - `orderSort`:
+   *
    * - `input`:
+   *
+   * - `columnSort`:
    *
    * @return OK
    */
@@ -336,7 +346,9 @@ module ProjectService {
   export interface ProjectGetHaveConditionParams {
     status: number;
     page?: number;
+    orderSort?: number;
     input?: string;
+    columnSort?: string;
   }
 
   /**

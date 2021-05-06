@@ -6,6 +6,8 @@ import { GroupDto } from 'src/app/swagger/models/group-dto';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+
+
 import { GroupServices } from 'src/app/Groups/services/group.service';
 import { EmployeeDto, ProjectCreateDto, ProjectDto } from 'src/app/swagger/models';
 import { ProjectServices } from '../../services';
@@ -72,7 +74,7 @@ export class ProjectCreateComponent implements OnInit {
 
   private initForm() {
     //create new form project
-    this.projectForm = new FormGroup(this.controls, {validators: this.validateDate('StartDate', 'FinishDate')});
+    this.projectForm = new FormGroup(this.controls, { validators: this.validateDate('StartDate', 'FinishDate') });
     if (this.editMode) {
       this.controls.ProjectNumber.disable();
       this.projectServices.getDetailProject(this.id).subscribe(projectDetail => {
@@ -91,25 +93,25 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.projectForm.getRawValue());
     let project = this.projectForm.getRawValue();
     project.EmployeeIds = project.Employees.map(m => { return m.Id });
     delete project.Employees;
     if (this.editMode) {
       this.projectServices.updateProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
-        console.log(this.projectForm.value);
       });
     }
     else {
       this.projectServices.createProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
-        console.log(this.projectForm.value);
       });
 
     }
   }
 
+  resetForm(){
+    this.projectForm.reset();
+  }
 
   public requestAutocompleteEmployees = (text: string): Observable<Object[]> => {
     return this.employeeServices.getAllEmployee(text).pipe(map(data => {
@@ -124,8 +126,8 @@ export class ProjectCreateComponent implements OnInit {
 
   //validate date
 
-  startDateGreaterFinishDate(control: AbstractControl): ValidatorFn  {
-    return (fGroup: FormGroup): ValidationErrors | null  => {
+  startDateGreaterFinishDate(control: AbstractControl): ValidatorFn {
+    return (fGroup: FormGroup): ValidationErrors | null => {
       debugger
       if ((fGroup.controls.FinishDate.value != null) && (control.value > fGroup.controls.FinishDate.value)) {
         this.cdr.markForCheck();
@@ -148,11 +150,16 @@ export class ProjectCreateComponent implements OnInit {
   // validate date:
   validateDate(start: string, end: string): ValidatorFn {
     return (fGroup: FormGroup): ValidationErrors | null => {
-      if ((fGroup.controls[start].value && fGroup.controls[end].value) && fGroup.controls[start].value > fGroup.controls[end].value)
-      {
-        fGroup.controls[start].setErrors({maxDate: "Start date must be less than end date."});
-        fGroup.controls[end].setErrors({minDate: "End date must be greater than start date."});
-        return { errorDate: true };
+      if (fGroup.controls[start].value && fGroup.controls[end].value) {
+        if (fGroup.controls[start].value > fGroup.controls[end].value) {
+          fGroup.controls[start].setErrors({ maxDate: "Start date must be less than end date." });
+          fGroup.controls[end].setErrors({ minDate: "End date must be greater than start date." });
+          this.cdr.markForCheck();
+          return { errorDate: true };
+        }
+        fGroup.controls[start].setErrors(null);
+        fGroup.controls[end].setErrors(null);
+        this.cdr.markForCheck();
       }
       return null;
     }

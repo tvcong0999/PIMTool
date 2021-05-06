@@ -68,12 +68,77 @@ namespace PIMToolCodeBase.Services.Imp
             return _projectRepository.GetDetail(id);
         }
 
-        public IEnumerable<Project> GetHaveCondition(string input, Status? status, int page)
+        public IEnumerable<Project> GetHaveCondition(string input, Status? status, int page, string columnSort, int orderSort)
         {
-            return _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
-            || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower()) || p.Customer.ToLower().Contains(input.ToLower()))
-            && (!status.HasValue || p.Status == status))
-                .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
+            var listProject = _projectRepository.Get().Where(p => (String.IsNullOrEmpty(input)
+           || p.ProjectNumber.ToString() == input || p.Name.ToLower().Contains(input.ToLower())
+           || p.Customer.ToLower().Contains(input.ToLower()))
+           && (!status.HasValue || p.Status == status));
+
+            switch (columnSort)
+            {
+                case "ProjectNumber":
+                    if(orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.ProjectNumber);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.ProjectNumber);
+                    }
+                    break;
+                case "Name":
+                    if (orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.Name);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.Name);
+                    }
+                    break;
+                case "Status":
+                    if (orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.Status);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.Status);
+                    }
+                    break;
+                case "Customer":
+                    if (orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.Customer);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.Customer);
+                    }
+                    break;
+                case "StartDate":
+                    if (orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.StartDate);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.StartDate);
+                    }
+                    break;
+                default:
+                    if (orderSort == 1)
+                    {
+                        listProject = listProject.OrderBy(p => p.ProjectNumber);
+                    }
+                    else
+                    {
+                        listProject = listProject.OrderByDescending(p => p.ProjectNumber);
+                    }
+                    break;
+            }
+            return listProject.Skip((page - 1) * 5).Take(5).ToList();
         }
 
         public void UpdateProject(Project project)

@@ -3,7 +3,7 @@
         <input type="hidden" name="" id="" formControlName="Id">
         <label for="projectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <p-inputNumber formControlName="ProjectNumber">
+            <p-inputNumber id="projectNumber" formControlName="ProjectNumber">
             </p-inputNumber><br>
             <span
                 *ngIf="controls.ProjectNumber.invalid && (controls.ProjectNumber.dirty || controls.ProjectNumber.touched)">
@@ -32,8 +32,8 @@
     <div class="form-group row">
         <label for="groupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName" autoWidth="true"
-            [style]="{'width': '22%'}">
+            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName" optionValue="Id"
+                [style]="{'width': '190px'}">
             </p-dropdown>
         </div>
     </div>
@@ -53,9 +53,8 @@
     <div class="form-group row">
         <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <p-dropdown inputId="index" [options]="statusEnum | enumToArray" formControlName="Status"
-                optionLabel="name" autoWidth="true"
-                [style]="{'width': '22%'}">></p-dropdown>
+            <p-dropdown inputId="index" [options]="statusEnum | enumToArray" formControlName="Status" optionLabel="name"
+                [style]="{'width': '190px'}">></p-dropdown>
         </div>
     </div>
 
@@ -65,8 +64,7 @@
                 <label for="startDate" class="col-sm-4">Start Date <span class="text-danger">*</span></label>
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="StartDate" dateFormat="dd.mm.yy"></p-calendar><br>
-                    <span
-                        *ngIf="controls.StartDate.invalid && controls.FinishDate.invalid  && (controls.StartDate.dirty || controls.StartDate.touched)">
+                    <span *ngIf="controls.StartDate.invalid  &&  controls.StartDate.touched">
                         <app-show-message-error [control]="controls.StartDate"></app-show-message-error>
                     </span>
                 </div>
@@ -77,7 +75,7 @@
                 <label for="finishDate" class="col-sm-4">End Date</label>
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="FinishDate" dateFormat="dd.mm.yy"></p-calendar>
-                    <span *ngIf="controls.FinishDate.invalid && controls.StartDate.invalid">
+                    <span *ngIf="controls.FinishDate.invalid">
                         <app-show-message-error [control]="controls.FinishDate"></app-show-message-error>
                     </span>
                 </div>
@@ -86,7 +84,7 @@
     </div>
     <hr>
     <div class="d-flex  justify-content-end">
-        <button type="button" class="btn btn-light mr-5" style="width: 150px;">Cancel</button>
+        <button type="button" class="btn btn-light mr-5" style="width: 150px;" (click) = "resetForm()">Cancel</button>
         <button type="submit" class="btn btn-primary " style="width: 150px;" [disabled]="!projectForm.valid">
             {{editMode?'Edit Project':'Create Project'}} </button>
     </div>

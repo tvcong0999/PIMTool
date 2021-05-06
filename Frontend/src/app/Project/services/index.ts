@@ -32,8 +32,8 @@ export class ProjectServices {
         return this.projectService.ProjectGetDetail(id);
     }
 
-    getHaveCondition(keysearch, status, page): Observable<Array<Project>> {
-        return this.projectService.ProjectGetHaveCondition({status:status, page:page, input:keysearch}).pipe(
+    getHaveCondition(keysearch, status, page, columnSort, orderSort): Observable<Array<Project>> {
+        return this.projectService.ProjectGetHaveCondition({status:status, page:page, input:keysearch, columnSort: columnSort, orderSort: orderSort}).pipe(
             map((data) => {
                 let listProject: Project[] = [];
                 for (let pro of data) {

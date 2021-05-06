@@ -23,10 +23,13 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
     if (control.errors?.hasOwnProperty('maxDate')) {
       this.message = control.errors.maxDate;
     }
+
     if (control.errors?.hasOwnProperty('minDate')) {
       this.message = control.errors.minDate;
     }
+
     if (control.errors?.hasOwnProperty('projectNumberDuplicate')) {
+      this.cdr.markForCheck();
       this.message = control.errors.projectNumberDuplicate;
     }
     if (control.errors?.hasOwnProperty('required') || control.errors?.hasOwnProperty('min')
