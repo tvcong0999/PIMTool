@@ -3,26 +3,22 @@
     <a routerLink="/">
       <img src="assets/img/logo.png" />
     </a>
-    <h3 class="ml-5"><b>Project Information Management</b></h3>
+    <h3 class="ml-5"><b>{{'NameTool' | translate}}</b></h3>
   </div>
   <div class="col-6 d-flex justify-content-end">
     <nav class="navbar-expand-lg navbar-light">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto d-flex">
-          <li class="nav-item active d-flex">
-            <a class="nav-link">EN</a>
-          </li>
-          <li class="nav-item d-flex">
+          <li class="d-flex">
+            <a class="nav-link en" [className]="chooseEnglish ? 'nav-link text-primary' : 'nav-link'" (click)="english()">EN</a>
             <span class="nav-link">|</span>
+            <a class="nav-link fr" [className]="chooseEnglish ? 'nav-link' : 'nav-link text-primary'" (click)="france()">FR</a>
           </li>
-          <li class="nav-item d-flex mr-3">
-            <a class="nav-link">FR</a>
+          <li class="nav-item mr-3 ml-5 help">
+            <a class="nav-link">{{'Help' | translate}}</a>
           </li>
-          <li class="nav-item mr-3 ml-5">
-            <a class="nav-link">Help</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">Log Out</a>
+          <li class="nav-item logout">
+            <a class="nav-link">{{'LogOut' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -35,16 +31,18 @@
     <div class="col-2 mt-5">
       <ul class="nav flex-column ml-5">
         <li class="nav-item">
-          <a class=" nav-link" routerLink="/project/new" [routerLinkActive]="['bg-primary', 'text-white']">New</a>
+          <a class=" nav-link" routerLink="/project/new" [routerLinkActive]="['bg-primary', 'text-white']">{{'New' |
+            translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/project/list" [routerLinkActive]="['bg-primary', 'text-white']">Project</a>
+          <a class="nav-link" routerLink="/project/list" [routerLinkActive]="['bg-primary', 'text-white']">{{'Project' |
+            translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">Customer</a>
+          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">{{'Customer' | translate}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">Supplier</a>
+          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">{{'Supplier' | translate}}</a>
         </li>
       </ul>
     </div>
@@ -52,7 +50,7 @@
       <div>
         <h4 class="">{{nameChoose}}</h4>
         <hr>
-        <router-outlet (activate) = "onActive($event)"></router-outlet>
+        <router-outlet (activate)="onActive($event)"></router-outlet>
       </div>
     </div>
   </div>

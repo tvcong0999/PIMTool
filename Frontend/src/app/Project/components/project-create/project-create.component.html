@@ -1,7 +1,8 @@
 <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
     <div class="form-group row">
         <input type="hidden" name="" id="" formControlName="Id">
-        <label for="projectNumber" class="col-sm-2">Project Number <span class="text-danger">*</span></label>
+        <label for="projectNumber" class="col-sm-2">{{'LabelProNumber' | translate}} <span
+                class="text-danger">*</span></label>
         <div class="col-sm-10">
             <p-inputNumber id="projectNumber" formControlName="ProjectNumber">
             </p-inputNumber><br>
@@ -12,7 +13,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="name" class="col-sm-2">Project Name <span class="text-danger">*</span></label>
+        <label for="name" class="col-sm-2">{{'LabelProName' | translate}} <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <input type="text" name="" id="name" formControlName="Name" class="form-control" pInputText />
             <span *ngIf="controls.Name.invalid && (controls.Name.dirty || controls.Name.touched)">
@@ -21,7 +22,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="customer" class="col-sm-2">Customer <span class="text-danger">*</span></label>
+        <label for="customer" class="col-sm-2">{{'Customer' | translate}} <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <input type="text" name="" id="customer" formControlName="Customer" class="form-control" pInputText />
             <span *ngIf="controls.Customer.invalid && (controls.Customer.dirty || controls.Customer.touched)">
@@ -30,15 +31,15 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="groupId" class="col-sm-2">Group <span class="text-danger">*</span></label>
+        <label for="groupId" class="col-sm-2">{{'LabelGroup' | translate}} <span class="text-danger">*</span></label>
         <div class="col-sm-10">
-            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName" optionValue="Id"
-                [style]="{'width': '190px'}">
+            <p-dropdown inputId="Id" [options]="listGroup" formControlName="GroupId" optionLabel="GroupName"
+                optionValue="Id" [style]="{'width': '190px'}">
             </p-dropdown>
         </div>
     </div>
     <div class="form-group row">
-        <label for="employees" class="col-sm-2">Members <span class="text-danger">*</span></label>
+        <label for="employees" class="col-sm-2">{{'LabelMember' | translate}} <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <span class="p-fluid">
                 <p-autoComplete formControlName="Employees" [suggestions]="listEmployee"
@@ -51,7 +52,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="status" class="col-sm-2">Status <span class="text-danger">*</span></label>
+        <label for="status" class="col-sm-2">{{'LabelStatus' | translate}} <span class="text-danger">*</span></label>
         <div class="col-sm-10">
             <p-dropdown inputId="index" [options]="statusEnum | enumToArray" formControlName="Status" optionLabel="name"
                 [style]="{'width': '190px'}">></p-dropdown>
@@ -61,7 +62,8 @@
     <div class="row d-flex justify-content-between">
         <div class="col-sm-6">
             <div class="form-group row">
-                <label for="startDate" class="col-sm-4">Start Date <span class="text-danger">*</span></label>
+                <label for="startDate" class="col-sm-4">{{'LabelStartDate' | translate}} <span
+                        class="text-danger">*</span></label>
                 <div class="col-sm-6">
                     <p-calendar showIcon="true" formControlName="StartDate" dateFormat="dd.mm.yy"></p-calendar><br>
                     <span *ngIf="controls.StartDate.invalid  &&  controls.StartDate.touched">
@@ -72,9 +74,9 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group row  d-flex justify-content-end">
-                <label for="finishDate" class="col-sm-4">End Date</label>
+                <label for="finishDate" class="col-sm-4">{{'LabelEndDate' | translate}}</label>
                 <div class="col-sm-6">
-                    <p-calendar showIcon="true" formControlName="FinishDate" dateFormat="dd.mm.yy"></p-calendar>
+                    <p-calendar showIcon="true" formControlName="FinishDate" dateFormat="dd.mm.yy"></p-calendar><br>
                     <span *ngIf="controls.FinishDate.invalid">
                         <app-show-message-error [control]="controls.FinishDate"></app-show-message-error>
                     </span>
@@ -84,8 +86,16 @@
     </div>
     <hr>
     <div class="d-flex  justify-content-end">
-        <button type="button" class="btn btn-light mr-5" style="width: 150px;" (click) = "resetForm()">Cancel</button>
-        <button type="submit" class="btn btn-primary " style="width: 150px;" [disabled]="!projectForm.valid">
-            {{editMode?'Edit Project':'Create Project'}} </button>
+        <button type="button" class="btn btn-light mr-5" style="width: 150px;" (click)="resetForm()">{{'BtnCancel' |
+            translate}}</button>
+        <ng-template *ngIf="editMode; then btnEdit else btnCreate"></ng-template>
+        <ng-template #btnEdit>
+            <button type="submit" class="btn btn-primary " style="width: 150px;"
+                [disabled]="!projectForm.valid">{{'BtnEdit' | translate}}</button>
+        </ng-template>
+        <ng-template #btnCreate>
+            <button type="submit" class="btn btn-primary " style="width: 150px;"
+                [disabled]="!projectForm.valid">{{'BtnCreate' | translate}}</button>
+        </ng-template>
     </div>
 </form>

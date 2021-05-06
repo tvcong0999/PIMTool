@@ -12,6 +12,7 @@ import { GroupServices } from 'src/app/Groups/services/group.service';
 import { EmployeeDto, ProjectCreateDto, ProjectDto } from 'src/app/swagger/models';
 import { ProjectServices } from '../../services';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
@@ -40,12 +41,15 @@ export class ProjectCreateComponent implements OnInit {
   editMode = false;
   id: number;
   listEmployee = [];
+  btnEdit;
+  btnCreate;
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
     private projectServices: ProjectServices,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public translate: TranslateService) {
   }
 
 
@@ -55,10 +59,13 @@ export class ProjectCreateComponent implements OnInit {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       if (this.editMode) {
-        this.title.emit("Edit Project");
+        this.cdr.markForCheck();
+        this.title.emit(this.translate.instant('TitleChooseEdit'));
+        
       }
       else {
-        this.title.emit("New Project");
+        this.cdr.markForCheck();
+        this.title.emit(this.translate.instant('TitleChooseNew'));
       }
     });
     this.getGroups();
@@ -152,8 +159,8 @@ export class ProjectCreateComponent implements OnInit {
     return (fGroup: FormGroup): ValidationErrors | null => {
       if (fGroup.controls[start].value && fGroup.controls[end].value) {
         if (fGroup.controls[start].value > fGroup.controls[end].value) {
-          fGroup.controls[start].setErrors({ maxDate: "Start date must be less than end date." });
-          fGroup.controls[end].setErrors({ minDate: "End date must be greater than start date." });
+          fGroup.controls[start].setErrors({ maxDate: this.translate.instant('ErrorMaxDate') });
+          fGroup.controls[end].setErrors({ minDate: this.translate.instant('ErrorMinDate') });
           this.cdr.markForCheck();
           return { errorDate: true };
         }
@@ -171,7 +178,7 @@ export class ProjectCreateComponent implements OnInit {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
       if (data) {
         this.cdr.markForCheck();
-        return { projectNumberDuplicate: "Project number is already exist." };
+        return { projectNumberDuplicate: this.translate.instant('ErrorDuplicate')};
       }
       return null;
     }));

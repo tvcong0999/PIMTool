@@ -1,6 +1,7 @@
 import { AstVisitor } from '@angular/compiler';
 import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-show-message-error',
@@ -13,7 +14,7 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
 
   message: string = "";
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef, public translate: TranslateService) { }
 
   ngAfterContentChecked() {
     this.showMessage(this.control);
@@ -34,7 +35,7 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
     }
     if (control.errors?.hasOwnProperty('required') || control.errors?.hasOwnProperty('min')
       || control.errors?.hasOwnProperty('max') || control.errors?.hasOwnProperty('maxlength')) {
-      this.message = "This field is invalid."
+      this.message = this.translate.instant('ErrorCommon');
     }
     this.cdr.markForCheck();
   }

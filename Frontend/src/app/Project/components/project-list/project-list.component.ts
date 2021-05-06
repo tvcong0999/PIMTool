@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { EmployeeServices } from 'src/app/Employee/services/employee.service';
 
 import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 
 @Component({
     selector: 'pim-project-list',
@@ -36,13 +38,15 @@ export class ProjectListComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private router: Router,
         private confirmationService: ConfirmationService,
-        private messageService: MessageService) {
+        private messageService: MessageService,
+        public translate: TranslateService) {
     }
 
     ngOnInit() {
         // get all project
         //this.getAllProject();
-        this.title.emit("List Project");
+        this.cdr.markForCheck();
+        this.title.emit(this.translate.instant('TitleChooseList'));
     }
 
     private getAllProject() {

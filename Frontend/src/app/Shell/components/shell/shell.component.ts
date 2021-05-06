@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, AfterContentInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pim-shell',
@@ -7,13 +8,28 @@ import { Component, ChangeDetectionStrategy, AfterContentInit } from '@angular/c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent implements AfterContentInit {
-  nameChoose = "";
+  nameChoose: string = "";
+  chooseEnglish: boolean = true;
+  constructor(public translate: TranslateService, private cdr: ChangeDetectorRef){
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('en');
+  }
   ngAfterContentInit(){
-
   }
   onActive(component){
     component.title.subscribe(data=>{
       this.nameChoose = data;
     })
+  }
+
+  english(){
+    this.cdr.markForCheck();
+    this.translate.use('en');
+    this.chooseEnglish = true;
+  }
+  france(){
+    this.cdr.markForCheck();
+    this.translate.use('fr');
+    this.chooseEnglish = false;
   }
 }

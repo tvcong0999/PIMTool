@@ -18,6 +18,7 @@ import { GroupComponent } from './Groups/components/group/group.component';
 
 
 
+
 export function HttpLoaderFactory(http: HttpClient, loc: Location) {
   return new TranslateHttpLoader(http, loc.prepareExternalUrl('/assets/i18n/'), '.json');
 }
@@ -51,6 +52,6 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
 })
 export class AppModule {
   constructor(translate: TranslateService) {
-    translate.setDefaultLang('en');
+
   }
 }

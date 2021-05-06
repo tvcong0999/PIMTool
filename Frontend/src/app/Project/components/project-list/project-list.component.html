@@ -4,16 +4,17 @@
       <div class="col-6 d-flex justify-content-between pl-0">
         <span class="p-input-icon-left col-8 pl-0">
           <i class="pi pi-search"></i>
-          <input type="text" name="keysearch" class="form-control"
-            placeholder="Project number, name, customer name" aria-describedby="helpId" [(ngModel)] = "keysearch" pInputText />
-      </span>
-      <p-dropdown inputId="index" [options]="statusEnum | enumToArray" [(ngModel)] = "status" name="status" optionLabel="name" placeholder="Select a status"
-                [style]="{'width': '190px'}">></p-dropdown>
+          <input type="text" name="keysearch" class="form-control" placeholder="Project number, name, customer name"
+            aria-describedby="helpId" [(ngModel)]="keysearch" pInputText />
+        </span>
+        <p-dropdown inputId="index" [options]="statusEnum | enumToArray" [(ngModel)]="status" name="status"
+          optionLabel="name" placeholder="Select a status" [style]="{'width': '190px'}">></p-dropdown>
       </div>
       <div class="group-btn col-4 d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" style="width: 150px;">Search Project</button>
-        <button type="button" class="btn btn-light ml-4" style="width: 150px;" (click)="resetForm()">Refresh
-          Search</button>
+        <button type="submit" class="btn btn-primary" style="width: 150px;">{{'BtnSearch' | translate}}</button>
+        <button type="button" class="btn btn-light ml-4" style="width: 150px;" (click)="resetForm()">{{'BtnReset' |
+          translate}}
+        </button>
       </div>
     </div>
   </form>
@@ -29,17 +30,17 @@
       <th style="width: 3rem">
         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
       </th>
-      <th pSortableColumn="ProjectNumber">Number <p-sortIcon field="ProjectNumber"></p-sortIcon>
+      <th pSortableColumn="ProjectNumber">{{'ColNumber' | translate}} <p-sortIcon field="ProjectNumber"></p-sortIcon>
       </th>
-      <th pSortableColumn="Name">Name <p-sortIcon field="Name"></p-sortIcon>
+      <th pSortableColumn="Name">{{'ColName' | translate}} <p-sortIcon field="Name"></p-sortIcon>
       </th>
-      <th pSortableColumn="Status">Status <p-sortIcon field="Status"></p-sortIcon>
+      <th pSortableColumn="Status">{{'ColStatus' | translate}} <p-sortIcon field="Status"></p-sortIcon>
       </th>
-      <th pSortableColumn="Customer">Customer <p-sortIcon field="Customer"></p-sortIcon>
+      <th pSortableColumn="Customer">{{'ColCustomer' | translate}} <p-sortIcon field="Customer"></p-sortIcon>
       </th>
-      <th pSortableColumn="StartDate">Start Date <p-sortIcon field="StartDate"></p-sortIcon>
+      <th pSortableColumn="StartDate">{{'ColStartDate' | translate}} <p-sortIcon field="StartDate"></p-sortIcon>
       </th>
-      <th></th>
+      <th>{{'ColDelete' | translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-project>
@@ -61,7 +62,7 @@
   <ng-template pTemplate="summary">
     <!-- <p-paginator [rows]="5" [totalRecords]="120" [rowsPerPageOptions]="[10,20,30]"></p-paginator> -->
     <div class="p-d-flex p-ai-center p-jc-between">
-      In total there are {{ totalRecords ? totalRecords : 0 }} projects.
+      {{'SummaryTable1' | translate}} {{ totalRecords ? totalRecords : 0 }} {{'SummaryTable2' | translate}}.
     </div>
   </ng-template>
 </p-table>
@@ -93,9 +94,9 @@
 </table> -->
 <div class="col-12 d-flex justify-content-between align-items-center"
   style="background-color: rgb(187, 220, 238); height: 40px;" *ngIf="selectedProjects.length != 0">
-  <span> {{selectedProjects.length}} items selected</span>
+  <span> {{selectedProjects.length}} {{'SelectItems' | translate}}</span>
   <div class="d-flex justify-content-between align-items-center">
-    <span class="text-danger mr-4"> delete selected items</span>
+    <span class="text-danger mr-4"> {{'DeleteItems' | translate}}</span>
     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
       (click)="onDeleteProjects()"></button>
   </div>
