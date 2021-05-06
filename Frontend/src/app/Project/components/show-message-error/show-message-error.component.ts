@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-show-message-error',
-  template: '<span class="p-error"> {{message}}</span>',
+  template: '<span class="p-error"> {{message | translate}}</span>',
   styleUrls: ['./show-message-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,7 +35,7 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
     }
     if (control.errors?.hasOwnProperty('required') || control.errors?.hasOwnProperty('min')
       || control.errors?.hasOwnProperty('max') || control.errors?.hasOwnProperty('maxlength')) {
-      this.message = this.translate.instant('ErrorCommon');
+      this.message = "ErrorCommon";
     }
     this.cdr.markForCheck();
   }

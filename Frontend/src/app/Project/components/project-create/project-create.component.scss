@@ -1,10 +1,10 @@
 
-p-inputnumber.ng-invalid.ng-touched > .p-inputnumber > .p-inputtext {
+::ng-deep p-inputnumber.ng-invalid.ng-touched > .p-inputnumber > .p-inputtext {
     border-color: #f44336 !important;
 }
 input.ng-invalid.ng-touched{
     border-color: #f44336 !important;
 }
-.ng-invalid.ng-touched .p-autocomplete .p-autocomplete-multiple-container{
+::ng-deep .ng-invalid.ng-touched .p-autocomplete .p-autocomplete-multiple-container{
     border-color: #f44336 !important;
 }

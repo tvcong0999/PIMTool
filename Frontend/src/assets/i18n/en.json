@@ -28,6 +28,9 @@
     "ColStartDate": "Start Date",
     "ColDelete": "Delete",
 
+    "SearchPlaceholder": "Project number, name, customer name",
+    "StatusPlaceholder": "Select a status",
+
     "SelectItems": "items selected",
     "DeleteItems": "delete selected items",
 

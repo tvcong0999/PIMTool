@@ -46,7 +46,7 @@ export class ProjectListComponent implements OnInit {
         // get all project
         //this.getAllProject();
         this.cdr.markForCheck();
-        this.title.emit(this.translate.instant('TitleChooseList'));
+        this.title.emit("TitleChooseList");
     }
 
     private getAllProject() {

@@ -23,12 +23,10 @@ export class ShellComponent implements AfterContentInit {
   }
 
   english(){
-    this.cdr.markForCheck();
     this.translate.use('en');
     this.chooseEnglish = true;
   }
   france(){
-    this.cdr.markForCheck();
     this.translate.use('fr');
     this.chooseEnglish = false;
   }

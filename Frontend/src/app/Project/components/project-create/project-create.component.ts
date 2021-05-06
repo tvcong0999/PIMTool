@@ -60,12 +60,12 @@ export class ProjectCreateComponent implements OnInit {
       this.editMode = params['id'] != null;
       if (this.editMode) {
         this.cdr.markForCheck();
-        this.title.emit(this.translate.instant('TitleChooseEdit'));
+        this.title.emit("TitleChooseEdit");
         
       }
       else {
         this.cdr.markForCheck();
-        this.title.emit(this.translate.instant('TitleChooseNew'));
+        this.title.emit("TitleChooseNew");
       }
     });
     this.getGroups();
@@ -159,8 +159,8 @@ export class ProjectCreateComponent implements OnInit {
     return (fGroup: FormGroup): ValidationErrors | null => {
       if (fGroup.controls[start].value && fGroup.controls[end].value) {
         if (fGroup.controls[start].value > fGroup.controls[end].value) {
-          fGroup.controls[start].setErrors({ maxDate: this.translate.instant('ErrorMaxDate') });
-          fGroup.controls[end].setErrors({ minDate: this.translate.instant('ErrorMinDate') });
+          fGroup.controls[start].setErrors({ maxDate: "ErrorMaxDate" });
+          fGroup.controls[end].setErrors({ minDate: "ErrorMinDate" });
           this.cdr.markForCheck();
           return { errorDate: true };
         }
@@ -178,7 +178,7 @@ export class ProjectCreateComponent implements OnInit {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
       if (data) {
         this.cdr.markForCheck();
-        return { projectNumberDuplicate: this.translate.instant('ErrorDuplicate')};
+        return { projectNumberDuplicate: "ErrorDuplicate"};
       }
       return null;
     }));

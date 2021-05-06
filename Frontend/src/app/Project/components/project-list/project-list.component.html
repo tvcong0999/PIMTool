@@ -4,11 +4,11 @@
       <div class="col-6 d-flex justify-content-between pl-0">
         <span class="p-input-icon-left col-8 pl-0">
           <i class="pi pi-search"></i>
-          <input type="text" name="keysearch" class="form-control" placeholder="Project number, name, customer name"
+          <input type="text" name="keysearch" class="form-control" placeholder="{{'SearchPlaceholder' | translate}}"
             aria-describedby="helpId" [(ngModel)]="keysearch" pInputText />
         </span>
         <p-dropdown inputId="index" [options]="statusEnum | enumToArray" [(ngModel)]="status" name="status"
-          optionLabel="name" placeholder="Select a status" [style]="{'width': '190px'}">></p-dropdown>
+          optionLabel="name" placeholder="{{'StatusPlaceholder' | translate}}" [style]="{'width': '190px'}">></p-dropdown>
       </div>
       <div class="group-btn col-4 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" style="width: 150px;">{{'BtnSearch' | translate}}</button>
