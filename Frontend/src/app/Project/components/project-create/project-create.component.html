@@ -86,15 +86,15 @@
     </div>
     <hr>
     <div class="d-flex  justify-content-end">
-        <button type="button" class="btn btn-light mr-5" style="width: 150px;" (click)="resetForm()">{{'BtnCancel' |
+        <button type="button" class="btn btn-light mr-5" (click)="resetForm()">{{'BtnCancel' |
             translate}}</button>
         <ng-template *ngIf="editMode; then btnEdit else btnCreate"></ng-template>
         <ng-template #btnEdit>
-            <button type="submit" class="btn btn-primary " style="width: 150px;"
+            <button type="submit" class="btn btn-primary "
                 [disabled]="!projectForm.valid">{{'BtnEdit' | translate}}</button>
         </ng-template>
         <ng-template #btnCreate>
-            <button type="submit" class="btn btn-primary " style="width: 150px;"
+            <button type="submit" class="btn btn-primary "
                 [disabled]="!projectForm.valid">{{'BtnCreate' | translate}}</button>
         </ng-template>
     </div>

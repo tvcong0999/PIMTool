@@ -3,6 +3,7 @@ using PIMToolCodeBase.HandleExceptions;
 using PIMToolCodeBase.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -143,11 +144,13 @@ namespace PIMToolCodeBase.Services.Imp
 
         public void UpdateProject(Project project)
         {
+            var projectUpdate = _projectRepository.GetInclude(project.Id);
 
-                var projectUpdate = _projectRepository.GetInclude(project.Id);
+            if (projectUpdate == null)
+               throw new ArgumentException();
 
-                if (projectUpdate == null)
-                    throw new ArgumentException();
+            try
+            {
 
                 projectUpdate.GroupId = project.GroupId;
                 projectUpdate.ProjectNumber = project.ProjectNumber;
@@ -156,20 +159,24 @@ namespace PIMToolCodeBase.Services.Imp
                 projectUpdate.Status = project.Status;
                 projectUpdate.StartDate = project.StartDate;
                 projectUpdate.FinishDate = project.FinishDate;
+                _projectRepository.UpdateRowVersion(projectUpdate, project.TimeStamp);
 
                 _projectEmployeeRepository.Delete(projectUpdate.ProjectEmployees);
-
-                
 
                 foreach (var pro in project.ProjectEmployees)
                 {
                     projectUpdate.ProjectEmployees.Add(pro);
                 }
 
-            //_projectEmployeeRepository.Add(project.ProjectEmployees);
-            _projectEmployeeRepository.SaveChange();
-            _projectRepository.SaveChange();
-    
+                //_projectEmployeeRepository.SaveChange();
+                
+                _projectRepository.SaveChange();
+
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbUpdateConcurrencyException("Concurrency Exception Occurred.", e);
+            }
         }
 
         public bool ValidateProjectNumber(int projectNumber)

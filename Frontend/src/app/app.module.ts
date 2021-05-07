@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,6 +15,7 @@ import { ApiConfiguration } from './swagger/api-configuration';
 import { EnvironmentApiConfiguration } from './api-config';
 import { EmployeeComponent } from './Employee/components/employee/employee.component';
 import { GroupComponent } from './Groups/components/group/group.component';
+import { HttpConfigInterceptor } from './Interceptor/httpconfig.interceptor';
 
 
 
@@ -44,8 +45,13 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
   ],
   providers: [
     {
-      provide: ApiConfiguration,
-      useClass: EnvironmentApiConfiguration as any
+      provide: ApiConfiguration, 
+      useClass: EnvironmentApiConfiguration as any, 
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpConfigInterceptor,
+      multi: true
     }
   ],
   bootstrap: [ShellComponent]

@@ -17,6 +17,9 @@ import {DropdownModule} from 'primeng/dropdown';
 import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
+import { CookieService } from 'ngx-cookie-service';
+
+
 
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
@@ -24,7 +27,7 @@ import { ShowMessageErrorComponent } from './components/show-message-error/show-
 
 @NgModule({
     declarations: [ProjectListComponent, ProjectCreateComponent, ShowMessageErrorComponent],
-    providers: [],
+    providers: [CookieService],
     imports: [
         CommonModule,
         ProjectRoutingModule,

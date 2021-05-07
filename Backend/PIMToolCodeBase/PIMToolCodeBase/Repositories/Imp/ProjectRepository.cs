@@ -35,16 +35,6 @@ namespace PIMToolCodeBase.Repositories.Imp
             return Set.Include(e=>e.ProjectEmployees).FirstOrDefault(x=>x.Id==id);
         }
 
-        //public IEnumerable<Project> GetHaveCondition(string input, string status, int page)
-        //{
-
-        //    return Set.Where(p => (String.IsNullOrEmpty(input)
-        //    || p.ProjectNumber.ToString() == input || p.Name.Contains(input) || p.Customer.Contains(input))
-        //    && (String.IsNullOrEmpty(status) || p.Status == status))
-        //        .OrderBy(p => p.ProjectNumber).Skip((page - 1) * 5).Take(5).ToList();
-
-
-        //}
 
         public Project GetInclude(int id)
         {

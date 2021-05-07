@@ -62,5 +62,10 @@ namespace PIMToolCodeBase.Repositories.Imp
         {
             _pimContext.Entry(entity).State = EntityState.Modified;
         }
+
+        public void UpdateRowVersion(T entity, byte[] timestamp)
+        {
+            _pimContext.Entry(entity).Property("TimeStamp").OriginalValue = timestamp;
+        }
     }
 }

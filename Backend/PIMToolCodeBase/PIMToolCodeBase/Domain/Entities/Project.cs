@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PIMToolCodeBase.Domain.Entities
 {
@@ -41,7 +42,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public byte[] TimeSpamp
+        public byte[] TimeStamp
         {
             get;
             set;

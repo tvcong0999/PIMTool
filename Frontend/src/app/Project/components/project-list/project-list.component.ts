@@ -6,9 +6,9 @@ import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EmployeeServices } from 'src/app/Employee/services/employee.service';
 
-import { MessageService, ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'pim-project-list',
@@ -17,7 +17,7 @@ import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/templat
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [ConfirmationService, MessageService]
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectListComponent implements OnInit, OnDestroy {
     keysearch = "";
     status = { index: null, name: "" };
     columnSort = "";
@@ -39,7 +39,8 @@ export class ProjectListComponent implements OnInit {
         private router: Router,
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
-        public translate: TranslateService) {
+        public translate: TranslateService,
+        private cookieService: CookieService) {
     }
 
     ngOnInit() {
@@ -47,6 +48,9 @@ export class ProjectListComponent implements OnInit {
         //this.getAllProject();
         this.cdr.markForCheck();
         this.title.emit("TitleChooseList");
+        this.keysearch = this.cookieService.get('keysearch');
+        this.status.name = this.cookieService.get('status');
+        
     }
 
     private getAllProject() {
@@ -129,5 +133,20 @@ export class ProjectListComponent implements OnInit {
             });
             this.cdr.markForCheck();
         });
+    }
+
+    checkAll() {
+
+    }
+
+    getCookie(name: string){
+        let nameEQ = name+'=';
+        let x = document.cookie.split(";");
+
+    }
+
+    ngOnDestroy() {
+        this.cookieService.set('keysearch', this.keysearch);
+        this.cookieService.set('status', this.status.name);
     }
 }

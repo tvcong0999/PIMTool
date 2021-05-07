@@ -25,7 +25,7 @@ namespace PIMToolCodeBase.Domain.Entities
             get;
             set;
         }
-        public byte[] TimeSpamp
+        public byte[] TimeStamp
         {
             get;
             set;

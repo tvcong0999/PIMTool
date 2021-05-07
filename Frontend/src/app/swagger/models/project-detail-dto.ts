@@ -9,4 +9,5 @@ export interface ProjectDetailDto {
   StartDate?: string;
   FinishDate?: string;
   EmployeeIds?: Array<number>;
+  TimeStamp?: string;
 }

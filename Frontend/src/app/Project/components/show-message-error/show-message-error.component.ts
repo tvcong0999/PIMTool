@@ -1,5 +1,5 @@
 import { AstVisitor } from '@angular/compiler';
-import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -7,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-show-message-error',
   template: '<span class="p-error"> {{message | translate}}</span>',
   styleUrls: ['./show-message-error.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class ShowMessageErrorComponent implements AfterContentChecked {
   @Input() control: AbstractControl;
@@ -19,6 +20,7 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
   ngAfterContentChecked() {
     this.showMessage(this.control);
   }
+
 
   showMessage(control: AbstractControl) {
     if (control.errors?.hasOwnProperty('maxDate')) {

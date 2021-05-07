@@ -14,7 +14,7 @@ namespace PIMToolCodeBase.Database
         {
             this.ToTablePerConcreteTable();
 
-            this.Property(g => g.TimeSpamp).IsRowVersion();
+            this.Property(g => g.TimeStamp).IsRowVersion();
             this.Property(g => g.GroupName).IsRequired();
 
             this.HasRequired(e => e.GroupLeader);

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -10,23 +10,24 @@ import { TranslateService } from '@ngx-translate/core';
 export class ShellComponent implements AfterContentInit {
   nameChoose: string = "";
   chooseEnglish: boolean = true;
-  constructor(public translate: TranslateService, private cdr: ChangeDetectorRef){
+  constructor(public translate: TranslateService, private cdr: ChangeDetectorRef) {
     translate.addLangs(['en', 'fr']);
     translate.setDefaultLang('en');
   }
-  ngAfterContentInit(){
+  ngAfterContentInit() {
   }
-  onActive(component){
-    component.title.subscribe(data=>{
+
+  onActive(component) {
+    component.title.subscribe(data => {
       this.nameChoose = data;
     })
   }
 
-  english(){
+  english() {
     this.translate.use('en');
     this.chooseEnglish = true;
   }
-  france(){
+  france() {
     this.translate.use('fr');
     this.chooseEnglish = false;
   }

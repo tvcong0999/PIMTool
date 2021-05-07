@@ -37,7 +37,7 @@
     "SummaryTable1": "In total there are",
     "SummaryTable2": "projects",
 
-    "ErrorCommon": "This field is invalid.",
+    "ErrorCommon": "This field is required.",
     "ErrorMaxDate": "Start date must be less than end date.",
     "ErrorMinDate": "End date must be greater than start date.",
     "ErrorDuplicate": "Project number is already exist.",

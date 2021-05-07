@@ -37,7 +37,7 @@
     "SummaryTable1": "Au total, il y a",
     "SummaryTable2": "projets",
 
-    "ErrorCommon": "Ce champ n'est pas valide.",
+    "ErrorCommon": "Ce champ est requis.",
     "ErrorMaxDate": "La date de début doit être inférieure à la date de fin.",
     "ErrorMinDate": "La date de fin doit être postérieure à la date de début.",
     "ErrorDuplicate": "Le numéro de projet existe déjà.",

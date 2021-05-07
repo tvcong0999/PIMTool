@@ -53,6 +53,11 @@ namespace PIMToolCodeBase.Dtos
             get;
             set;
         }
+        public byte[] TimeStamp
+        {
+            get;
+            set;
+        }
     }
 }
 

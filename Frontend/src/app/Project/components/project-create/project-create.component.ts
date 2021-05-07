@@ -41,8 +41,7 @@ export class ProjectCreateComponent implements OnInit {
   editMode = false;
   id: number;
   listEmployee = [];
-  btnEdit;
-  btnCreate;
+  timestamp: string;
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
     private projectServices: ProjectServices,
@@ -61,7 +60,7 @@ export class ProjectCreateComponent implements OnInit {
       if (this.editMode) {
         this.cdr.markForCheck();
         this.title.emit("TitleChooseEdit");
-        
+
       }
       else {
         this.cdr.markForCheck();
@@ -85,6 +84,7 @@ export class ProjectCreateComponent implements OnInit {
     if (this.editMode) {
       this.controls.ProjectNumber.disable();
       this.projectServices.getDetailProject(this.id).subscribe(projectDetail => {
+        this.timestamp = projectDetail.TimeStamp;
         this.employeeServices.getInforByIds(projectDetail.EmployeeIds).subscribe(employees => {
           this.listEmployee = employees;
           this.projectForm.patchValue(Object.assign({}, projectDetail, {
@@ -99,11 +99,12 @@ export class ProjectCreateComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    let project = this.projectForm.getRawValue();
-    project.EmployeeIds = project.Employees.map(m => { return m.Id });
-    delete project.Employees;
+  async onSubmit() {
+    let project = await this.projectForm.getRawValue();
+    project.EmployeeIds = await project.Employees.map(m => { return m.Id });
+    await delete project.Employees;
     if (this.editMode) {
+      project.TimeStamp = this.timestamp;
       this.projectServices.updateProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
       });
@@ -116,8 +117,8 @@ export class ProjectCreateComponent implements OnInit {
     }
   }
 
-  resetForm(){
-    this.projectForm.reset();
+  resetForm() {
+    this.router.navigate(['/project/list']);
   }
 
   public requestAutocompleteEmployees = (text: string): Observable<Object[]> => {
@@ -178,7 +179,7 @@ export class ProjectCreateComponent implements OnInit {
     return this.projectServices.validateProjectNumber(+control.value).pipe(map(data => {
       if (data) {
         this.cdr.markForCheck();
-        return { projectNumberDuplicate: "ErrorDuplicate"};
+        return { projectNumberDuplicate: "ErrorDuplicate" };
       }
       return null;
     }));

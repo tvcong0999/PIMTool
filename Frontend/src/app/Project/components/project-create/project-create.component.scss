@@ -5,6 +5,9 @@
 input.ng-invalid.ng-touched{
     border-color: #f44336 !important;
 }
-::ng-deep .ng-invalid.ng-touched .p-autocomplete .p-autocomplete-multiple-container{
+::ng-deep p-autocomplete.ng-invalid.ng-touched .p-autocomplete .p-autocomplete-multiple-container{
     border-color: #f44336 !important;
+}
+button {
+    width: 150px;
 }

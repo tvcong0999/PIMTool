@@ -18,7 +18,7 @@ namespace PIMToolCodeBase.Database
             this.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
             this.Property(e => e.LastName).IsRequired().HasMaxLength(50);
             this.Property(e => e.BirthDay).IsRequired();
-            this.Property(e => e.TimeSpamp).IsRowVersion();
+            this.Property(e => e.TimeStamp).IsRowVersion();
             this.HasMany(p => p.ProjectEmployees).WithRequired(pe => pe.Employee).HasForeignKey(pe => pe.EmployeeId)
                 .WillCascadeOnDelete(false);
         }

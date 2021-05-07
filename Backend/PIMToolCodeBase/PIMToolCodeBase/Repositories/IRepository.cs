@@ -45,5 +45,6 @@ namespace PIMToolCodeBase.Repositories
 
         void SetModified(T entity);
 
+        void UpdateRowVersion(T entity, byte[] timestamp);
     }
 }
