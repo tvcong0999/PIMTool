@@ -13,6 +13,7 @@ import { ValidationErrors } from '@angular/forms';
 })
 export class ProjectServices {
     listProject: Project[] = [];
+    displayDialog: boolean = false;
     constructor(private projectService: ProjectService) { }
 
     getAllProject(): Observable<Array<Project>> {
@@ -27,13 +28,12 @@ export class ProjectServices {
         )
     }
 
-    getDetailProject(id: number)
-    {
+    getDetailProject(id: number) {
         return this.projectService.ProjectGetDetail(id);
     }
 
     getHaveCondition(keysearch, status, page, columnSort, orderSort): Observable<Array<Project>> {
-        return this.projectService.ProjectGetHaveCondition({status:status, page:page, input:keysearch, columnSort: columnSort, orderSort: orderSort}).pipe(
+        return this.projectService.ProjectGetHaveCondition({ status: status, page: page, input: keysearch, columnSort: columnSort, orderSort: orderSort }).pipe(
             map((data) => {
                 let listProject: Project[] = [];
                 for (let pro of data) {
@@ -44,25 +44,23 @@ export class ProjectServices {
         )
     }
 
-    deleteProject(ids): Observable<null>
-    {
+    deleteProject(ids): Observable<null> {
         return this.projectService.ProjectDeleteProject(ids);
     }
 
     createProject(project): Observable<null> {
-       return this.projectService.ProjectCreate(project);
+        return this.projectService.ProjectCreate(project);
     }
 
-    updateProject(project): Observable<null>{
+    updateProject(project): Observable<null> {
         return this.projectService.ProjectUpdateProject(project);
     }
 
-    validateProjectNumber(proNumber: number): Observable<boolean>
-    {
+    validateProjectNumber(proNumber: number): Observable<boolean> {
         return this.projectService.ProjectValidateProjectNumber(proNumber);
     }
 
-    countProjects(keysearch, status): Observable<number>{
-        return this.projectService.ProjectCountProjects({status:status, input:keysearch});
+    countProjects(keysearch, status): Observable<number> {
+        return this.projectService.ProjectCountProjects({ status: status, input: keysearch });
     }
 }

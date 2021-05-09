@@ -61,3 +61,11 @@
     <p>&copy; 2020</p>
   </footer>
 </div>
+<p-dialog header="Cannot edit project" [modal]="true" [(visible)]="projectServices.displayDialog"
+  [style]="{width: '50vw'}">
+  <h4>Project information has been changed previously!</h4>
+  <ng-template pTemplate="footer">
+      <p-button label="Back To List" styleClass="p-button-text" (click) = "backToList()">
+      </p-button>
+  </ng-template>
+</p-dialog>

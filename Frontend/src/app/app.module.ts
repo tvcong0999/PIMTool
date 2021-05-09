@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { PIMBaseModule } from './Base/base.module';
 import { ShellComponent } from './Shell/components';
@@ -41,7 +42,6 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
       }
     }),
     HttpClientModule,
-
   ],
   providers: [
     {
@@ -52,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpConfigInterceptor,
       multi: true
-    }
+    },
+    
   ],
   bootstrap: [ShellComponent]
 })

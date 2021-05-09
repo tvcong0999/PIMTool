@@ -2,10 +2,15 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
+import { ProjectServices } from "../Project/services";
 
-@Injectable()
+@Injectable(
+    
+)
 
 export class HttpConfigInterceptor implements HttpInterceptor {
+    constructor(public projectServices: ProjectServices) { }
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
@@ -15,7 +20,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                 return event;
             }),
             catchError((error: HttpErrorResponse) => {
-                console.log(error);
+                this.projectServices.displayDialog = true;
                 return throwError(error);
             })
         )
