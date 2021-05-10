@@ -1,9 +1,9 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Project, Status } from '../../models/project.model';
 import { EmployeeServices } from '../../../Employee/services/employee.service'
 import { GroupDto } from 'src/app/swagger/models/group-dto';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
@@ -14,12 +14,12 @@ import { ProjectServices } from '../../services';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
-  selector: 'app-project-create',
+  selector: 'pim-project-create',
   templateUrl: './project-create.component.html',
   styleUrls: ['./project-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectCreateComponent implements OnInit {
+export class ProjectCreateComponent implements OnInit, AfterViewInit {
   controls = {
     Id: new FormControl(null),
     ProjectNumber: new FormControl(null, [Validators.required, Validators.max(10000), Validators.min(1), Validators.pattern(/^[1-9]+[0-9]*$/)], this.validateProNumber.bind(this)),
@@ -42,6 +42,10 @@ export class ProjectCreateComponent implements OnInit {
   id: number;
   listEmployee = [];
   timestamp: string;
+
+  subscription: Subscription
+
+  // @ViewChild('autofocus', {static: true}) autofocus: ElementRef;
   constructor(private employeeServices: EmployeeServices,
     private groupServices: GroupServices,
     private projectServices: ProjectServices,
@@ -50,7 +54,9 @@ export class ProjectCreateComponent implements OnInit {
     private route: ActivatedRoute,
     public translate: TranslateService) {
   }
-
+  ngAfterViewInit() {
+    //this.autofocus.nativeElement.focus();
+  }
 
   ngOnInit(): void {
 
@@ -100,12 +106,25 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   async onSubmit() {
-    let project = await this.projectForm.getRawValue();
-    project.EmployeeIds = await project.Employees.map(m => { return m.Id });
-    await delete project.Employees;
+    let project = this.projectForm.getRawValue();
+
+    // project.EmployeeIds = project.Employees.map(
+    //   (m: Project)=>{
+    //      return m.Id
+    //   }
+    // );
+    project.Status = project.Status.index;
+
+    project.EmployeeIds = await new Promise(resolve=>{
+      resolve(project.Employees.map(
+        (m: Project)=>{
+           return m.Id
+        }));
+    });
+    delete project.Employees;
     if (this.editMode) {
       project.TimeStamp = this.timestamp;
-      this.projectServices.updateProject(project).subscribe(() => {
+      this.subscription = this.projectServices.updateProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
       });
     }
@@ -113,8 +132,8 @@ export class ProjectCreateComponent implements OnInit {
       this.projectServices.createProject(project).subscribe(() => {
         this.router.navigate(['/project/list']);
       });
-
     }
+
   }
 
   resetForm() {
@@ -190,7 +209,22 @@ export class ProjectCreateComponent implements OnInit {
   search(event) {
     this.employeeServices.getAllEmployee(event.query).subscribe((data) => {
       this.listEmployee = data;
+      // if(data.length == 0)
+      // {
+      //   this.cdr.markForCheck();
+      //   this.controls.Employees.setErrors({noExist: "ErrorNoExist"})
+      // }
+      // else
+      // {
+      //   this.cdr.markForCheck();
+      //   this.controls.Employees.setErrors(null)
+      // }
       this.cdr.markForCheck();
     })
   }
+  // onClear(){
+  //    console.log("clear")
+  //   this.controls.Employees.setErrors(null);
+  //   this.cdr.markForCheck();
+  // }
 }

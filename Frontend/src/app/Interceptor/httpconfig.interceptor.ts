@@ -5,7 +5,7 @@ import { catchError, map } from "rxjs/operators";
 import { ProjectServices } from "../Project/services";
 
 @Injectable(
-    
+
 )
 
 export class HttpConfigInterceptor implements HttpInterceptor {
@@ -15,12 +15,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                    console.log("event====>", event);
+                    // console.log("event====>", event);
                 }
                 return event;
             }),
             catchError((error: HttpErrorResponse) => {
-                this.projectServices.displayDialog = true;
+                if (error.error.ExceptionMessage == "Concurrency Exception Occurred.") {
+                    this.projectServices.displayDialog = true;
+                }
                 return throwError(error);
             })
         )

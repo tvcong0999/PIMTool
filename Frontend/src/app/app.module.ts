@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { DialogModule } from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PIMBaseModule } from './Base/base.module';
@@ -17,6 +19,8 @@ import { EnvironmentApiConfiguration } from './api-config';
 import { EmployeeComponent } from './Employee/components/employee/employee.component';
 import { GroupComponent } from './Groups/components/group/group.component';
 import { HttpConfigInterceptor } from './Interceptor/httpconfig.interceptor';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { ProjectComponent } from './Project/components/project.component';
 
 
 
@@ -27,8 +31,10 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
 
 @NgModule({
   declarations: [
-  EmployeeComponent,
-  GroupComponent],
+    EmployeeComponent,
+    GroupComponent,
+    ErrorPageComponent,
+    ProjectComponent],
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -42,18 +48,20 @@ export function HttpLoaderFactory(http: HttpClient, loc: Location) {
       }
     }),
     HttpClientModule,
+    DialogModule,
+    ButtonModule
+
   ],
   providers: [
     {
-      provide: ApiConfiguration, 
-      useClass: EnvironmentApiConfiguration as any, 
+      provide: ApiConfiguration,
+      useClass: EnvironmentApiConfiguration as any,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpConfigInterceptor,
       multi: true
     },
-    
   ],
   bootstrap: [ShellComponent]
 })

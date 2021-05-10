@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef, HostListener, ViewChild, ElementRef, AfterContentChecked } from '@angular/core';
+
 import { TranslateService } from '@ngx-translate/core';
-import { ProjectServices } from 'src/app/Project/services';
+
 
 @Component({
   selector: 'pim-shell',
@@ -9,22 +9,18 @@ import { ProjectServices } from 'src/app/Project/services';
   styleUrls: ['./shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShellComponent implements AfterContentInit {
-  nameChoose: string = "";
+export class ShellComponent implements AfterContentChecked {
+  
   chooseEnglish: boolean = true;
-  constructor(public translate: TranslateService, private cdr: ChangeDetectorRef, public projectServices: ProjectServices, private router: Router) {
+  constructor(public translate: TranslateService, private cdr: ChangeDetectorRef) {
     translate.addLangs(['en', 'fr']);
     translate.setDefaultLang('en');
   }
-  ngAfterContentInit() {
-
+  ngAfterContentChecked() {
+    this.cdr.markForCheck();
   }
 
-  onActive(component) {
-    component.title.subscribe(data => {
-      this.nameChoose = data;
-    })
-  }
+ 
 
   english() {
     this.translate.use('en');
@@ -34,8 +30,5 @@ export class ShellComponent implements AfterContentInit {
     this.translate.use('fr');
     this.chooseEnglish = false;
   }
-  backToList() {
-    this.projectServices.displayDialog = false;
-    this.router.navigate(['project/list'])
-  }
+
 }

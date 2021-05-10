@@ -4,9 +4,6 @@ import { RouterModule } from '@angular/router';
 import { PIMBaseModule } from '../Base/base.module';
 import { ShellComponent } from './components/shell/shell.component';
 
-import {DialogModule} from 'primeng/dialog';
-import {ButtonModule} from 'primeng/button';
-
 
 @NgModule({
     declarations: [
@@ -15,8 +12,6 @@ import {ButtonModule} from 'primeng/button';
     imports: [
         RouterModule,
         PIMBaseModule,
-        DialogModule,
-        ButtonModule
     ]
 })
 export class ShellModule {

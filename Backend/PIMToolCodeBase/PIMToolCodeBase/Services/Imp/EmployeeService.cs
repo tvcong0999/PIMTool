@@ -19,7 +19,7 @@ namespace PIMToolCodeBase.Services.Imp
 
         public IEnumerable<Employee> Get(string input)
         {
-            return _employeeRepository.Get().Where(p => p.Visa.ToLower().Contains(input.ToLower()) || p.FirstName.ToLower().Contains(input.ToLower())
+            return _employeeRepository.Get().Where(p => String.IsNullOrEmpty(input) || p.Visa.ToLower().Contains(input.ToLower()) || p.FirstName.ToLower().Contains(input.ToLower())
                                                     || p.LastName.ToLower().Contains(input.ToLower())).ToList();
         }
 

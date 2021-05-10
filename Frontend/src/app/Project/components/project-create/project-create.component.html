@@ -3,9 +3,10 @@
         <input type="hidden" name="" id="" formControlName="Id">
         <label for="projectNumber" class="col-sm-2">{{'LabelProNumber' | translate}} <span
                 class="text-danger">*</span></label>
-        <div class="col-sm-10">
-            <p-inputNumber id="projectNumber" formControlName="ProjectNumber">
+        <div class="col-sm-2">
+            <p-inputNumber id="projectNumber" formControlName="ProjectNumber" autofocus = "select(this)">
             </p-inputNumber><br>
+            <!-- <input type="number" id="projectNumber" formControlName="ProjectNumber" class="form-control" autofocus> -->
             <span
                 *ngIf="controls.ProjectNumber.invalid && (controls.ProjectNumber.dirty || controls.ProjectNumber.touched)">
                 <app-show-message-error [control]="controls.ProjectNumber"></app-show-message-error>
@@ -14,8 +15,8 @@
     </div>
     <div class="form-group row">
         <label for="name" class="col-sm-2">{{'LabelProName' | translate}} <span class="text-danger">*</span></label>
-        <div class="col-sm-10">
-            <input type="text" name="" id="name" formControlName="Name" class="form-control" pInputText />
+        <div class="col-sm-10 p-fluid">
+            <input type="text" name="" id="name" formControlName="Name" pInputText />
             <span *ngIf="controls.Name.invalid && (controls.Name.dirty || controls.Name.touched)">
                 <app-show-message-error [control]="controls.Name"></app-show-message-error>
             </span>
@@ -23,8 +24,8 @@
     </div>
     <div class="form-group row">
         <label for="customer" class="col-sm-2">{{'Customer' | translate}} <span class="text-danger">*</span></label>
-        <div class="col-sm-10">
-            <input type="text" name="" id="customer" formControlName="Customer" class="form-control" pInputText />
+        <div class="col-sm-10 p-fluid">
+            <input type="text" name="" id="customer" formControlName="Customer" pInputText /><br>
             <span *ngIf="controls.Customer.invalid && (controls.Customer.dirty || controls.Customer.touched)">
                 <app-show-message-error [control]="controls.Customer"></app-show-message-error>
             </span>
@@ -43,7 +44,7 @@
         <div class="col-sm-10">
             <span class="p-fluid">
                 <p-autoComplete formControlName="Employees" [suggestions]="listEmployee"
-                    (completeMethod)="search($event)" field="Visa" [multiple]="true">
+                    (completeMethod)="search($event)" field="Visa" [multiple]="true" emptyMessage = "{{'ErrorNoExist' | translate}}">
                 </p-autoComplete>
                 <span *ngIf="controls.Employees.invalid && (controls.Employees.dirty || controls.Employees.touched)">
                     <app-show-message-error [control]="controls.Employees"></app-show-message-error>
@@ -90,12 +91,12 @@
             translate}}</button>
         <ng-template *ngIf="editMode; then btnEdit else btnCreate"></ng-template>
         <ng-template #btnEdit>
-            <button type="submit" class="btn btn-primary "
-                [disabled]="!projectForm.valid">{{'BtnEdit' | translate}}</button>
+            <button type="submit" class="btn btn-primary " [disabled]="!projectForm.valid">{{'BtnEdit' |
+                translate}}</button>
         </ng-template>
         <ng-template #btnCreate>
-            <button type="submit" class="btn btn-primary "
-                [disabled]="!projectForm.valid">{{'BtnCreate' | translate}}</button>
+            <button type="submit" class="btn btn-primary " [disabled]="!projectForm.valid">{{'BtnCreate' |
+                translate}}</button>
         </ng-template>
     </div>
 </form>

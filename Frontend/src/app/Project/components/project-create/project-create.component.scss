@@ -8,6 +8,11 @@ input.ng-invalid.ng-touched{
 ::ng-deep p-autocomplete.ng-invalid.ng-touched .p-autocomplete .p-autocomplete-multiple-container{
     border-color: #f44336 !important;
 }
+::ng-deep p-calendar.ng-invalid.ng-touched input{
+    border-color: #f44336 !important;
+}
 button {
     width: 150px;
+}
+#customer{
 }

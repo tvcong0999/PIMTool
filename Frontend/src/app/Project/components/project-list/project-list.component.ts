@@ -34,9 +34,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     @ViewChild('searchForm', { static: false }) searchForm: NgForm
     projectForm: FormGroup
     constructor(public projectServices: ProjectServices,
-        private employeeServices: EmployeeServices,
         private cdr: ChangeDetectorRef,
-        private router: Router,
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
         public translate: TranslateService,
@@ -49,8 +47,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
         this.title.emit("TitleChooseList");
         this.keysearch = this.cookieService.get('keysearch');
-        this.status.name = this.cookieService.get('status');
-        
+        this.status = { index: +this.cookieService.get('index'), name: this.cookieService.get('status') };
     }
 
     private getAllProject() {
@@ -61,12 +58,15 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
 
     resetForm() {
-        this.searchForm.reset();
-        this.getAllProject();
+        this.keysearch = "";
+        this.status = { index: null, name: "" };
+        this.onSubmit();
+        this.cookieService.deleteAll();
+        this.cdr.markForCheck();
     }
 
-    onSubmit(searchForm) {
-        this.projectServices.getHaveCondition(searchForm.value.keysearch, searchForm.value.status.name, 1, this.columnSort, this.orderSort).subscribe(data => {
+    onSubmit() {
+        this.projectServices.getHaveCondition(this.keysearch, this.status.name, 1, this.columnSort, this.orderSort).subscribe(data => {
             this.listProject = data;
             this.projectServices.countProjects(this.keysearch, this.status).subscribe(count => {
                 this.totalRecords = count;
@@ -79,8 +79,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     onDeleteProject(id: number) {
         this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete?',
-            header: 'Confirmation',
+            message: this.translate.instant('MCMessDelete') + '?',
+            header: this.translate.instant('MCHeader'),
             icon: 'pi pi-info-circle',
             accept: () => {
                 this.projectServices.getDetailProject(id).subscribe(data => {
@@ -88,10 +88,10 @@ export class ProjectListComponent implements OnInit, OnDestroy {
                         this.projectServices.deleteProject([id]).subscribe(() => {
                             this.getAllProject();
                         });
-                        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'Project is deleted' });
+                        this.messageService.add({ severity: 'success', summary: this.translate.instant('MCSummarySuccess'), detail: this.translate.instant('MCDetailSuccess') });
                     }
                     else {
-                        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'Delete failed' });
+                        this.messageService.add({ severity: 'warn', summary: this.translate.instant('MCSummaryWarn'), detail: this.translate.instant('MCDetailWarn') });
                     }
                 })
             }
@@ -100,7 +100,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     onDeleteProjects() {
         let total = this.selectedProjects.length;
         this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete ' + total + ' projects?',
+            message: this.translate.instant('MCMessDelete') + ' ' + total + ' ' + this.translate.instant('SummaryTable2'),
             header: 'Confirmation',
             icon: 'pi pi-info-circle',
             accept: () => {
@@ -111,10 +111,10 @@ export class ProjectListComponent implements OnInit, OnDestroy {
                         this.getAllProject();
                     });
                     this.selectedProjects = [];
-                    this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: total + ' projects are deleted' });
+                    this.messageService.add({ severity: 'success', summary: this.translate.instant('MCSummarySuccess'), detail: total + this.translate.instant('MCDetailSuccess2') });
                 }
                 else {
-                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'Delete failed' });
+                    this.messageService.add({ severity: 'warn', summary: this.translate.instant('MCSummaryWarn'), detail: this.translate.instant('MCDetailWarn') });
                 }
             }
         });
@@ -127,7 +127,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         this.columnSort = event.sortField
         this.projectServices.getHaveCondition(this.keysearch, this.status.name, page, this.columnSort, this.orderSort).subscribe(data => {
             this.listProject = data;
-            this.projectServices.countProjects(this.keysearch, this.status).subscribe(count => {
+            this.projectServices.countProjects(this.keysearch, this.status.name).subscribe(count => {
                 this.totalRecords = count;
                 this.cdr.markForCheck();
             });
@@ -139,14 +139,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     }
 
-    getCookie(name: string){
-        let nameEQ = name+'=';
-        let x = document.cookie.split(";");
-
-    }
-
     ngOnDestroy() {
-        this.cookieService.set('keysearch', this.keysearch);
-        this.cookieService.set('status', this.status.name);
+        if (this.keysearch != "" && this.status != null) {
+            this.cookieService.set('keysearch', this.keysearch);
+            this.cookieService.set('status', this.status.name);
+            this.cookieService.set('index', this.status.index.toString());
+        }
+
     }
 }
