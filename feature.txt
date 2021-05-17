@@ -1,8 +1,7 @@
 - delete by Id
 - Update by Id
 - Get member
-<<<<<<< HEAD
 - test1
-=======
 - test
->>>>>>> 6484148aca587d6637c170215ff6d6630833cf66
+-  test branch
+
