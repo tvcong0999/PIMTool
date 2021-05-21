@@ -6,11 +6,13 @@ using PIMToolCodeBase.Extensions;
 
 namespace PIMToolCodeBase.Database
 {
-    /// <summary>
+    /// <summary>sdsds
     ///     DbContext of PIMTool.
     /// </summary>
+    /// fgbnfgy
     public class PimContext : DbContext
     {
+        gfhfg
         public PimContext() : base("PimDatabase")
         {
         }

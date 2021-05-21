@@ -1,12 +1,12 @@
 <div id="titleContent" class="d-flex">
   <div class="col-6 d-flex">
-    <a routerLink="/">
+    <a routerLink="/project/list">
       <img src="assets/img/logo.png" />
     </a>
     <h3 class="ml-5"><b>{{'NameTool' | translate}}</b></h3>
   </div>
   <div class="col-6 d-flex justify-content-end">
-    <nav class="navbar-expand-lg navbar-light">
+    <nav class="navbar-expand-lg navbar-light mr-5">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto d-flex">
           <li class="d-flex">
@@ -27,45 +27,10 @@
     </nav>
   </div>
 </div>
-<div class="body-content">
-  <div class="row mr-0">
-    <div class="col-2 mt-5 nav-left">
-      <ul class="nav flex-column ml-5">
-        <li class="nav-item">
-          <a class=" nav-link" routerLink="/project/new" [routerLinkActive]="['bg-primary', 'text-white']">{{'New' |
-            translate}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/project/list" [routerLinkActive]="['bg-primary', 'text-white']">{{'Project' |
-            translate}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">{{'Customer' | translate}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['bg-primary', 'text-white']">{{'Supplier' | translate}}</a>
-        </li>
-      </ul>
-    </div>
-    <div class="col-10 outlet">
-      <div>
-        <h4 class="">{{nameChoose | translate}}</h4>
-        <hr>
-        <router-outlet (activate)="onActive($event)"></router-outlet>
-      </div>
-    </div>
-  </div>
-
+<div class="body-content col-12">
+  <router-outlet></router-outlet>
   <hr />
   <footer>
     <p>&copy; 2020</p>
   </footer>
 </div>
-<p-dialog header="Cannot edit project" [modal]="true" [(visible)]="projectServices.displayDialog"
-  [style]="{width: '50vw'}">
-  <h4>Project information has been changed previously!</h4>
-  <ng-template pTemplate="footer">
-      <p-button label="Back To List" styleClass="p-button-text" (click) = "backToList()">
-      </p-button>
-  </ng-template>
-</p-dialog>

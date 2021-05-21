@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
   template: '<span class="p-error"> {{message | translate}}</span>',
   styleUrls: ['./show-message-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
 })
 export class ShowMessageErrorComponent implements AfterContentChecked {
   @Input() control: AbstractControl;
@@ -29,6 +28,9 @@ export class ShowMessageErrorComponent implements AfterContentChecked {
 
     if (control.errors?.hasOwnProperty('minDate')) {
       this.message = control.errors.minDate;
+    }
+    if (control.errors?.hasOwnProperty('noExist')) {
+      this.message = control.errors.noExist;
     }
 
     if (control.errors?.hasOwnProperty('projectNumberDuplicate')) {

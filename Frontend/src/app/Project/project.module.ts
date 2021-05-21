@@ -19,8 +19,6 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 import { CookieService } from 'ngx-cookie-service';
 
-
-
 import { TagInputModule } from 'ngx-chips';
 import { CommonModule } from '@angular/common';
 import { ShowMessageErrorComponent } from './components/show-message-error/show-message-error.component';
@@ -46,8 +44,7 @@ import { ShowMessageErrorComponent } from './components/show-message-error/show-
         InputNumberModule,
         DropdownModule,
         ToastModule,
-        ConfirmDialogModule
-        
+        ConfirmDialogModule,        
     ]
 })
 export class ProjectModule {

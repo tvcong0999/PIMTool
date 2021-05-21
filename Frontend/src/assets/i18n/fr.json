@@ -41,12 +41,21 @@
     "ErrorMaxDate": "La date de début doit être inférieure à la date de fin.",
     "ErrorMinDate": "La date de fin doit être postérieure à la date de début.",
     "ErrorDuplicate": "Le numéro de projet existe déjà.",
+    "ErrorNoExist": "Les visas suivants n'existent pas.",
 
     "MCMessDelete": "êtes-vous sûr de vouloir supprimer",
     "MCHeader": "Confirmation",
     "MCSummarySuccess": "Confirmé",
     "MCDetailSuccess": "Le projet est supprimé",
-    "MCDetailSuccess2": "les projets sont supprimés",
+    "MCDetailSuccess2": " les projets sont supprimés",
     "MCSummaryWarn": "Annulé",
-    "MCDetailWarn": "La suppression a échoué"
+    "MCDetailWarn": "La suppression a échoué",
+
+    "PageError1": "Une erreur inattendue s'est produite. Veuillez",
+    "PageError2": "ou",
+    "ContactAdmin": "contacter votre administrateur",
+    "BackToSearch": "revenir au projet de recherche",
+
+    "ErrorEditHeader": "Impossible de modifier le projet",
+    "ErrorEditContent": "Les informations sur le projet ont été modifiées précédemment!"
 }

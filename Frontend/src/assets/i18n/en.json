@@ -27,26 +27,28 @@
     "ColCustomer": "Customer",
     "ColStartDate": "Start Date",
     "ColDelete": "Delete",
-
     "SearchPlaceholder": "Project number, name, customer name",
     "StatusPlaceholder": "Select a status",
-
     "SelectItems": "items selected",
     "DeleteItems": "delete selected items",
-
     "SummaryTable1": "In total there are",
     "SummaryTable2": "projects",
-
     "ErrorCommon": "This field is required.",
     "ErrorMaxDate": "Start date must be less than end date.",
     "ErrorMinDate": "End date must be greater than start date.",
     "ErrorDuplicate": "Project number is already exist.",
-
+    "ErrorNoExist": "The following visas do not exist.",
     "MCMessDelete": "Are you sure that you want to delete",
     "MCHeader": "Confirmation",
     "MCSummarySuccess": "Confirmed",
     "MCDetailSuccess": "Project is deleted",
-    "MCDetailSuccess2": "projects are deleted",
+    "MCDetailSuccess2": " projects are deleted",
     "MCSummaryWarn": "Cancelled",
-    "MCDetailWarn": "Delete failed"
+    "MCDetailWarn": "Delete failed",
+    "PageError1": "Unexpected error occurred. Please",
+    "PageError2": "or",
+    "ContactAdmin": "contact your administrator",
+    "BackToSearch": "back to search project",
+    "ErrorEditHeader": "Cannot edit project",
+    "ErrorEditContent": "Project information has been changed previously!"
 }
