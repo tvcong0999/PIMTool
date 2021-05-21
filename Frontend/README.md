@@ -39,3 +39,4 @@ The project have aldready setup the multilingual with Angular TranslateModule, y
 * When you change the controller, you need to run "npm run generate-swagger" to generate typescript file to call to api, the output is located in src/app
 * Note: if you want to use swagger api in your module, you have to import the ApiModule of swagger to your module
 * When you use swagger to call to backend api, please check the url is correct, if not, please provide ApiConfiguration in your module (like in app.module.ts)
+* ----test----
